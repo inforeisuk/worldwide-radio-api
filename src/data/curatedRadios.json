@@ -54,6 +54,24 @@
     "isFeatured": true
   },
   {
+    "id": "rfm-oceano-pacifico-pt",
+    "name": "RFM Oceano Pacífico",
+    "description": "O mítico programa das noites da rádio agora 24 horas por dia: as melhores baladas, músicas lentas, pop romântico e grandes clássicos para relaxar.",
+    "country": "Portugal",
+    "countryCode": "PT",
+    "continent": "Europe",
+    "city": "Lisboa",
+    "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/OCEANPACIFIC.mp3",
+    "homepage": "https://rfm.pt",
+    "logo": "https://rfm.pt/content/images/rfm_logo_share.png",
+    "genres": ["Love Songs", "Baladas", "Slow", "Romantic", "Pop", "Chillout"],
+    "languages": ["pt", "en"],
+    "bitrate": 128,
+    "codec": "MP3",
+    "votes": 15200,
+    "isFeatured": true
+  },
+  {
     "id": "tsf-pt",
     "name": "TSF Rádio Notícias",
     "description": "A grande referência da rádio de informação e opinião em Portugal.",
