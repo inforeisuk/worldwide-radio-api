@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: worldwide-radio-api
+    env: node
+    plan: free
+    region: frankfurt # ou oregon / ohio
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "homem-mordeu-cao",
+    "stationId": "radio-comercial-pt",
+    "stationName": "Rádio Comercial",
+    "title": "O Homem que Mordeu o Cão",
+    "hosts": ["Nuno Markl"],
+    "description": "Histórias bizarras, insólitas e verídicas da vida moderna comentadas com humor por Nuno Markl.",
+    "logo": "https://upload.wikimedia.org/wikipedia/pt/e/ee/Radio_Comercial_logo.png",
+    "category": "Humor / Comédia",
+    "episodes": [
+      {
+        "id": "hmc-ep-latest-1",
+        "title": "O homem que tentou pagar uma multa com 50 quilos de moedas",
+        "date": "Ontem",
+        "duration": "14:22",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample1.mp3",
+        "description": "Uma tentativa desesperada de vingança burocrática corre terrivelmente mal."
+      },
+      {
+        "id": "hmc-ep-latest-2",
+        "title": "A invasão de guaxinins num casamento elegante",
+        "date": "Há 2 dias",
+        "duration": "16:05",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample2.mp3",
+        "description": "Convidados vestidos a rigor enfrentam animais selvagens atraídos pelo bolo da noiva."
+      }
+    ]
+  },
+  {
+    "id": "ja-se-faz-tarde",
+    "stationId": "radio-comercial-pt",
+    "stationName": "Rádio Comercial",
+    "title": "Já Se Faz Tarde",
+    "hosts": ["Diogo Beja", "Joana Azevedo"],
+    "description": "O regresso a casa mais divertido e animado da rádio portuguesa.",
+    "logo": "https://upload.wikimedia.org/wikipedia/pt/e/ee/Radio_Comercial_logo.png",
+    "category": "Entretenimento",
+    "episodes": [
+      {
+        "id": "jsft-ep-1",
+        "title": "Qual a coisa mais inútil que comprou este ano?",
+        "date": "Esta semana",
+        "duration": "18:40",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample3.mp3",
+        "description": "Ouvintes partilham as compras mais absurdas feitas sob impulso."
+      }
+    ]
+  },
+  {
+    "id": "as-tres-da-manha",
+    "stationId": "rfm-pt",
+    "stationName": "RFM",
+    "title": "As Três da Manhã",
+    "hosts": ["Ana Galvão", "Inês Lopes Gonçalves", "Joana Marques"],
+    "description": "O trio mais afiado das manhãs com o famoso 'Extremamente Desagradável'.",
+    "logo": "https://images.seeklogo.com/logo-png/1/1/rfm-logo-png_seeklogo-15640.png",
+    "category": "Humor / Atualidade",
+    "episodes": [
+      {
+        "id": "3manha-ep-1",
+        "title": "Extremamente Desagradável - O influenciador quântico",
+        "date": "Hoje",
+        "duration": "12:50",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample4.mp3",
+        "description": "Joana Marques analisa mais uma celebridade do mundo digital."
+      }
+    ]
+  },
+  {
+    "id": "prova-oral",
+    "stationId": "antena3-pt",
+    "stationName": "Antena 3",
+    "title": "Prova Oral",
+    "hosts": ["Fernando Alvim"],
+    "description": "Entrevistas surpreendentes, convidados inusitados e debate aberto na rádio jovem pública.",
+    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-3-logo-png_seeklogo-15639.png",
+    "category": "Cultura / Entrevistas",
+    "episodes": [
+      {
+        "id": "prova-oral-ep-1",
+        "title": "O futuro da inteligência artificial na música portuguesa",
+        "date": "Esta semana",
+        "duration": "45:10",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample5.mp3",
+        "description": "Conversa aprofundada sobre produção musical e novas tecnologias."
+      }
+    ]
+  },
+  {
+    "id": "tubo-de-ensaio",
+    "stationId": "tsf-pt",
+    "stationName": "TSF Rádio Notícias",
+    "title": "Tubo de Ensaio",
+    "hosts": ["Bruno Nogueira", "João Quadros"],
+    "description": "Crónica satírica diária sobre a atualidade política e social.",
+    "logo": "https://images.seeklogo.com/logo-png/1/1/tsf-radio-noticias-logo-png_seeklogo-15642.png",
+    "category": "Sátira / Política",
+    "episodes": [
+      {
+        "id": "tubo-ep-1",
+        "title": "Análise às promessas eleitorais da semana",
+        "date": "Ontem",
+        "duration": "04:30",
+        "audioUrl": "https://radios.rtp.pt/antena1/podcasts/sample6.mp3",
+        "description": "Mais um olhar clínico e desconcertante de Bruno Nogueira."
+      }
+    ]
+  }
+]

@@ -1,0 +1,237 @@
+{
+  "radio-comercial-pt": {
+    "slogan": "A Melhor Música • A Rádio Mais Ouvida de Portugal",
+    "about": "A Rádio Comercial é uma emissora de rádio portuguesa, líder destacada de audiências em Portugal. Destaca-se pelo humor matinal com as 'Manhãs da Comercial', grandes eventos musicais e uma seleção dos melhores êxitos pop/rock nacionais e internacionais.",
+    "frequencies": [
+      { "city": "Lisboa", "frequency": "97.4 FM" },
+      { "city": "Porto", "frequency": "97.7 FM" },
+      { "city": "Braga", "frequency": "99.2 FM" },
+      { "city": "Coimbra (Lousã)", "frequency": "90.8 FM" },
+      { "city": "Faro", "frequency": "96.1 FM" },
+      { "city": "Aveiro", "frequency": "92.2 FM" },
+      { "city": "Leiria", "frequency": "89.0 FM" },
+      { "city": "Viseu", "frequency": "94.3 FM" },
+      { "city": "Sintra", "frequency": "98.5 FM" },
+      { "city": "Guarda", "frequency": "96.1 FM" }
+    ],
+    "contacts": {
+      "phone": "+351 213 821 500",
+      "whatsapp": "+351 910 000 000",
+      "email": "geral@radiocomercial.pt",
+      "address": "Rua Sampaio e Pina, 24-26, 1099-044 Lisboa, Portugal",
+      "website": "https://radiocomercial.pt"
+    },
+    "social": {
+      "facebook": "https://facebook.com/radiocomercial",
+      "instagram": "https://instagram.com/radiocomercial",
+      "youtube": "https://youtube.com/radiocomercial",
+      "tiktok": "https://tiktok.com/@radiocomercial"
+    },
+    "schedule": [
+      { "time": "07:00 - 10:00", "title": "Manhãs da Comercial", "hosts": ["Pedro Ribeiro", "Vasco Palmeirim", "Nuno Markl", "Vera Fernandes"] },
+      { "time": "10:00 - 14:00", "title": "Tardes da Comercial", "hosts": ["Catarina Miranda"] },
+      { "time": "17:00 - 20:00", "title": "Já Se Faz Tarde", "hosts": ["Joana Azevedo", "Diogo Beja"] },
+      { "time": "20:00 - 22:00", "title": "Noites da Comercial", "hosts": ["Ana Isabel Arroja"] }
+    ],
+    "hosts": [
+      { "name": "Vasco Palmeirim", "role": "Animador e Humorista das Manhãs da Comercial" },
+      { "name": "Pedro Ribeiro", "role": "Diretor da Rádio Comercial e Apresentador" },
+      { "name": "Nuno Markl", "role": "Humorista e Criador de 'O Homem Que Mordeu o Cão'" },
+      { "name": "Vera Fernandes", "role": "Animadora das Manhãs da Comercial" },
+      { "name": "Joana Azevedo", "role": "Animadora do 'Já Se Faz Tarde'" },
+      { "name": "Diogo Beja", "role": "Animador do 'Já Se Faz Tarde'" }
+    ]
+  },
+  "rfm-pt": {
+    "slogan": "Só Grandes Músicas",
+    "about": "A RFM é uma das maiores referências da rádio em Portugal, pertencente ao Grupo Renascença Multimédia. Conhecida pelas '6 Pistas', o programa matinal 'As Três da Manhã' e grandes festivais musicais como o RFM Somnii.",
+    "frequencies": [
+      { "city": "Lisboa", "frequency": "101.1 FM" },
+      { "city": "Porto", "frequency": "106.2 FM" },
+      { "city": "Coimbra", "frequency": "91.7 FM" },
+      { "city": "Faro", "frequency": "104.9 FM" },
+      { "city": "Braga", "frequency": "104.1 FM" },
+      { "city": "Évora", "frequency": "100.9 FM" }
+    ],
+    "contacts": {
+      "phone": "+351 213 239 200",
+      "whatsapp": "+351 917 239 200",
+      "email": "rfm@rfm.pt",
+      "address": "Quinta do Bom Pastor, Estrada da Buraca 8-12, 1500-113 Lisboa, Portugal",
+      "website": "https://rfm.pt"
+    },
+    "social": {
+      "facebook": "https://facebook.com/RFMportugal",
+      "instagram": "https://instagram.com/rfmportugal",
+      "youtube": "https://youtube.com/rfmportugal",
+      "tiktok": "https://tiktok.com/@rfmportugal"
+    },
+    "schedule": [
+      { "time": "06:00 - 10:00", "title": "As Três da Manhã", "hosts": ["Inês Lopes Gonçalves", "Joana Marques", "Ana Galvão"] },
+      { "time": "10:00 - 16:00", "title": "Manhãs e Tardes RFM", "hosts": ["Paulo Fragoso", "Pedro Fernandes"] },
+      { "time": "16:00 - 20:00", "title": "Café da Manhã na Tarde", "hosts": ["Mariana Alvim", "Pedro Fernandes"] }
+    ],
+    "hosts": [
+      { "name": "Joana Marques", "role": "Humorista e Apresentadora de 'Extremamente Desagradável'" },
+      { "name": "Ana Galvão", "role": "Apresentadora de 'As Três da Manhã'" },
+      { "name": "Inês Lopes Gonçalves", "role": "Apresentadora e Jornalista" },
+      { "name": "Pedro Fernandes", "role": "Animador de Rádio e Televisão" }
+    ]
+  },
+  "antena1-pt": {
+    "slogan": "A Rádio Pública de Informação e Cultura",
+    "about": "A Antena 1 é a principal estação de rádio da Rádio e Televisão de Portugal (RTP). Dedicada ao serviço público, tem foco prioritário no jornalismo, informação política, desporto em direto e valorização da música portuguesa.",
+    "frequencies": [
+      { "city": "Lisboa", "frequency": "98.3 FM" },
+      { "city": "Porto", "frequency": "96.7 FM" },
+      { "city": "Coimbra", "frequency": "94.9 FM" },
+      { "city": "Faro", "frequency": "88.9 FM" },
+      { "city": "Braga", "frequency": "88.3 FM" },
+      { "city": "Viseu", "frequency": "88.7 FM" }
+    ],
+    "contacts": {
+      "phone": "+351 217 947 000",
+      "whatsapp": "+351 961 000 000",
+      "email": "antena1@rtp.pt",
+      "address": "Av. Marechal Gomes da Costa, 37, 1849-030 Lisboa, Portugal",
+      "website": "https://www.rtp.pt/antena1/"
+    },
+    "social": {
+      "facebook": "https://facebook.com/antena1rtp",
+      "instagram": "https://instagram.com/antena1rtp",
+      "youtube": "https://youtube.com/rtp"
+    },
+    "schedule": [
+      { "time": "07:00 - 10:00", "title": "Portugal em Direto - Manhã", "hosts": ["Equipa de Informação RTP"] },
+      { "time": "12:00 - 13:00", "title": "Jornal das 12", "hosts": ["Redação Antena 1"] },
+      { "time": "18:00 - 20:00", "title": "Jornal da Noite e Desporto", "hosts": ["Nuno Matos", "Fernando Eurico"] }
+    ],
+    "hosts": [
+      { "name": "Nuno Matos", "role": "Jornalista e Relator Desportivo Principal" },
+      { "name": "Mónica Ferreira", "role": "Jornalista e Apresentadora" },
+      { "name": "António Macedo", "role": "Animador e Radialista Histórico" }
+    ]
+  },
+  "tsf-pt": {
+    "slogan": "TSF • Rádio Notícias",
+    "about": "Estação pioneira na informação e rádio de debate em Portugal, fundada em 1988. Foco rigoroso na política, economia, desporto e grandes debates de atualidade nacional e internacional.",
+    "frequencies": [
+      { "city": "Lisboa", "frequency": "89.5 FM" },
+      { "city": "Porto", "frequency": "105.3 FM" },
+      { "city": "Coimbra", "frequency": "107.4 FM" },
+      { "city": "Braga", "frequency": "106.9 FM" },
+      { "city": "Faro", "frequency": "102.3 FM" }
+    ],
+    "contacts": {
+      "phone": "+351 213 182 000",
+      "email": "tsf@tsf.pt",
+      "address": "Torre de Monsanto, Rua Afonso Praça 30, 1495-061 Miraflores, Portugal",
+      "website": "https://www.tsf.pt"
+    },
+    "social": {
+      "facebook": "https://facebook.com/tsfradio",
+      "instagram": "https://instagram.com/tsfradio",
+      "youtube": "https://youtube.com/tsfnoticias"
+    },
+    "schedule": [
+      { "time": "07:00 - 10:00", "title": "Fórum TSF e Noticiário Matinal", "hosts": ["Manuel Acácio", "Redação TSF"] },
+      { "time": "13:00 - 14:00", "title": "Noticiário das 13h", "hosts": ["Jornalistas TSF"] },
+      { "time": "18:00 - 20:00", "title": "Fórum TSF Tarde & Desporto", "hosts": ["Equipa de Desporto TSF"] }
+    ],
+    "hosts": [
+      { "name": "Manuel Acácio", "role": "Moderador do Fórum TSF" },
+      { "name": "Fernando Alves", "role": "Autor dos míticos 'Sinais'" }
+    ]
+  },
+  "jovem-pan-fm-br": {
+    "slogan": "A Rádio Que Toca o Brasil e o Mundo",
+    "about": "A maior rede de rádio jovem do Brasil, com programas icónicos como o 'Pânico', jornalismo dinâmico 'Morning Show' e cobertura contínua dos maiores sucessos musicais do pop e funk contemporâneo.",
+    "frequencies": [
+      { "city": "São Paulo", "frequency": "100.9 FM" },
+      { "city": "Rio de Janeiro", "frequency": "102.9 FM" },
+      { "city": "Belo Horizonte", "frequency": "99.1 FM" },
+      { "city": "Brasília", "frequency": "106.3 FM" },
+      { "city": "Curitiba", "frequency": "103.9 FM" }
+    ],
+    "contacts": {
+      "phone": "+55 11 2870-9700",
+      "whatsapp": "+55 11 99999-9700",
+      "email": "ouvinte@jovempan.com.br",
+      "address": "Av. Paulista, 807 - Bela Vista, São Paulo - SP, Brasil",
+      "website": "https://jovempan.com.br"
+    },
+    "social": {
+      "facebook": "https://facebook.com/radiojovempan",
+      "instagram": "https://instagram.com/jovempanentretenimento",
+      "youtube": "https://youtube.com/radiojovempan"
+    },
+    "schedule": [
+      { "time": "06:00 - 10:00", "title": "Jornal da Manhã", "hosts": ["Equipa de Jornalismo JP"] },
+      { "time": "10:00 - 12:00", "title": "Morning Show", "hosts": ["Paulo Mathias e equipa"] },
+      { "time": "12:00 - 14:00", "title": "Pânico", "hosts": ["Emílio Surita e elenco"] }
+    ],
+    "hosts": [
+      { "name": "Emílio Surita", "role": "Líder e Apresentador do Programa Pânico" },
+      { "name": "Paulo Mathias", "role": "Apresentador do Morning Show" }
+    ]
+  },
+  "bbc-world-service-gb": {
+    "slogan": "The World's Radio Station",
+    "about": "The world's largest international broadcaster, providing news, analysis, debate and culture in more than 40 languages to an estimated weekly audience of over 300 million people worldwide.",
+    "frequencies": [
+      { "city": "London", "frequency": "Digital / 94.8 FM" },
+      { "city": "Shortwave & Satellite", "frequency": "Worldwide" }
+    ],
+    "contacts": {
+      "phone": "+44 20 8743 8000",
+      "email": "worldservice@bbc.co.uk",
+      "address": "Broadcasting House, Portland Place, London W1A 1AA, United Kingdom",
+      "website": "https://www.bbc.co.uk/worldserviceradio"
+    },
+    "social": {
+      "facebook": "https://facebook.com/bbcworldservice",
+      "instagram": "https://instagram.com/bbcnews",
+      "youtube": "https://youtube.com/bbc"
+    },
+    "schedule": [
+      { "time": "06:00 - 08:30", "title": "Newshour", "hosts": ["BBC International Correspondents"] },
+      { "time": "12:00 - 13:00", "title": "World Have Your Say", "hosts": ["BBC World Service Team"] },
+      { "time": "20:00 - 22:00", "title": "The Compass & The Inquiry", "hosts": ["BBC Investigative Journalists"] }
+    ],
+    "hosts": [
+      { "name": "Lyse Doucet", "role": "Chief International Correspondent" },
+      { "name": "Razia Iqbal", "role": "Lead Presenter of Newshour" }
+    ]
+  },
+  "cadena-ser-es": {
+    "slogan": "La Fuerza de la Radio • Cadena SER",
+    "about": "La cadena generalista de radio más antigua y con mayor número de oyentes de España. Referencia absoluta en información política, tertulias culturales y transmisiones deportivas como 'Carrusel Deportivo' y 'El Larguero'.",
+    "frequencies": [
+      { "city": "Madrid", "frequency": "105.4 FM / 810 AM" },
+      { "city": "Barcelona", "frequency": "96.9 FM / 666 AM" },
+      { "city": "Valencia", "frequency": "100.4 FM" },
+      { "city": "Sevilla", "frequency": "103.2 FM" }
+    ],
+    "contacts": {
+      "phone": "+34 91 347 07 00",
+      "email": "contacto@cadenaser.com",
+      "address": "Gran Vía, 32, 28013 Madrid, España",
+      "website": "https://cadenaser.com"
+    },
+    "social": {
+      "facebook": "https://facebook.com/cadenaser",
+      "instagram": "https://instagram.com/cadenaser",
+      "youtube": "https://youtube.com/cadenaser"
+    },
+    "schedule": [
+      { "time": "06:00 - 12:20", "title": "Hoy por Hoy", "hosts": ["Àngels Barceló"] },
+      { "time": "16:00 - 19:00", "title": "La Ventana", "hosts": ["Carles Francino"] },
+      { "time": "23:30 - 01:30", "title": "El Larguero", "hosts": ["Manu Carreño"] }
+    ],
+    "hosts": [
+      { "name": "Àngels Barceló", "role": "Directora y Presentadora de 'Hoy por Hoy'" },
+      { "name": "Carles Francino", "role": "Director y Presentador de 'La Ventana'" },
+      { "name": "Manu Carreño", "role": "Director de 'El Larguero'" }
+    ]
+  }
+}

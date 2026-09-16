@@ -1,0 +1,547 @@
+openapi: 3.0.3
+info:
+  title: Worldwide Radio API (API de Emissoras de Rádio Mundiais)
+  version: 1.0.0
+  description: |
+    API REST global para consulta, pesquisa, filtros e streaming de emissoras de rádio de todo o mundo.
+    Combina um catálogo curado de alto rendimento com acesso à rede global com mais de 40.000 estações.
+servers:
+  - url: /api
+    description: Servidor da API
+
+paths:
+  /radios:
+    get:
+      summary: Listar emissoras de rádio
+      description: Retorna uma lista paginada de emissoras de rádio com filtros opcionais.
+      parameters:
+        - name: country
+          in: query
+          description: Filtrar por nome do país (ex. Portugal, France, Brazil, Spain)
+          schema:
+            type: string
+        - name: countrycode
+          in: query
+          description: Filtrar por código ISO do país com 2 letras (ex. PT, BR, US, FR, ES, DE)
+          schema:
+            type: string
+        - name: continent
+          in: query
+          description: Filtrar por continente (ex. Europe, South America, North America, Asia, Africa, Oceania)
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: Filtrar por género musical ou formato (ex. Pop, Rock, News, Jazz, Classical)
+          schema:
+            type: string
+        - name: language
+          in: query
+          description: Filtrar por idioma (ex. pt, en, es, fr, de, it)
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Termo de pesquisa por nome, descrição ou cidade
+          schema:
+            type: string
+        - name: source
+          in: query
+          description: Origem dos dados (curated, global, all)
+          schema:
+            type: string
+            enum: [curated, global, all]
+            default: curated
+        - name: order
+          in: query
+          description: Ordenação dos resultados (votes, name)
+          schema:
+            type: string
+            enum: [votes, name]
+            default: votes
+        - name: page
+          in: query
+          description: Número da página
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Quantidade de itens por página (máx. 100)
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista de emissoras retornada com sucesso.
+
+  /radios/playlist.m3u:
+    get:
+      summary: Exportar playlist em formato standard M3U / M3U8
+      description: Gera um ficheiro de playlist compatível com reprodutores externos como VLC, Kodi, IPTV e Smart TVs.
+      parameters:
+        - name: country
+          in: query
+          description: Filtrar por país
+          schema:
+            type: string
+        - name: countrycode
+          in: query
+          description: Filtrar por código de país (ex. PT, BR)
+          schema:
+            type: string
+        - name: continent
+          in: query
+          description: Filtrar por continente
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: Filtrar por género musical
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Número máximo de estações na playlist
+          schema:
+            type: integer
+            default: 500
+      responses:
+        '200':
+          description: Ficheiro M3U pronto para download.
+          content:
+            audio/x-mpegurl:
+              schema:
+                type: string
+                example: |
+                  #EXTM3U
+                  #EXTINF:-1 tvg-id="antena1" tvg-name="Antena 1" group-title="Portugal - Notícias",Antena 1
+                  https://stream-proxy...
+
+  /radios/nearby:
+    get:
+      summary: Obter rádios próximas (Geolocalização / País)
+      description: Retorna as melhores estações com base no código de país detectado ou informado.
+      parameters:
+        - name: countrycode
+          in: query
+          description: Código ISO de 2 letras (ex. PT, ES, BR, FR, US)
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limite de estações a retornar
+          schema:
+            type: integer
+            default: 30
+      responses:
+        '200':
+          description: Lista de emissoras da região/país.
+
+  /radios/top:
+    get:
+      summary: Emissoras mais populares a nível mundial
+      description: Retorna as rádios mais votadas pela comunidade global.
+      parameters:
+        - name: limit
+          in: query
+          description: Limite de estações (máx. 50)
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista das estações mais votadas.
+
+  /radios/random:
+    get:
+      summary: Obter uma rádio aleatória
+      description: Retorna uma emissora aleatória com base em filtros opcionais.
+      parameters:
+        - name: country
+          in: query
+          description: Filtrar por país
+          schema:
+            type: string
+        - name: continent
+          in: query
+          description: Filtrar por continente
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: Filtrar por género
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Estação de rádio sorteada.
+        '404':
+          description: Nenhuma estação encontrada para os critérios.
+
+  /radios/{id}:
+    get:
+      summary: Obter detalhes de uma rádio por ID
+      description: Retorna metadados completos de uma rádio através do seu identificador (ou UUID global).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio (ex. antena1-pt, bbc-world-service-gb) ou UUID global
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes da estação.
+        '404':
+          description: Rádio não encontrada.
+
+  /radios/{id}/stream:
+    get:
+      summary: Transmitir áudio da estação (302 Redirect)
+      description: Redireciona o reprodutor diretamente para o URL do stream de áudio ativo.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID ou UUID da estação
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirecionamento direto para a transmissão de áudio.
+        '404':
+          description: Fluxo indisponível ou rádio não encontrada.
+
+  /radios/{id}/proxy:
+    get:
+      summary: Proxy de áudio resiliente
+      description: Retransmite o áudio diretamente pelo servidor com conexão keep-alive sem timeout e headers CORS.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fluxo de áudio contínuo.
+
+  /radios/{id}/now-playing:
+    get:
+      summary: Música e artista ao vivo (Now Playing)
+      description: Extrai metadados ICY (Icecast/Shoutcast) em tempo real da transmissão.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadados da música e artista atual.
+
+  /radios/{id}/info:
+    get:
+      summary: Perfil completo institucional da emissora
+      description: Retorna frequências regionais, programação, animadores, contactos oficiais, redes sociais e músicas tocadas recentemente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Perfil completo da rádio (estilo radios-online.pt).
+
+  /radios/{id}/history:
+    get:
+      summary: Histórico de músicas tocadas (Playlist History)
+      description: Retorna a lista das últimas músicas transmitidas pela rádio com horário e artista.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limite de faixas no histórico (máx. 30)
+          schema:
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: Histórico de faixas tocadas.
+
+  /radios/{id}/frequencies:
+    get:
+      summary: Frequências de sintonia por cidade
+      description: Retorna a tabela de frequências FM/AM por distrito e cidade.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da rádio
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Frequências da emissora.
+
+  /search:
+    get:
+      summary: Pesquisa global de emissoras
+      description: Pesquisa simultânea no catálogo curado e na rede mundial de rádios.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Termo de busca (nome da rádio, artista, frequência, cidade)
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Quantidade máxima de resultados
+          schema:
+            type: integer
+            default: 30
+      responses:
+        '200':
+          description: Resultados da pesquisa.
+
+  /countries:
+    get:
+      summary: Listar países com emissoras
+      description: Retorna os países disponíveis com código ISO, bandeira e contagem de emissoras.
+      parameters:
+        - name: continent
+          in: query
+          description: Filtrar por continente
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de países.
+
+  /continents:
+    get:
+      summary: Listar continentes
+      description: Retorna a lista de continentes e respetivos países catalogados.
+      responses:
+        '200':
+          description: Agrupamento por continentes.
+
+  /genres:
+    get:
+      summary: Listar géneros musicais
+      description: Retorna os géneros e tags musicais mais populares.
+      parameters:
+        - name: limit
+          in: query
+          description: Quantidade máxima de géneros
+          schema:
+            type: integer
+            default: 40
+      responses:
+        '200':
+          description: Lista de géneros.
+
+  /languages:
+    get:
+      summary: Listar idiomas
+      description: Retorna a lista de idiomas suportados pelas emissoras.
+      responses:
+        '200':
+          description: Lista de línguas.
+
+  /stats:
+    get:
+      summary: Estatísticas do serviço
+      description: Retorna métricas globais sobre as emissoras catalogadas e status da API.
+      responses:
+        '200':
+          description: Dados estatísticos em tempo real.
+
+  /radiotop/stations:
+    get:
+      summary: Catálogo formatado para a aplicação RadioTop Premium
+      description: Retorna estações no modelo nativo RadioStation (Kotlin/Swift) para com.inforeis.radiotop.
+      parameters:
+        - name: country
+          in: query
+          description: Filtrar por país
+          schema:
+            type: string
+        - name: deviceId
+          in: query
+          description: Identificador do dispositivo para mapeamento de favoritos
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Catálogo no formato RadioTop Premium.
+
+  /radiotop/stations/{id}/info:
+    get:
+      summary: Informações detalhadas e frequências para a app RadioTop Premium
+      description: Retorna frequências, contactos, programação e histórico formatados para os ecrãs móveis do RadioTop.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes da rádio para o RadioTop.
+
+  /radiotop/favorites:
+    get:
+      summary: Obter favoritos na nuvem do RadioTop
+      description: Retorna a lista de estações favoritas sincronizadas na nuvem para o dispositivo.
+      parameters:
+        - name: deviceId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Favoritos do utilizador.
+    post:
+      summary: Sincronizar e salvar favoritos do RadioTop
+      description: Salva os identificadores das rádios favoritas do utilizador na nuvem.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceId:
+                  type: string
+                stationIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Favoritos sincronizados com sucesso.
+
+  /radiotop/now-playing/{id}:
+    get:
+      summary: Now Playing para notificações do RadioTop
+      description: Retorna metadados simplificados de música e artista para a app móvel.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadados da faixa atual.
+
+  /charts/top-tracks:
+    get:
+      summary: Top 40 das Músicas Mais Tocadas nas Rádios (Airplay Charts)
+      description: Consolida estatísticas de reprodução das rádios em tempo real com links para Spotify e YouTube.
+      parameters:
+        - name: country
+          in: query
+          schema:
+            type: string
+        - name: genre
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 40
+      responses:
+        '200':
+          description: Lista ordenada com o ranking Top 40.
+
+  /radios/{id}/podcasts:
+    get:
+      summary: Podcasts e programas gravados da emissora
+      description: Retorna os programas de podcast oficiais associados à rádio indicada.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de podcasts e respetivos episódios.
+
+  /podcasts/{podcastId}:
+    get:
+      summary: Episódios de um podcast
+      description: Retorna os detalhes e a lista de episódios gravados com áudio direto.
+      parameters:
+        - name: podcastId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes e episódios do podcast.
+
+  /podcasts/episodes/latest:
+    get:
+      summary: Últimos episódios de podcasts em destaque
+      description: Retorna os episódios mais recentes de todos os programas de rádio disponíveis.
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista de episódios recentes.
+
+  /radios/{id}/health:
+    get:
+      summary: Monitor de Saúde e Latência da Emissora
+      description: Testa ativamente a conectividade com o stream de áudio e calcula a latência HTTP/Icecast em milissegundos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Estado do sinal, código HTTP e tempo de resposta.
+
+  /lyrics:
+    get:
+      summary: Letras de músicas em tempo real
+      description: Procura e devolve a letra da faixa em reprodução com cache inteligente.
+      parameters:
+        - name: artist
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Letra da música encontrada.
+        '404':
+          description: Letra não encontrada.
+

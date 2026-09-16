@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worldwide Radio Explorer & RadioTop Integration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#090d16">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <!-- HLS.js para streaming contínuo sem quebras em .m3u8 -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="glow-sphere sphere-1"></div>
+  <div class="glow-sphere sphere-2"></div>
+  <div class="glow-sphere sphere-3"></div>
+
+  <!-- Header & Navigation -->
+  <header class="glass-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-icon">📻</span>
+        <div class="brand-text">
+          <h1>Worldwide Radio <span class="badge-live">PRO</span></h1>
+          <p class="tagline">Streaming global resiliente & integração RadioTop Premium</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-top-charts" class="btn btn-secondary" title="Top 40 das Músicas mais tocadas nas rádios">
+          🔥 Top 40
+        </button>
+        <button id="btn-alarm" class="btn btn-secondary" title="Despertador com a sua rádio favorita">
+          ⏰ Despertador
+        </button>
+        <button id="btn-car-mode" class="btn btn-secondary" title="Ativar interface otimizada para condução">
+          🚗 Modo Carro
+        </button>
+        <button id="btn-export-m3u" class="btn btn-secondary" title="Descarregar lista M3U para VLC / Smart TV">
+          📥 Playlist M3U
+        </button>
+        <button id="btn-install-pwa" class="btn btn-secondary" style="display: none;" title="Instalar como App no Computador ou Telemóvel">
+          📲 Instalar App
+        </button>
+        <a href="/docs" target="_blank" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          Docs
+        </a>
+        <button id="btn-random-radio" class="btn btn-accent">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg>
+          Aleatória
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <!-- Stats Banner -->
+    <section class="stats-banner glass-card" id="stats-banner">
+      <div class="stat-item">
+        <span class="stat-label">Emissoras Globais</span>
+        <span class="stat-value" id="stat-total-stations">40.000+</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-label">Países Suportados</span>
+        <span class="stat-value" id="stat-countries">200+</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-label">RadioTop Sync</span>
+        <span class="stat-value status-online">✓ Ativo</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-label">Modo Anti-Queda</span>
+        <span class="stat-value status-online">⚡ Watchdog ON</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs (Todas, Favoritas, Recentes) -->
+    <div class="view-tabs-container">
+      <button class="view-tab active" data-tab="all">🌍 Todas as Estações</button>
+      <button class="view-tab" data-tab="favorites">⭐ Minhas Favoritas <span id="fav-counter" class="tab-badge">0</span></button>
+      <button class="view-tab" data-tab="recents">🕒 Ouvidas Recentemente</button>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <section class="search-filter-section glass-card">
+      <div class="search-bar-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="search-input" placeholder="Pesquisar por nome da rádio, país, cidade ou género..." autocomplete="off">
+        <button id="search-clear-btn" class="btn-clear" style="display: none;">✕</button>
+      </div>
+
+      <!-- Filter Controls Row -->
+      <div class="filters-row">
+        <!-- Continent Select -->
+        <div class="filter-group">
+          <label for="continent-select">Continente:</label>
+          <select id="continent-select">
+            <option value="">Todos os Continentes</option>
+            <option value="Europe">🌍 Europa</option>
+            <option value="South America">🌎 América do Sul</option>
+            <option value="North America">🌎 América do Norte</option>
+            <option value="Asia">🌏 Ásia</option>
+            <option value="Africa">🌍 África</option>
+            <option value="Oceania">🌏 Oceania</option>
+          </select>
+        </div>
+
+        <!-- Country Select -->
+        <div class="filter-group">
+          <label for="country-select">País:</label>
+          <select id="country-select">
+            <option value="">Todos os Países</option>
+          </select>
+        </div>
+
+        <!-- Mode Source Toggle -->
+        <div class="filter-group">
+          <label for="source-select">Fonte:</label>
+          <select id="source-select">
+            <option value="curated">⚡ Curadas (Instantâneo)</option>
+            <option value="global">🌐 Rede Global (+40k)</option>
+            <option value="all">🌟 Todas Combinadas</option>
+          </select>
+        </div>
+
+        <!-- Sort -->
+        <div class="filter-group">
+          <label for="sort-select">Ordenar por:</label>
+          <select id="sort-select">
+            <option value="votes">🔥 Mais Populares</option>
+            <option value="name">🔤 Nome (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Genre Badges & Nearby Action -->
+      <div class="genres-chips-container" id="genres-container">
+        <button id="btn-nearby" class="chip chip-special" title="Detetar automaticamente a sua localização e mostrar rádios do seu país">
+          📍 Perto de Mim
+        </button>
+        <button class="chip active" data-genre="">Todos</button>
+        <button class="chip" data-genre="Pop">Pop</button>
+        <button class="chip" data-genre="News">Notícias</button>
+        <button class="chip" data-genre="Rock">Rock</button>
+        <button class="chip" data-genre="Jazz">Jazz</button>
+        <button class="chip" data-genre="Classical">Clássica</button>
+        <button class="chip" data-genre="Electronic">Eletrónica</button>
+        <button class="chip" data-genre="Talk">Talk</button>
+        <button class="chip" data-genre="Ambient">Ambient</button>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-header">
+      <div class="results-info">
+        <h2 id="results-title">Estações em Destaque</h2>
+        <span id="results-count" class="results-count-badge">0 encontradas</span>
+      </div>
+      <div id="loading-spinner" class="spinner" style="display: none;"></div>
+    </section>
+
+    <!-- Stations Grid -->
+    <section class="stations-grid" id="stations-grid">
+      <!-- Station cards injected via JS -->
+    </section>
+
+    <!-- Pagination -->
+    <div class="pagination-container" id="pagination" style="display: none;">
+      <button id="btn-prev-page" class="btn btn-secondary" disabled>← Anterior</button>
+      <span id="page-indicator">Página 1</span>
+      <button id="btn-next-page" class="btn btn-secondary">Seguinte →</button>
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Audio Player -->
+  <footer class="player-bar" id="player-bar">
+    <!-- Now Playing Mini Ticker with Spotify & YouTube shortcuts -->
+    <div class="now-playing-strip" id="now-playing-strip" style="display: none;">
+      <span class="np-badge">A TOCAR AGORA</span>
+      <span id="np-text" class="np-text">Carregando informações da transmissão...</span>
+      <div class="np-actions" id="np-actions" style="display: none;">
+        <button id="np-spotify-btn" class="btn-np-service btn-spotify" title="Ouvir / Pesquisar no Spotify">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Spotify
+        </button>
+        <button id="np-youtube-btn" class="btn-np-service btn-youtube" title="Pesquisar vídeo no YouTube">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </button>
+        <button id="np-lyrics-btn" class="btn-np-service btn-lyrics" title="Ver letra da música em tempo real">
+          📝 Letra
+        </button>
+      </div>
+    </div>
+
+    <div class="player-container">
+      <!-- Station Info -->
+      <div class="player-station">
+        <button id="btn-player-fav" class="btn-fav-star" title="Marcar como favorita">★</button>
+        <img id="player-logo" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%2250%22%20height=%2250%22><rect width=%2250%22 height=%2250%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2220%22 fill=%22%2394a3b8%22>📻</text></svg>" alt="Station Logo">
+        <div class="player-meta">
+          <div class="player-title-row">
+            <span id="player-name">Selecione uma estação</span>
+            <div id="player-visualizer" class="visualizer" style="display: none;">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <span id="player-health-badge" class="health-badge" style="display: none;" title="Saúde da transmissão em direto">🟢 128k</span>
+          </div>
+          <span id="player-country-genre" class="player-country">Clique em reproduzir para ouvir</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="player-controls">
+        <button id="btn-play-pause" class="btn-play" title="Tocar / Pausar (Espaço)">
+          <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <svg id="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        </button>
+        <span id="player-status" class="player-status-tag">Pronto</span>
+      </div>
+
+      <!-- Volume, Equalizer, Recorder & Sleep Timer -->
+      <div class="player-extras">
+        <!-- Seletor de Qualidade / Modo Poupança -->
+        <button id="btn-quality-mode" class="btn-icon btn-quality" title="Qualidade de áudio: Alta (HQ) / Poupança de dados">
+          <span id="quality-label" class="quality-label">HQ</span>
+        </button>
+
+        <!-- Gravador ao Vivo -->
+        <button id="btn-record" class="btn-record" title="Gravar áudio da transmissão ao vivo">
+          <span class="rec-dot"></span>
+          <span id="rec-label">Gravar</span>
+        </button>
+
+        <!-- Equalizador Web Audio -->
+        <button id="btn-equalizer" class="btn-icon" title="Equalizador de Áudio (Presets & Frequências)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+        </button>
+
+        <!-- Sleep Timer -->
+        <div class="sleep-timer-wrapper">
+          <button id="btn-sleep-timer" class="btn-icon" title="Sleep Timer (Desligamento automático)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span id="sleep-badge" class="sleep-badge" style="display: none;"></span>
+          </button>
+          <div id="sleep-menu" class="sleep-menu" style="display: none;">
+            <div class="sleep-title">Desligar áudio em:</div>
+            <button data-minutes="0">Desativado</button>
+            <button data-minutes="15">15 minutos</button>
+            <button data-minutes="30">30 minutos</button>
+            <button data-minutes="45">45 minutos</button>
+            <button data-minutes="60">60 minutos</button>
+          </div>
+        </div>
+
+        <!-- Volume -->
+        <div class="volume-control">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8">
+        </div>
+
+        <!-- Botão Perfil / Detalhes da Rádio -->
+        <button id="btn-player-info" class="btn-icon" title="Informações & Músicas Tocadas (estilo radios-online.pt)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </button>
+
+        <!-- Proxy / Direct toggle -->
+        <button id="btn-toggle-proxy" class="btn-icon" title="Modo Proxy Resiliente Ativado">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </button>
+
+        <!-- Copy Stream Link -->
+        <button id="btn-copy-stream" class="btn-icon" title="Copiar URL do Stream Direto">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal de Perfil da Emissora & Músicas Tocadas (Estilo radios-online.pt) -->
+  <div id="station-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog glass-card">
+      <div class="modal-header">
+        <div class="modal-brand">
+          <img id="modal-logo" src="" alt="Logo" class="modal-logo">
+          <div>
+            <h2 id="modal-name">Nome da Rádio</h2>
+            <p id="modal-slogan" class="modal-slogan">Slogan oficial</p>
+          </div>
+        </div>
+        <button id="btn-close-modal" class="btn-close-modal" title="Fechar">✕</button>
+      </div>
+
+      <!-- Abas do Modal -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="tracks">🎵 Músicas Tocadas</button>
+        <button class="modal-tab" data-tab="frequencies">📻 Frequências FM</button>
+        <button class="modal-tab" data-tab="schedule">🎙️ Programação</button>
+        <button class="modal-tab" data-tab="podcasts">🎧 Podcasts</button>
+        <button class="modal-tab" data-tab="contacts">📞 Contactos</button>
+        <button class="modal-tab" data-tab="about">📖 Sobre</button>
+      </div>
+
+      <!-- Corpo das Abas -->
+      <div class="modal-body">
+        <!-- Aba 1: Músicas Tocadas Recentemente -->
+        <div id="tab-tracks" class="modal-tab-content active">
+          <div class="tab-header-row">
+            <h3>Músicas tocadas recentemente na rádio</h3>
+            <span class="badge-history-live">● Atualizado ao vivo</span>
+          </div>
+          <div id="modal-tracks-list" class="tracks-list">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Aba 2: Frequências de Sintonia FM por Cidade -->
+        <div id="tab-frequencies" class="modal-tab-content">
+          <h3>Frequências de sintonia por cidade e região</h3>
+          <div id="modal-frequencies-list" class="frequencies-grid">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Aba 3: Programação e Locutores -->
+        <div id="tab-schedule" class="modal-tab-content">
+          <h3>Programação diária e animadores</h3>
+          <div id="modal-schedule-list" class="schedule-list">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Aba 4: Podcasts e Catch-up Radio -->
+        <div id="tab-podcasts" class="modal-tab-content">
+          <div class="tab-header-row">
+            <h3>Programas e podcasts gravados da emissora</h3>
+            <span class="badge-history-live">Catch-up Radio</span>
+          </div>
+          <div id="modal-podcasts-list" class="podcasts-container">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Aba 5: Contactos Oficiais & Redes Sociais -->
+        <div id="tab-contacts" class="modal-tab-content">
+          <h3>Contactos oficiais e estúdio</h3>
+          <div id="modal-contacts-info" class="contacts-grid">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Aba 6: História / Sobre -->
+        <div id="tab-about" class="modal-tab-content">
+          <h3>Sobre a emissora</h3>
+          <p id="modal-about-text" class="modal-about-text"></p>
+        </div>
+      </div>
+    </div>
+  <!-- Modal do Equalizador de Áudio (Web Audio API) -->
+  <div id="eq-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog glass-card eq-dialog">
+      <div class="modal-header">
+        <div class="modal-brand">
+          <span class="brand-icon">🎚️</span>
+          <div>
+            <h2>Equalizador de Áudio PRO</h2>
+            <p class="modal-slogan">Processamento acústico em tempo real de 5 bandas</p>
+          </div>
+        </div>
+        <button id="btn-close-eq" class="btn-close-modal" title="Fechar">✕</button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Presets Bar -->
+        <div class="eq-presets-wrapper">
+          <label>Presets Acústicos:</label>
+          <div class="eq-presets-list" id="eq-presets-list">
+            <button class="eq-preset-btn active" data-preset="flat">Plano (Flat)</button>
+            <button class="eq-preset-btn" data-preset="bass">Bass Boost</button>
+            <button class="eq-preset-btn" data-preset="vocal">Voz Clara (News)</button>
+            <button class="eq-preset-btn" data-preset="pop">Pop</button>
+            <button class="eq-preset-btn" data-preset="rock">Rock</button>
+            <button class="eq-preset-btn" data-preset="electronic">Eletrónica</button>
+            <button class="eq-preset-btn" data-preset="acoustic">Acústico</button>
+          </div>
+        </div>
+
+        <!-- Sliders Verticais de 5 Bandas -->
+        <div class="eq-sliders-container">
+          <div class="eq-band">
+            <span class="eq-band-gain" id="gain-val-0">0dB</span>
+            <input type="range" class="eq-slider" id="eq-band-0" min="-12" max="12" step="1" value="0" orient="vertical">
+            <span class="eq-band-freq">60 Hz</span>
+            <span class="eq-band-label">Sub</span>
+          </div>
+          <div class="eq-band">
+            <span class="eq-band-gain" id="gain-val-1">0dB</span>
+            <input type="range" class="eq-slider" id="eq-band-1" min="-12" max="12" step="1" value="0" orient="vertical">
+            <span class="eq-band-freq">250 Hz</span>
+            <span class="eq-band-label">Graves</span>
+          </div>
+          <div class="eq-band">
+            <span class="eq-band-gain" id="gain-val-2">0dB</span>
+            <input type="range" class="eq-slider" id="eq-band-2" min="-12" max="12" step="1" value="0" orient="vertical">
+            <span class="eq-band-freq">1 kHz</span>
+            <span class="eq-band-label">Médios</span>
+          </div>
+          <div class="eq-band">
+            <span class="eq-band-gain" id="gain-val-3">0dB</span>
+            <input type="range" class="eq-slider" id="eq-band-3" min="-12" max="12" step="1" value="0" orient="vertical">
+            <span class="eq-band-freq">4 kHz</span>
+            <span class="eq-band-label">Presença</span>
+          </div>
+          <div class="eq-band">
+            <span class="eq-band-gain" id="gain-val-4">0dB</span>
+            <input type="range" class="eq-slider" id="eq-band-4" min="-12" max="12" step="1" value="0" orient="vertical">
+            <span class="eq-band-freq">12 kHz</span>
+            <span class="eq-band-label">Agudos</span>
+          </div>
+        </div>
+
+        <div class="eq-footer-actions">
+          <button id="btn-reset-eq" class="btn btn-secondary">Repor (Flat)</button>
+          <span class="eq-status-hint">💡 O áudio é processado em tempo real no seu dispositivo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modo Carro em Ecrã Inteiro (Car Mode) -->
+  <div id="car-mode-overlay" class="car-mode-overlay" style="display: none;">
+    <div class="car-top-bar">
+      <button id="btn-exit-car-mode" class="btn-car-exit">✕ Sair do Modo Carro</button>
+      <div id="car-clock" class="car-clock">12:00</div>
+    </div>
+
+    <div class="car-center-card">
+      <img id="car-station-logo" src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><rect width=%22100%22 height=%22100%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%2394a3b8%22>📻</text></svg>" alt="Logo Rádio" class="car-station-logo">
+      <h1 id="car-station-name" class="car-station-name">Selecione uma Estação</h1>
+      <p id="car-station-meta" class="car-station-meta">Sintonizador Mundial</p>
+      
+      <div class="car-now-playing-box">
+        <span class="car-np-label">A TOCAR:</span>
+        <div id="car-now-playing-title" class="car-now-playing-title">Emissão em direto</div>
+      </div>
+    </div>
+
+    <div class="car-controls-wrapper">
+      <div class="car-buttons-row">
+        <button id="btn-car-prev" class="btn-car-nav" title="Estação Anterior">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="3"></line></svg>
+        </button>
+        <button id="btn-car-play" class="btn-car-play" title="Tocar / Pausar">
+          <svg id="car-play-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <svg id="car-pause-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        </button>
+        <button id="btn-car-next" class="btn-car-nav" title="Próxima Estação">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3"></line></svg>
+        </button>
+      </div>
+
+      <div class="car-volume-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <input type="range" id="car-volume-slider" min="0" max="1" step="0.05" value="0.8" class="car-volume-slider">
+      </div>
+    </div>
+  <!-- Modal do Despertador Rádio Inteligente (Radio Alarm Clock) -->
+  <div id="alarm-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog glass-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <div class="modal-brand">
+          <span class="brand-icon">⏰</span>
+          <div>
+            <h2>Despertador Rádio</h2>
+            <p class="modal-slogan">Acorde suavemente com a sua emissora favorita</p>
+          </div>
+        </div>
+        <button id="btn-close-alarm" class="btn-close-modal" title="Fechar">✕</button>
+      </div>
+      
+      <div class="modal-body" style="padding: 20px;">
+        <div class="alarm-settings-group">
+          <label for="alarm-time-input" style="display: block; font-weight: 600; margin-bottom: 8px;">Hora do Despertador:</label>
+          <input type="time" id="alarm-time-input" value="07:30" class="alarm-time-picker">
+        </div>
+
+        <div class="alarm-settings-group" style="margin-top: 16px;">
+          <label style="display: block; font-weight: 600; margin-bottom: 8px;">Rádio de Despertar:</label>
+          <div id="alarm-station-display" class="alarm-station-box">
+            <span id="alarm-station-name">Estação Atual</span>
+            <span id="alarm-station-change" class="alarm-change-hint">(A rádio selecionada no leitor será usada)</span>
+          </div>
+        </div>
+
+        <div class="alarm-settings-group" style="margin-top: 16px;">
+          <label style="display: block; font-weight: 600; margin-bottom: 8px;">Aumento Suave de Volume (Fade-in):</label>
+          <select id="alarm-fade-select" class="filter-select" style="width: 100%;">
+            <option value="15">15 segundos (Suave)</option>
+            <option value="30" selected>30 segundos (Recomendado)</option>
+            <option value="60">60 segundos (Muito Gradual)</option>
+            <option value="0">Instantâneo</option>
+          </select>
+        </div>
+
+        <div class="alarm-status-banner" id="alarm-status-banner" style="margin-top: 20px; display: none;">
+          <span class="alarm-active-indicator">●</span>
+          <span id="alarm-status-text">Despertador ativado para as 07:30</span>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 12px;">
+          <button id="btn-toggle-alarm" class="btn btn-accent" style="flex: 1;">Ativar Despertador</button>
+          <button id="btn-cancel-alarm" class="btn btn-secondary" style="display: none;">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal do Top 40 Airplay Charts -->
+  <div id="charts-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog glass-card" style="max-width: 780px;">
+      <div class="modal-header">
+        <div class="modal-brand">
+          <span class="brand-icon">🔥</span>
+          <div>
+            <h2>Top 40 das Rádios</h2>
+            <p class="modal-slogan">As músicas mais tocadas nas emissoras (Airplay Chart)</p>
+          </div>
+        </div>
+        <button id="btn-close-charts" class="btn-close-modal" title="Fechar">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px;">
+        <div class="charts-header-bar">
+          <span class="charts-period-badge">📅 Atualizado em tempo real</span>
+          <span id="charts-count-badge" class="badge-history-live">40 faixas</span>
+        </div>
+        <div id="charts-list" class="charts-list-container">
+          <!-- Injetado via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Letras de Músicas (Lyrics Finder) -->
+  <div id="lyrics-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog glass-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-brand">
+          <span class="brand-icon">📝</span>
+          <div>
+            <h2 id="lyrics-title">Letra da Música</h2>
+            <p id="lyrics-artist" class="modal-slogan">Artista</p>
+          </div>
+        </div>
+        <button id="btn-close-lyrics" class="btn-close-modal" title="Fechar">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 24px;">
+        <div id="lyrics-content" class="lyrics-text-box">
+          A carregar letra...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Notificação</div>
+
+  <!-- Audio Element -->
+  <audio id="audio-player" preload="none"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
