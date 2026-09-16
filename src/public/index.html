@@ -35,7 +35,7 @@
           <p class="tagline">Streaming global resiliente & integração RadioTop Premium</p>
         </div>
       </div>
-      <div class="header-actions">
+      <div class="header-actions desktop-only">
         <button id="btn-top-charts" class="btn btn-secondary" title="Top 40 Músicas Mais Tocadas nas Rádios">
           🏆 Top 40
         </button>
@@ -71,6 +71,16 @@
         <button id="btn-random-radio" class="btn btn-accent">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg>
           <span data-i18n="random">Aleatória</span>
+        </button>
+      </div>
+
+      <!-- Mobile Header Actions (Visible only on smartphone screens) -->
+      <div class="mobile-header-actions">
+        <button id="btn-mobile-random" class="btn-icon-mobile" title="Rádio Aleatória">
+          🎲
+        </button>
+        <button id="btn-mobile-menu" class="btn-icon-mobile" title="Mais Opções">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>
         </button>
       </div>
     </div>
@@ -117,47 +127,60 @@
         <button id="search-clear-btn" class="btn-clear" style="display: none;">✕</button>
       </div>
 
-      <!-- Filter Controls Row -->
-      <div class="filters-row">
-        <!-- Continent Select -->
-        <div class="filter-group">
-          <label for="continent-select">Continente:</label>
-          <select id="continent-select">
-            <option value="">Todos os Continentes</option>
-            <option value="Europe">🌍 Europa</option>
-            <option value="South America">🌎 América do Sul</option>
-            <option value="North America">🌎 América do Norte</option>
-            <option value="Asia">🌏 Ásia</option>
-            <option value="Africa">🌍 África</option>
-            <option value="Oceania">🌏 Oceania</option>
-          </select>
-        </div>
+      <!-- Mobile Filter Toolbar (Toggle expand/collapse) -->
+      <div class="search-actions-bar">
+        <button id="btn-toggle-filters" class="btn-filter-toggle" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+          <span>Filtros</span>
+          <span id="active-filters-badge" class="filter-count-badge" style="display: none;">0</span>
+          <svg class="filter-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <button id="btn-reset-filters" class="btn-filter-reset" style="display: none;">Limpar filtros</button>
+      </div>
 
-        <!-- Country Select -->
-        <div class="filter-group">
-          <label for="country-select">País:</label>
-          <select id="country-select">
-            <option value="">Todos os Países</option>
-          </select>
-        </div>
+      <!-- Filter Controls Row (Collapsible on mobile) -->
+      <div id="filters-collapsible" class="filters-collapsible">
+        <div class="filters-row">
+          <!-- Continent Select -->
+          <div class="filter-group">
+            <label for="continent-select">Continente:</label>
+            <select id="continent-select">
+              <option value="">Todos os Continentes</option>
+              <option value="Europe">🌍 Europa</option>
+              <option value="South America">🌎 América do Sul</option>
+              <option value="North America">🌎 América do Norte</option>
+              <option value="Asia">🌏 Ásia</option>
+              <option value="Africa">🌍 África</option>
+              <option value="Oceania">🌏 Oceania</option>
+            </select>
+          </div>
 
-        <!-- Mode Source Toggle -->
-        <div class="filter-group">
-          <label for="source-select">Fonte:</label>
-          <select id="source-select">
-            <option value="curated">⚡ Curadas (Instantâneo)</option>
-            <option value="global">🌐 Rede Global (+40k)</option>
-            <option value="all">🌟 Todas Combinadas</option>
-          </select>
-        </div>
+          <!-- Country Select -->
+          <div class="filter-group">
+            <label for="country-select">País:</label>
+            <select id="country-select">
+              <option value="">Todos os Países</option>
+            </select>
+          </div>
 
-        <!-- Sort -->
-        <div class="filter-group">
-          <label for="sort-select">Ordenar por:</label>
-          <select id="sort-select">
-            <option value="votes">🔥 Mais Populares</option>
-            <option value="name">🔤 Nome (A-Z)</option>
-          </select>
+          <!-- Mode Source Toggle -->
+          <div class="filter-group">
+            <label for="source-select">Fonte:</label>
+            <select id="source-select">
+              <option value="curated">⚡ Curadas (Instantâneo)</option>
+              <option value="global">🌐 Rede Global (+40k)</option>
+              <option value="all">🌟 Todas Combinadas</option>
+            </select>
+          </div>
+
+          <!-- Sort -->
+          <div class="filter-group">
+            <label for="sort-select">Ordenar por:</label>
+            <select id="sort-select">
+              <option value="votes">🔥 Mais Populares</option>
+              <option value="name">🔤 Nome (A-Z)</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -313,8 +336,38 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         </button>
       </div>
+
+      <!-- Mobile Quick Options Button (visible on mobile only) -->
+      <button id="btn-player-options-mobile" class="btn-player-options-mobile" title="Opções de Áudio">
+        ⋯
+      </button>
     </div>
   </footer>
+
+  <!-- iOS-style Bottom Navigation Bar (Mobile / PWA) -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <button class="nav-tab active" data-tab="all">
+      <span class="nav-tab-icon">📻</span>
+      <span class="nav-tab-label">Explorar</span>
+    </button>
+    <button class="nav-tab" data-tab="favorites">
+      <span class="nav-tab-icon">⭐</span>
+      <span class="nav-tab-label">Favoritas</span>
+      <span id="mobile-fav-counter" class="nav-tab-badge" style="display: none;">0</span>
+    </button>
+    <button class="nav-tab" data-tab="recents">
+      <span class="nav-tab-icon">🕒</span>
+      <span class="nav-tab-label">Recentes</span>
+    </button>
+    <button class="nav-tab" id="nav-btn-top-charts">
+      <span class="nav-tab-icon">🏆</span>
+      <span class="nav-tab-label">Top 40</span>
+    </button>
+    <button class="nav-tab" id="nav-btn-mobile-more">
+      <span class="nav-tab-icon">⋯</span>
+      <span class="nav-tab-label">Mais</span>
+    </button>
+  </nav>
 
   <!-- Modal de Perfil da Emissora & Músicas Tocadas (Estilo radios-online.pt) -->
   <div id="station-modal" class="modal-backdrop" style="display: none;">
@@ -687,6 +740,119 @@
         <div id="radar-results-list" class="radar-results-box">
           <!-- Injetado dinamicamente via JS -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sheet Modal: Mobile Menu Principal (Estilo iOS Action Sheet) -->
+  <div id="mobile-menu-modal" class="modal-backdrop modal-bottom-sheet" style="display: none;">
+    <div class="bottom-sheet-dialog glass-card">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title-box">
+          <span class="sheet-icon">📻</span>
+          <div>
+            <h3>Menu Worldwide Radio</h3>
+            <p>Ações e Ferramentas Rápidas</p>
+          </div>
+        </div>
+        <button id="btn-close-mobile-menu" class="btn-close-modal">✕</button>
+      </div>
+      <div class="sheet-grid">
+        <button id="m-action-top40" class="sheet-item">
+          <span class="sheet-item-icon">🏆</span>
+          <span class="sheet-item-text">Top 40 Airplay</span>
+        </button>
+        <button id="m-action-radar" class="sheet-item">
+          <span class="sheet-item-icon">🔔</span>
+          <span class="sheet-item-text">Radar Artistas</span>
+        </button>
+        <button id="m-action-alarm" class="sheet-item">
+          <span class="sheet-item-icon">⏰</span>
+          <span class="sheet-item-text">Despertador</span>
+        </button>
+        <button id="m-action-car" class="sheet-item">
+          <span class="sheet-item-icon">🚗</span>
+          <span class="sheet-item-text">Modo Carro</span>
+        </button>
+        <button id="m-action-m3u" class="sheet-item">
+          <span class="sheet-item-icon">📥</span>
+          <span class="sheet-item-text">Playlist M3U</span>
+        </button>
+        <button id="m-action-random" class="sheet-item">
+          <span class="sheet-item-icon">🎲</span>
+          <span class="sheet-item-text">Aleatória</span>
+        </button>
+        <button id="m-action-docs" class="sheet-item">
+          <span class="sheet-item-icon">📖</span>
+          <span class="sheet-item-text">Docs API</span>
+        </button>
+        <button id="m-action-install" class="sheet-item">
+          <span class="sheet-item-icon">📲</span>
+          <span class="sheet-item-text">Instalar App</span>
+        </button>
+      </div>
+      <!-- Seletor de Idioma no Sheet -->
+      <div class="sheet-lang-row">
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">Idioma:</span>
+        <div class="sheet-lang-buttons">
+          <button class="sheet-lang-opt active" data-lang="pt">🇵🇹 PT</button>
+          <button class="sheet-lang-opt" data-lang="en">🇬🇧 EN</button>
+          <button class="sheet-lang-opt" data-lang="es">🇪🇸 ES</button>
+          <button class="sheet-lang-opt" data-lang="fr">🇫🇷 FR</button>
+          <button class="sheet-lang-opt" data-lang="de">🇩🇪 DE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sheet Modal: Opções de Áudio do Player Mobile (Estilo iOS) -->
+  <div id="player-options-modal" class="modal-backdrop modal-bottom-sheet" style="display: none;">
+    <div class="bottom-sheet-dialog glass-card">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title-box">
+          <span class="sheet-icon">🎛️</span>
+          <div>
+            <h3 id="sheet-station-name">Opções de Áudio</h3>
+            <p>Controlos avançados da transmissão</p>
+          </div>
+        </div>
+        <button id="btn-close-player-options" class="btn-close-modal">✕</button>
+      </div>
+      <div class="sheet-grid">
+        <button id="m-player-eq" class="sheet-item">
+          <span class="sheet-item-icon">🎚️</span>
+          <span class="sheet-item-text">Equalizador</span>
+        </button>
+        <button id="m-player-sleep" class="sheet-item">
+          <span class="sheet-item-icon">🌙</span>
+          <span class="sheet-item-text">Sleep Timer</span>
+        </button>
+        <button id="m-player-rec" class="sheet-item">
+          <span class="sheet-item-icon">🔴</span>
+          <span class="sheet-item-text">Gravar Áudio</span>
+        </button>
+        <button id="m-player-shazam" class="sheet-item">
+          <span class="sheet-item-icon">🔍</span>
+          <span class="sheet-item-text">Identificar Música</span>
+        </button>
+        <button id="m-player-info" class="sheet-item">
+          <span class="sheet-item-icon">ℹ️</span>
+          <span class="sheet-item-text">Músicas & Perfil</span>
+        </button>
+        <button id="m-player-share" class="sheet-item">
+          <span class="sheet-item-icon">🔗</span>
+          <span class="sheet-item-text">Partilhar Rádio</span>
+        </button>
+        <button id="m-player-quality" class="sheet-item">
+          <span class="sheet-item-icon">📶</span>
+          <span class="sheet-item-text">Qualidade HQ</span>
+        </button>
+        <button id="m-player-copy" class="sheet-item">
+          <span class="sheet-item-icon">📋</span>
+          <span class="sheet-item-text">Copiar Link</span>
+        </button>
       </div>
     </div>
   </div>

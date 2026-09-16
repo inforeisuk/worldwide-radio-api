@@ -2572,7 +2572,223 @@ elements.alarmModal?.addEventListener('click', (e) => {
   if (e.target === elements.alarmModal) elements.alarmModal.style.display = 'none';
 });
 
+/**
+ * Experiência Móvel Otimizada (iOS & Ecrãs Pequenos)
+ */
+function setupMobileExperience() {
+  const btnMobileMenu = document.getElementById('btn-mobile-menu');
+  const mobileMenuModal = document.getElementById('mobile-menu-modal');
+  const btnCloseMobileMenu = document.getElementById('btn-close-mobile-menu');
+  const btnPlayerOptionsMobile = document.getElementById('btn-player-options-mobile');
+  const playerOptionsModal = document.getElementById('player-options-modal');
+  const btnClosePlayerOptions = document.getElementById('btn-close-player-options');
+  const sheetStationName = document.getElementById('sheet-station-name');
+
+  const btnToggleFilters = document.getElementById('btn-toggle-filters');
+  const filtersCollapsible = document.getElementById('filters-collapsible');
+  const activeFiltersBadge = document.getElementById('active-filters-badge');
+  const btnResetFilters = document.getElementById('btn-reset-filters');
+  const mobileFavCounter = document.getElementById('mobile-fav-counter');
+
+  // 1. Alternar barra de filtros colapsáveis
+  btnToggleFilters?.addEventListener('click', () => {
+    const isExpanded = filtersCollapsible?.classList.toggle('expanded');
+    btnToggleFilters.classList.toggle('active', isExpanded);
+  });
+
+  // 2. Atualizar contagem de filtros ativos
+  function updateFilterBadge() {
+    let count = 0;
+    if (elements.continentSelect?.value) count++;
+    if (elements.countrySelect?.value) count++;
+    if (elements.sourceSelect?.value && elements.sourceSelect.value !== 'curated') count++;
+    if (elements.sortSelect?.value && elements.sortSelect.value !== 'votes') count++;
+    if (state.selectedGenre) count++;
+
+    if (activeFiltersBadge) {
+      activeFiltersBadge.textContent = count;
+      activeFiltersBadge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+    if (btnResetFilters) {
+      btnResetFilters.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+  }
+
+  elements.continentSelect?.addEventListener('change', updateFilterBadge);
+  elements.countrySelect?.addEventListener('change', updateFilterBadge);
+  elements.sourceSelect?.addEventListener('change', updateFilterBadge);
+  elements.sortSelect?.addEventListener('change', updateFilterBadge);
+
+  btnResetFilters?.addEventListener('click', () => {
+    if (elements.continentSelect) elements.continentSelect.value = '';
+    if (elements.countrySelect) elements.countrySelect.value = '';
+    if (elements.sourceSelect) elements.sourceSelect.value = 'curated';
+    if (elements.sortSelect) elements.sortSelect.value = 'votes';
+    state.selectedGenre = '';
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', !c.dataset.genre));
+    updateFilterBadge();
+    loadRadios(true);
+    showToast('Filtros repostos.');
+  });
+
+  // 3. Abrir e fechar Menu Mobile Sheet
+  btnMobileMenu?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'flex';
+  });
+  btnCloseMobileMenu?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+  });
+  mobileMenuModal?.addEventListener('click', (e) => {
+    if (e.target === mobileMenuModal) mobileMenuModal.style.display = 'none';
+  });
+
+  // 4. Ações rápidas dentro do Menu Mobile Sheet
+  document.getElementById('m-action-top40')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    document.getElementById('btn-top-charts')?.click();
+  });
+  document.getElementById('m-action-radar')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    document.getElementById('btn-artist-radar')?.click();
+  });
+  document.getElementById('m-action-alarm')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    document.getElementById('btn-alarm')?.click();
+  });
+  document.getElementById('m-action-car')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    openCarMode();
+  });
+  document.getElementById('m-action-m3u')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    document.getElementById('btn-export-m3u')?.click();
+  });
+  document.getElementById('m-action-random')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    document.getElementById('btn-random-radio')?.click();
+  });
+  document.getElementById('m-action-docs')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    window.open('/docs', '_blank');
+  });
+  document.getElementById('m-action-install')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'none';
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+    } else {
+      showToast('No Safari do iPhone, toque em Partilhar ⬆️ e depois em "Adicionar ao Ecrã Principal".');
+    }
+  });
+
+  // Seletor de Idioma no Sheet
+  document.querySelectorAll('.sheet-lang-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      setLanguage(lang);
+      document.querySelectorAll('.sheet-lang-opt').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      mobileMenuModal.style.display = 'none';
+      showToast(`🌐 Idioma alterado para ${lang.toUpperCase()}`);
+    });
+  });
+
+  // Botão Rádio Aleatória Mobile no Header
+  document.getElementById('btn-mobile-random')?.addEventListener('click', () => {
+    document.getElementById('btn-random-radio')?.click();
+  });
+
+  // 5. Abrir e fechar Opções de Áudio do Player Mobile
+  btnPlayerOptionsMobile?.addEventListener('click', () => {
+    if (state.currentStation) {
+      if (sheetStationName) sheetStationName.textContent = state.currentStation.name;
+    } else {
+      if (sheetStationName) sheetStationName.textContent = 'Opções de Áudio';
+    }
+    playerOptionsModal.style.display = 'flex';
+  });
+  btnClosePlayerOptions?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+  });
+  playerOptionsModal?.addEventListener('click', (e) => {
+    if (e.target === playerOptionsModal) playerOptionsModal.style.display = 'none';
+  });
+
+  // Ações dentro do Player Options Sheet
+  document.getElementById('m-player-eq')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-equalizer')?.click();
+  });
+  document.getElementById('m-player-sleep')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-sleep-timer')?.click();
+  });
+  document.getElementById('m-player-rec')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-record')?.click();
+  });
+  document.getElementById('m-player-shazam')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-identify')?.click();
+  });
+  document.getElementById('m-player-info')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-player-info')?.click();
+  });
+  document.getElementById('m-player-share')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-share')?.click();
+  });
+  document.getElementById('m-player-quality')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-quality-mode')?.click();
+  });
+  document.getElementById('m-player-copy')?.addEventListener('click', () => {
+    playerOptionsModal.style.display = 'none';
+    document.getElementById('btn-copy-stream')?.click();
+  });
+
+  // 6. iOS Bottom Tab Bar Navigation
+  document.querySelectorAll('.mobile-bottom-nav .nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabType = tab.dataset.tab;
+      if (tabType) {
+        document.querySelectorAll('.mobile-bottom-nav .nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Sincronizar com as abas do topo de desktop
+        document.querySelectorAll('.view-tab').forEach(vt => {
+          vt.classList.toggle('active', vt.dataset.tab === tabType);
+        });
+
+        state.currentTab = tabType;
+        state.currentPage = 1;
+        loadRadios(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
+
+  document.getElementById('nav-btn-top-charts')?.addEventListener('click', () => {
+    document.getElementById('btn-top-charts')?.click();
+  });
+
+  document.getElementById('nav-btn-mobile-more')?.addEventListener('click', () => {
+    mobileMenuModal.style.display = 'flex';
+  });
+
+  // Observador para sincronizar contagem de favoritas com o badge da barra móvel
+  const favCounterEl = document.getElementById('fav-counter');
+  if (favCounterEl && mobileFavCounter) {
+    const observer = new MutationObserver(() => {
+      mobileFavCounter.textContent = favCounterEl.textContent;
+      mobileFavCounter.style.display = favCounterEl.textContent !== '0' ? 'inline-block' : 'none';
+    });
+    observer.observe(favCounterEl, { childList: true, characterData: true, subtree: true });
+  }
+}
+
 // Iniciar aplicação
 init();
 setupPWA();
+setupMobileExperience();
+
 
