@@ -454,5 +454,48 @@ describe('Worldwide Radio API Tests', () => {
     assert.equal(countriesBody.nodeId, 'countries');
     assert.ok(countriesBody.items.length > 0);
   });
+
+  test('GET /api/radios/:id/logo resolve logótipo de rádio com redirecionamento 302 ou SVG', async () => {
+    const res = await fetch(`${baseUrl}/api/radios/antena1-pt/logo`, { redirect: 'manual' });
+    assert.ok(res.status === 302 || res.status === 200);
+    if (res.status === 302) {
+      assert.ok(res.headers.get('location'));
+    } else {
+      const ct = res.headers.get('content-type');
+      assert.ok(ct.includes('svg'));
+    }
+  });
+
+  test('GET /api/radios/:id/logo para emissora desconhecida retorna SVG badge elegante com 200', async () => {
+    const res = await fetch(`${baseUrl}/api/radios/estacao-inexistente-12345/logo`);
+    assert.equal(res.status, 200);
+    const ct = res.headers.get('content-type');
+    assert.ok(ct.includes('svg'));
+    const svgText = await res.text();
+    assert.ok(svgText.includes('<svg'));
+  });
+
+  test('PUT /api/radios/:id/logo permite atualizar manualmente logótipo', async () => {
+    const testUrl = 'https://www.google.com/s2/favicons?domain=antena1.rtp.pt&sz=128';
+    const res = await fetch(`${baseUrl}/api/radios/antena1-pt/logo`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ logo: testUrl })
+    });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.success, true);
+    assert.equal(body.station.logo, testUrl);
+  });
+
+  test('POST /api/radios/repair-logos executa a rotina de auto-cura em lote', async () => {
+    const res = await fetch(`${baseUrl}/api/radios/repair-logos`, { method: 'POST' });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.success, true);
+    assert.ok(body.totalChecked > 0);
+    assert.ok(typeof body.totalRepaired === 'number');
+  });
 });
+
 

@@ -5,8 +5,12 @@ import { PodcastController } from '../controllers/podcastController.js';
 import { HealthController } from '../controllers/healthController.js';
 import { LyricsController } from '../controllers/lyricsController.js';
 import { RecognitionController } from '../controllers/recognitionController.js';
+import { LogoController } from '../controllers/logoController.js';
 
 export const radioRouter = Router();
+
+// Auto-reparação e cura de logótipos em lote
+radioRouter.post('/radios/repair-logos', LogoController.repairCuratedLogos);
 
 // Identificador acústico de faixas estilo Shazam
 radioRouter.get('/radios/:id/identify', RecognitionController.identify);
@@ -49,6 +53,12 @@ radioRouter.get('/radios/:id/frequencies', StationDetailController.getStationFre
 
 // Detalhes de uma emissora por ID
 radioRouter.get('/radios/:id', RadioController.getRadioById);
+
+// Logótipo resiliente da emissora (Alta resolução com auto-fallback e vector badge)
+radioRouter.get('/radios/:id/logo', LogoController.getStationLogo);
+
+// Atualizar ou adicionar manualmente logótipo de uma emissora
+radioRouter.put('/radios/:id/logo', LogoController.updateStationLogo);
 
 // Stream de áudio direto (redirecionamento 302)
 radioRouter.get('/radios/:id/stream', RadioController.streamRadio);

@@ -968,7 +968,7 @@ function renderStations(stations) {
     card.innerHTML = `
       <div>
         <div class="card-top">
-          <img class="station-logo" src="${station.logo || DEFAULT_LOGO}" alt="${station.name}" onerror="this.src='${DEFAULT_LOGO}'">
+          <img class="station-logo" src="${station.logo || `/api/radios/${station.id}/logo`}" alt="${station.name}" onerror="this.onerror=null;this.src='/api/radios/${station.id}/logo'">
           <div class="station-info">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <h3 class="station-name" title="${station.name}">${station.name}</h3>
@@ -1063,8 +1063,11 @@ function playStation(station, isRecovery = false) {
 
   // Atualizar UI do Player
   elements.playerName.textContent = station.name;
-  elements.playerLogo.src = station.logo || DEFAULT_LOGO;
-  elements.playerLogo.onerror = () => { elements.playerLogo.src = DEFAULT_LOGO; };
+  elements.playerLogo.src = station.logo || `/api/radios/${station.id}/logo`;
+  elements.playerLogo.onerror = () => {
+    elements.playerLogo.onerror = () => { elements.playerLogo.src = DEFAULT_LOGO; };
+    elements.playerLogo.src = `/api/radios/${station.id}/logo`;
+  };
   const flag = station.countryCode ? getFlagEmoji(station.countryCode) : '🌐';
   const genresStr = (station.genres || []).slice(0, 2).join(', ');
   elements.playerCountryGenre.textContent = `${flag} ${station.country || 'Mundial'}${genresStr ? ` • ${genresStr}` : ''}`;
@@ -1713,9 +1716,11 @@ async function openStationModal(stationId) {
 
     // Informações Principais
     elements.modalName.textContent = data.name;
-    elements.modalSlogan.textContent = data.slogan || (data.country ? `Emissão de ${data.country}` : 'Emissão ao vivo');
-    elements.modalLogo.src = data.logo || DEFAULT_LOGO;
-    elements.modalAboutText.textContent = data.about || 'Sem descrição adicional disponível.';
+    elements.modalLogo.src = data.logo || `/api/radios/${data.id}/logo`;
+    elements.modalLogo.onerror = () => {
+      elements.modalLogo.onerror = () => { elements.modalLogo.src = DEFAULT_LOGO; };
+      elements.modalLogo.src = `/api/radios/${data.id}/logo`;
+    };
 
     // 1. Músicas Tocadas
     const tracks = data.recentTracks || [];

@@ -9,9 +9,16 @@
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/antena180a.mp3",
     "homepage": "https://www.rtp.pt/antena1/",
-    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-1-logo-png_seeklogo-15638.png",
-    "genres": ["News", "Talk", "Public", "Culture"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=antena1.rtp.pt&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Public",
+      "Culture"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 9500,
@@ -27,9 +34,16 @@
     "city": "Lisboa",
     "streamUrl": "https://stream-icy.bauermedia.pt/comercial.mp3",
     "homepage": "https://radiocomercial.pt",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Logotipo_da_R%C3%A1dio_Comercial.png",
-    "genres": ["Pop", "Top 40", "Rock", "Entertainment"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=radiocomercial.pt&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Rock",
+      "Entertainment"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 14200,
@@ -45,9 +59,15 @@
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RFM_SC.mp3",
     "homepage": "https://rfm.pt",
-    "logo": "https://rfm.pt/content/images/rfm_logo_share.png",
-    "genres": ["Pop", "Hits", "Top 40"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rfm.pt&sz=128",
+    "genres": [
+      "Pop",
+      "Hits",
+      "Top 40"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 12800,
@@ -63,9 +83,19 @@
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/OCEANPACIFIC.mp3",
     "homepage": "https://rfm.pt",
-    "logo": "https://rfm.pt/content/images/rfm_logo_share.png",
-    "genres": ["Love Songs", "Baladas", "Slow", "Romantic", "Pop", "Chillout"],
-    "languages": ["pt", "en"],
+    "logo": "https://www.google.com/s2/favicons?domain=rfm.pt&sz=128",
+    "genres": [
+      "Love Songs",
+      "Baladas",
+      "Slow",
+      "Romantic",
+      "Pop",
+      "Chillout"
+    ],
+    "languages": [
+      "pt",
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 15200,
@@ -81,9 +111,16 @@
     "city": "Lisboa",
     "streamUrl": "https://tsfdireto.tsf.pt/tsfAudio",
     "homepage": "https://www.tsf.pt",
-    "logo": "https://static.globalnoticias.pt/tsf/common/images/share.jpg",
-    "genres": ["News", "Talk", "Politics", "Sports"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=tsf.pt&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Politics",
+      "Sports"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 8100,
@@ -99,9 +136,16 @@
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_RENASCENCA.mp3",
     "homepage": "https://rr.pt",
-    "logo": "https://rr.pt/content/images/rr_share_logo.png",
-    "genres": ["Pop", "News", "Talk", "Adult Contemporary"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rr.pt&sz=128",
+    "genres": [
+      "Pop",
+      "News",
+      "Talk",
+      "Adult Contemporary"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 13900,
@@ -117,9 +161,18 @@
     "city": "Lisboa",
     "streamUrl": "https://stream-icy.bauermedia.pt/m80.mp3",
     "homepage": "https://m80.pt",
-    "logo": "https://m80.pt/content/images/m80_logo_share.png",
-    "genres": ["Classics", "80s", "70s", "90s", "Pop", "Rock"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=m80.pt&sz=128",
+    "genres": [
+      "Classics",
+      "80s",
+      "70s",
+      "90s",
+      "Pop",
+      "Rock"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 13500,
@@ -135,9 +188,17 @@
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/MEGA_HITS.mp3",
     "homepage": "https://megahits.pt",
-    "logo": "https://megahits.pt/content/images/megahits_share_logo.png",
-    "genres": ["Top 40", "Pop", "Dance", "Reggaeton", "Youth"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=megahits.pt&sz=128",
+    "genres": [
+      "Top 40",
+      "Pop",
+      "Dance",
+      "Reggaeton",
+      "Youth"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 11800,
@@ -153,9 +214,16 @@
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/OBSERVADORAAC.aac",
     "homepage": "https://observador.pt/radio/",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Observador_logo.svg/640px-Observador_logo.svg.png",
-    "genres": ["News", "Talk", "Politics", "Debate"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=observador.pt&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Politics",
+      "Debate"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 10400,
@@ -171,9 +239,16 @@
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/antena280a.mp3",
     "homepage": "https://www.rtp.pt/antena2/",
-    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-1-logo-png_seeklogo-15638.png",
-    "genres": ["Classical", "Opera", "Jazz", "Culture"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtp.pt&sz=128",
+    "genres": [
+      "Classical",
+      "Opera",
+      "Jazz",
+      "Culture"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 6200,
@@ -189,9 +264,17 @@
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/antena380a.mp3",
     "homepage": "https://www.rtp.pt/antena3/",
-    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-1-logo-png_seeklogo-15638.png",
-    "genres": ["Alternative", "Indie", "Rock", "Portuguese Music", "Youth"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtp.pt&sz=128",
+    "genres": [
+      "Alternative",
+      "Indie",
+      "Rock",
+      "Portuguese Music",
+      "Youth"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 11600,
@@ -207,9 +290,17 @@
     "city": "Lisboa",
     "streamUrl": "https://stream-icy.bauermedia.pt/smooth.mp3",
     "homepage": "https://smoothfm.pt",
-    "logo": "https://smoothfm.pt/content/images/smooth_logo_share.png",
-    "genres": ["Jazz", "Soul", "Blues", "Bossa Nova", "Chillout"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=smoothfm.pt&sz=128",
+    "genres": [
+      "Jazz",
+      "Soul",
+      "Blues",
+      "Bossa Nova",
+      "Chillout"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 9900,
@@ -225,9 +316,16 @@
     "city": "Porto",
     "streamUrl": "https://centova.radio.com.pt/proxy/478?mp=/stream",
     "homepage": "https://www.radionovaera.pt",
-    "logo": "https://www.radionovaera.pt/assets/img/logo.png",
-    "genres": ["Dance", "Electronic", "Hip Hop", "EDM"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=radionovaera.pt&sz=128",
+    "genres": [
+      "Dance",
+      "Electronic",
+      "Hip Hop",
+      "EDM"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 11100,
@@ -243,9 +341,16 @@
     "city": "Lisboa",
     "streamUrl": "http://centova.radios.pt:9496/stream",
     "homepage": "https://amalia.pt",
-    "logo": "https://amalia.pt/wp-content/themes/amalia/img/logo.png",
-    "genres": ["Fado", "Traditional", "Portuguese", "Culture"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=amalia.pt&sz=128",
+    "genres": [
+      "Fado",
+      "Traditional",
+      "Portuguese",
+      "Culture"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 8800,
@@ -261,9 +366,17 @@
     "city": "Lisboa",
     "streamUrl": "http://proic1.evspt.com/oxigenio_aac",
     "homepage": "https://oxigenio.fm",
-    "logo": "https://oxigenio.fm/wp-content/uploads/2021/04/oxigenio_logo.png",
-    "genres": ["Electronic", "Soul", "Funk", "Downtempo", "Hip Hop"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=oxigenio.fm&sz=128",
+    "genres": [
+      "Electronic",
+      "Soul",
+      "Funk",
+      "Downtempo",
+      "Hip Hop"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 8200,
@@ -279,9 +392,15 @@
     "city": "Lisboa",
     "streamUrl": "http://proic1.evspt.com/radar_mp3",
     "homepage": "https://radaronline.pt",
-    "logo": "https://radaronline.pt/wp-content/themes/radar/img/logo.png",
-    "genres": ["Indie", "Alternative Rock", "Post-Punk"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=radaronline.pt&sz=128",
+    "genres": [
+      "Indie",
+      "Alternative Rock",
+      "Post-Punk"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 7500,
@@ -297,9 +416,15 @@
     "city": "Lisboa",
     "streamUrl": "https://ec2.yesstreaming.net:3025/stream",
     "homepage": "https://www.orbital.pt",
-    "logo": "https://www.orbital.pt/assets/img/logo.png",
-    "genres": ["Pop", "Dance", "Top 40"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=orbital.pt&sz=128",
+    "genres": [
+      "Pop",
+      "Dance",
+      "Top 40"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 6700,
@@ -315,9 +440,16 @@
     "city": "Cascais",
     "streamUrl": "https://centova.radios.pt/proxy/499?mp=/stream",
     "homepage": "https://radiomarginal.pt",
-    "logo": "https://radiomarginal.pt/wp-content/themes/marginal/img/logo.png",
-    "genres": ["Soul", "Smooth Pop", "Acoustic", "Chillout"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=radiomarginal.pt&sz=128",
+    "genres": [
+      "Soul",
+      "Smooth Pop",
+      "Acoustic",
+      "Chillout"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 6300,
@@ -333,9 +465,16 @@
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/rdpint80a.mp3",
     "homepage": "https://www.rtp.pt/rdpinternacional/",
-    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-1-logo-png_seeklogo-15638.png",
-    "genres": ["News", "Diaspora", "Portuguese Music", "Culture"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtp.pt&sz=128",
+    "genres": [
+      "News",
+      "Diaspora",
+      "Portuguese Music",
+      "Culture"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 9100,
@@ -351,9 +490,17 @@
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/rdpafrica80a.mp3",
     "homepage": "https://www.rtp.pt/rdpafrica/",
-    "logo": "https://images.seeklogo.com/logo-png/1/1/antena-1-logo-png_seeklogo-15638.png",
-    "genres": ["Afrobeat", "Kizomba", "Semba", "World", "African"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtp.pt&sz=128",
+    "genres": [
+      "Afrobeat",
+      "Kizomba",
+      "Semba",
+      "World",
+      "African"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 8900,
@@ -369,9 +516,16 @@
     "city": "São Paulo",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/JP_SP_FMAAC.aac",
     "homepage": "https://jovempan.com.br",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Jovem_Pan_FM_logo_2016.png/640px-Jovem_Pan_FM_logo_2016.png",
-    "genres": ["Pop", "Top 40", "News", "Talk"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=jovempan.com.br&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "News",
+      "Talk"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 18500,
@@ -387,9 +541,15 @@
     "city": "São Paulo",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDNEWSFM_SPAAC.aac",
     "homepage": "https://bandnewstv.uol.com.br",
-    "logo": "https://upload.wikimedia.org/wikipedia/pt/9/91/BandNews_FM_logo.png",
-    "genres": ["News", "Talk", "Economy"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=bandnewstv.uol.com.br&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Economy"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 11300,
@@ -405,9 +565,16 @@
     "city": "São Paulo",
     "streamUrl": "https://26683.live.streamtheworld.com/RADIO_ALPHAFMAAC.aac",
     "homepage": "https://www.alphafm.com.br",
-    "logo": "https://www.alphafm.com.br/assets/images/logo-alpha.png",
-    "genres": ["Adult Contemporary", "Pop", "MPB", "Soft Rock"],
-    "languages": ["pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=alphafm.com.br&sz=128",
+    "genres": [
+      "Adult Contemporary",
+      "Pop",
+      "MPB",
+      "Soft Rock"
+    ],
+    "languages": [
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 13900,
@@ -423,9 +590,16 @@
     "city": "London",
     "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one",
     "homepage": "https://www.bbc.co.uk/radio1",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/BBC_Radio_1_2021.svg/640px-BBC_Radio_1_2021.svg.png",
-    "genres": ["Pop", "Electronic", "Indie", "Top 40"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=bbc.co.uk&sz=128",
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Indie",
+      "Top 40"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 24500,
@@ -441,9 +615,16 @@
     "city": "London",
     "streamUrl": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
     "homepage": "https://www.bbc.co.uk/worldserviceradio",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/BBC_World_Service_2022.svg/640px-BBC_World_Service_2022.svg.png",
-    "genres": ["News", "World", "Talk", "Documentary"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=bbc.co.uk&sz=128",
+    "genres": [
+      "News",
+      "World",
+      "Talk",
+      "Documentary"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 31200,
@@ -459,9 +640,15 @@
     "city": "London",
     "streamUrl": "https://media-ssl.musicradio.com/CapitalUK",
     "homepage": "https://www.capitalfm.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Capital_FM_logo.svg/640px-Capital_FM_logo.svg.png",
-    "genres": ["Pop", "Top 40", "Dance"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=capitalfm.com&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Dance"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 16400,
@@ -477,9 +664,15 @@
     "city": "London",
     "streamUrl": "https://media-ssl.musicradio.com/ClassicFM",
     "homepage": "https://www.classicfm.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Classic_FM_logo.svg/640px-Classic_FM_logo.svg.png",
-    "genres": ["Classical", "Relaxation", "Soundtracks"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=classicfm.com&sz=128",
+    "genres": [
+      "Classical",
+      "Relaxation",
+      "Soundtracks"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 17800,
@@ -495,9 +688,16 @@
     "city": "Washington, D.C.",
     "streamUrl": "https://npr-ice.streamguys1.com/live.mp3",
     "homepage": "https://www.npr.org",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/National_Public_Radio_logo.svg/640px-National_Public_Radio_logo.svg.png",
-    "genres": ["News", "Talk", "Public Radio", "Culture"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=npr.org&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Public Radio",
+      "Culture"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 29800,
@@ -513,9 +713,16 @@
     "city": "New York",
     "streamUrl": "https://fm939.wnyc.org/wnycfm",
     "homepage": "https://www.wnyc.org",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/WNYC_logo.svg/640px-WNYC_logo.svg.png",
-    "genres": ["News", "Public Radio", "Talk", "Culture"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=wnyc.org&sz=128",
+    "genres": [
+      "News",
+      "Public Radio",
+      "Talk",
+      "Culture"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 15200,
@@ -531,9 +738,16 @@
     "city": "Seattle",
     "streamUrl": "https://kexp.streamguys1.com/kexp128.mp3",
     "homepage": "https://kexp.org",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/KEXP-FM_logo.svg/640px-KEXP-FM_logo.svg.png",
-    "genres": ["Alternative", "Indie Rock", "Eclectic", "Live Sessions"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=kexp.org&sz=128",
+    "genres": [
+      "Alternative",
+      "Indie Rock",
+      "Eclectic",
+      "Live Sessions"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 26700,
@@ -550,8 +764,15 @@
     "streamUrl": "https://ice1.somafm.com/groovesalad-128-mp3",
     "homepage": "https://somafm.com/groovesalad/",
     "logo": "https://somafm.com/img/groovesalad120.png",
-    "genres": ["Ambient", "Chillout", "Downtempo", "Electronic"],
-    "languages": ["en"],
+    "genres": [
+      "Ambient",
+      "Chillout",
+      "Downtempo",
+      "Electronic"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 35400,
@@ -567,9 +788,16 @@
     "city": "Paris",
     "streamUrl": "https://icecast.radiofrance.fr/franceinter-midfi.mp3",
     "homepage": "https://www.radiofrance.fr/franceinter",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/France_Inter_logo_2021.svg/640px-France_Inter_logo_2021.svg.png",
-    "genres": ["News", "Talk", "Culture", "Eclectic"],
-    "languages": ["fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=radiofrance.fr&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Culture",
+      "Eclectic"
+    ],
+    "languages": [
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 22100,
@@ -585,9 +813,15 @@
     "city": "Paris",
     "streamUrl": "https://icecast.radiofrance.fr/franceinfo-midfi.mp3",
     "homepage": "https://www.francetvinfo.fr",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/France_Info_logo_2016.svg/640px-France_Info_logo_2016.svg.png",
-    "genres": ["News", "Continuous News", "Talk"],
-    "languages": ["fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=francetvinfo.fr&sz=128",
+    "genres": [
+      "News",
+      "Continuous News",
+      "Talk"
+    ],
+    "languages": [
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 16900,
@@ -603,9 +837,16 @@
     "city": "Paris",
     "streamUrl": "https://scdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3",
     "homepage": "https://www.nrj.fr",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/NRJ_logo_2014.svg/640px-NRJ_logo_2014.svg.png",
-    "genres": ["Pop", "Top 40", "Dance", "Hits"],
-    "languages": ["fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=nrj.fr&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Dance",
+      "Hits"
+    ],
+    "languages": [
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 20800,
@@ -621,9 +862,17 @@
     "city": "Paris",
     "streamUrl": "https://icecast.radiofrance.fr/fip-midfi.mp3",
     "homepage": "https://www.radiofrance.fr/fip",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/FIP_logo_2021.svg/640px-FIP_logo_2021.svg.png",
-    "genres": ["Eclectic", "Jazz", "World", "Groove", "Indie"],
-    "languages": ["fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=radiofrance.fr&sz=128",
+    "genres": [
+      "Eclectic",
+      "Jazz",
+      "World",
+      "Groove",
+      "Indie"
+    ],
+    "languages": [
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 27300,
@@ -639,9 +888,16 @@
     "city": "Madrid",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3",
     "homepage": "https://cadenaser.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cadena_SER_logo_2020.svg/640px-Cadena_SER_logo_2020.svg.png",
-    "genres": ["News", "Talk", "Sports", "General"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=cadenaser.com&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Sports",
+      "General"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 19400,
@@ -657,9 +913,16 @@
     "city": "Madrid",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40.mp3",
     "homepage": "https://los40.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/LOS40_logo_2016.svg/640px-LOS40_logo_2016.svg.png",
-    "genres": ["Pop", "Latin Pop", "Hits", "Top 40"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=los40.com&sz=128",
+    "genres": [
+      "Pop",
+      "Latin Pop",
+      "Hits",
+      "Top 40"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 18200,
@@ -675,9 +938,15 @@
     "city": "Madrid",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/ROCKFM.mp3",
     "homepage": "https://www.rockfm.fm",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Rock_FM_logo.png/640px-Rock_FM_logo.png",
-    "genres": ["Classic Rock", "Rock", "Hard Rock"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=rockfm.fm&sz=128",
+    "genres": [
+      "Classic Rock",
+      "Rock",
+      "Hard Rock"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 15600,
@@ -693,9 +962,18 @@
     "city": "Luxembourg",
     "streamUrl": "https://sc.rtl.lu/rtl",
     "homepage": "https://www.rtl.lu/radio",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/RTL_Radio_L%C3%ABtzebuerg_logo_2022.svg/640px-RTL_Radio_L%C3%ABtzebuerg_logo_2022.svg.png",
-    "genres": ["News", "Pop", "Top 40", "National"],
-    "languages": ["lb", "fr", "de"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtl.lu&sz=128",
+    "genres": [
+      "News",
+      "Pop",
+      "Top 40",
+      "National"
+    ],
+    "languages": [
+      "lb",
+      "fr",
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 12100,
@@ -711,9 +989,19 @@
     "city": "Luxembourg",
     "streamUrl": "https://stream.rcs.revma.com/8b6yqgx1w68uv",
     "homepage": "https://www.latina.lu",
-    "logo": "https://www.latina.lu/wp-content/themes/radiolatina/images/logo.png",
-    "genres": ["Latin", "Portuguese", "Pop", "Community", "News"],
-    "languages": ["pt", "fr", "es"],
+    "logo": "https://www.google.com/s2/favicons?domain=latina.lu&sz=128",
+    "genres": [
+      "Latin",
+      "Portuguese",
+      "Pop",
+      "Community",
+      "News"
+    ],
+    "languages": [
+      "pt",
+      "fr",
+      "es"
+    ],
     "bitrate": 192,
     "codec": "MP3",
     "votes": 14500,
@@ -730,8 +1018,15 @@
     "streamUrl": "http://sc.bce.lu/eldo",
     "homepage": "https://www.eldo.lu",
     "logo": "https://www.eldo.lu/assets/img/logo.png",
-    "genres": ["Pop", "Dance", "Hits", "Youth"],
-    "languages": ["lb"],
+    "genres": [
+      "Pop",
+      "Dance",
+      "Hits",
+      "Youth"
+    ],
+    "languages": [
+      "lb"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 9800,
@@ -747,9 +1042,19 @@
     "city": "Luxembourg",
     "streamUrl": "http://100komma7.cast.addradio.de/100komma7/live/mp3/128/stream.mp3",
     "homepage": "https://www.100komma7.lu",
-    "logo": "https://100komma7.lu/assets/logo.svg",
-    "genres": ["Culture", "Classical", "Jazz", "News", "Talk"],
-    "languages": ["lb", "fr", "de"],
+    "logo": "https://www.google.com/s2/favicons?domain=100komma7.lu&sz=128",
+    "genres": [
+      "Culture",
+      "Classical",
+      "Jazz",
+      "News",
+      "Talk"
+    ],
+    "languages": [
+      "lb",
+      "fr",
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 11200,
@@ -765,9 +1070,16 @@
     "city": "Differdange",
     "streamUrl": "https://lessentielradio.ice.infomaniak.ch/lessentielradio-128.mp3",
     "homepage": "https://www.lessentiel.lu",
-    "logo": "https://cdn-profiles.tunein.com/s264157/images/logog.png",
-    "genres": ["Pop", "Top 40", "Hits", "News"],
-    "languages": ["fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=lessentiel.lu&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Hits",
+      "News"
+    ],
+    "languages": [
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 10900,
@@ -783,9 +1095,19 @@
     "city": "Luxembourg",
     "streamUrl": "https://s1.voscast.com:11187/RadioARA.mp3",
     "homepage": "https://www.radioara.org",
-    "logo": "https://www.radioara.org/wp-content/uploads/2021/05/logo_ara.svg",
-    "genres": ["Alternative", "Community", "World", "Indie"],
-    "languages": ["lb", "en", "fr", "pt"],
+    "logo": "https://www.google.com/s2/favicons?domain=radioara.org&sz=128",
+    "genres": [
+      "Alternative",
+      "Community",
+      "World",
+      "Indie"
+    ],
+    "languages": [
+      "lb",
+      "en",
+      "fr",
+      "pt"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 8700,
@@ -801,9 +1123,16 @@
     "city": "Luxembourg",
     "streamUrl": "https://shoutcast.rtl.lu/rtltodayradio",
     "homepage": "https://today.rtl.lu",
-    "logo": "https://today.rtl.lu/assets/favicons/apple-touch-icon.png",
-    "genres": ["Pop", "News", "Hits", "Top 40"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=today.rtl.lu&sz=128",
+    "genres": [
+      "Pop",
+      "News",
+      "Hits",
+      "Top 40"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 192,
     "codec": "MP3",
     "votes": 9400,
@@ -820,8 +1149,15 @@
     "streamUrl": "http://sc.bce.lu/eldoalt",
     "homepage": "https://www.eldo.lu",
     "logo": "https://www.eldo.lu/assets/img/logo.png",
-    "genres": ["Alternative", "Indie", "Rock"],
-    "languages": ["lb", "en"],
+    "genres": [
+      "Alternative",
+      "Indie",
+      "Rock"
+    ],
+    "languages": [
+      "lb",
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 6800,
@@ -838,8 +1174,16 @@
     "streamUrl": "http://sc.bce.lu/eldochill",
     "homepage": "https://www.eldo.lu",
     "logo": "https://www.eldo.lu/assets/img/logo.png",
-    "genres": ["Chillout", "Lounge", "Electronic", "Ambient"],
-    "languages": ["lb", "en"],
+    "genres": [
+      "Chillout",
+      "Lounge",
+      "Electronic",
+      "Ambient"
+    ],
+    "languages": [
+      "lb",
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 7200,
@@ -855,9 +1199,18 @@
     "city": "Luxembourg",
     "streamUrl": "https://live-edge.rtl.lu/radio/rtlgold/playlist.m3u8",
     "homepage": "https://www.rtl.lu",
-    "logo": "https://play.rtl.lu/assets/favicons/apple-touch-icon-180x180.png",
-    "genres": ["Oldies", "Classics", "70s", "80s"],
-    "languages": ["lb", "de", "en"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtl.lu&sz=128",
+    "genres": [
+      "Oldies",
+      "Classics",
+      "70s",
+      "80s"
+    ],
+    "languages": [
+      "lb",
+      "de",
+      "en"
+    ],
     "bitrate": 192,
     "codec": "AAC",
     "votes": 8300,
@@ -873,9 +1226,15 @@
     "city": "Luxembourg",
     "streamUrl": "https://live-edge.rtl.lu/radio/rtllx/playlist.m3u8",
     "homepage": "https://www.rtl.lu",
-    "logo": "https://play.rtl.lu/assets/favicons/apple-touch-icon-180x180.png",
-    "genres": ["Electronic", "Dance", "House"],
-    "languages": ["lb"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtl.lu&sz=128",
+    "genres": [
+      "Electronic",
+      "Dance",
+      "House"
+    ],
+    "languages": [
+      "lb"
+    ],
     "bitrate": 192,
     "codec": "AAC",
     "votes": 6400,
@@ -891,9 +1250,17 @@
     "city": "Esch-sur-Alzette",
     "streamUrl": "https://streams.radio.co/sa631ff66a/listen",
     "homepage": "https://www.radioguttlaun.lu",
-    "logo": "https://www.radioguttlaun.lu/assets/img/logo.png",
-    "genres": ["Schlager", "Pop", "Oldies", "Local"],
-    "languages": ["lb", "de"],
+    "logo": "https://www.google.com/s2/favicons?domain=radioguttlaun.lu&sz=128",
+    "genres": [
+      "Schlager",
+      "Pop",
+      "Oldies",
+      "Local"
+    ],
+    "languages": [
+      "lb",
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 5400,
@@ -909,9 +1276,17 @@
     "city": "Belvaux",
     "streamUrl": "http://stream.rbv.lu:8000/stream",
     "homepage": "http://www.rbv.lu",
-    "logo": "https://www.rbv.lu/wp-content/themes/rbv/images/logo.png",
-    "genres": ["Local", "Pop", "Community", "Variety"],
-    "languages": ["lb", "fr"],
+    "logo": "https://www.google.com/s2/favicons?domain=rbv.lu&sz=128",
+    "genres": [
+      "Local",
+      "Pop",
+      "Community",
+      "Variety"
+    ],
+    "languages": [
+      "lb",
+      "fr"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 4900,
@@ -927,9 +1302,17 @@
     "city": "Luxembourg",
     "streamUrl": "https://edge01.streamonkey.net/radioc-live",
     "homepage": "https://www.radioc.lu",
-    "logo": "https://edge01.streamonkey.net/radioc-live/logo.png",
-    "genres": ["Gospel", "Christian", "Pop"],
-    "languages": ["lb", "en", "de"],
+    "logo": "https://www.google.com/s2/favicons?domain=radioc.lu&sz=128",
+    "genres": [
+      "Gospel",
+      "Christian",
+      "Pop"
+    ],
+    "languages": [
+      "lb",
+      "en",
+      "de"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 3800,
@@ -945,9 +1328,16 @@
     "city": "Luxembourg",
     "streamUrl": "http://stream.rtlradio.de/rtl-de-national/mp3-192/",
     "homepage": "https://www.rtlradio.de",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/RTL_Radio_L%C3%ABtzebuerg_logo_2022.svg/640px-RTL_Radio_L%C3%ABtzebuerg_logo_2022.svg.png",
-    "genres": ["Pop", "Top 40", "Hits", "Classics"],
-    "languages": ["de"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtlradio.de&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Hits",
+      "Classics"
+    ],
+    "languages": [
+      "de"
+    ],
     "bitrate": 192,
     "codec": "MP3",
     "votes": 12800,
@@ -964,8 +1354,15 @@
     "streamUrl": "https://stream.laut.fm/braintrip-radio",
     "homepage": "https://laut.fm/braintrip-radio",
     "logo": "https://api.laut.fm/station/braintrip-radio/images/station",
-    "genres": ["Psychedelic", "Indie", "Rock", "Alternative"],
-    "languages": ["en"],
+    "genres": [
+      "Psychedelic",
+      "Indie",
+      "Rock",
+      "Alternative"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 4100,
@@ -981,9 +1378,16 @@
     "city": "Köln",
     "streamUrl": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3",
     "homepage": "https://www.deutschlandfunk.de",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Deutschlandfunk_Logo_2017.svg/640px-Deutschlandfunk_Logo_2017.svg.png",
-    "genres": ["News", "Information", "Culture", "Talk"],
-    "languages": ["de"],
+    "logo": "https://www.google.com/s2/favicons?domain=deutschlandfunk.de&sz=128",
+    "genres": [
+      "News",
+      "Information",
+      "Culture",
+      "Talk"
+    ],
+    "languages": [
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 17200,
@@ -999,9 +1403,16 @@
     "city": "Köln",
     "streamUrl": "https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3",
     "homepage": "https://www1.wdr.de/radio/1live/",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/1LIVE_Logo_2022.svg/640px-1LIVE_Logo_2022.svg.png",
-    "genres": ["Pop", "Electronic", "Indie", "Hits"],
-    "languages": ["de"],
+    "logo": "https://www.google.com/s2/favicons?domain=www1.wdr.de&sz=128",
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Indie",
+      "Hits"
+    ],
+    "languages": [
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 18400,
@@ -1017,9 +1428,16 @@
     "city": "Baden-Baden",
     "streamUrl": "https://liveradio.swr.de/sw282p3/swr3/play.mp3",
     "homepage": "https://www.swr3.de",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/SWR3_Logo_2014.svg/640px-SWR3_Logo_2014.svg.png",
-    "genres": ["Pop", "Top 40", "Rock", "Comedy"],
-    "languages": ["de"],
+    "logo": "https://www.google.com/s2/favicons?domain=swr3.de&sz=128",
+    "genres": [
+      "Pop",
+      "Top 40",
+      "Rock",
+      "Comedy"
+    ],
+    "languages": [
+      "de"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 16500,
@@ -1035,9 +1453,16 @@
     "city": "Roma",
     "streamUrl": "https://icestreaming.rai.it/1.mp3",
     "homepage": "https://www.raiplaysound.it/radio1",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Rai_Radio_1_logo_2017.svg/640px-Rai_Radio_1_logo_2017.svg.png",
-    "genres": ["News", "Talk", "Sports", "Culture"],
-    "languages": ["it"],
+    "logo": "https://www.google.com/s2/favicons?domain=raiplaysound.it&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Sports",
+      "Culture"
+    ],
+    "languages": [
+      "it"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 14900,
@@ -1053,9 +1478,16 @@
     "city": "Milano",
     "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S76960628/fYNIdrsfP3xC/playlist_audio.m3u8",
     "homepage": "https://www.rtl.it",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/RTL_102.5_logo.svg/640px-RTL_102.5_logo.svg.png",
-    "genres": ["Pop", "Italian Music", "Top 40", "News"],
-    "languages": ["it"],
+    "logo": "https://www.google.com/s2/favicons?domain=rtl.it&sz=128",
+    "genres": [
+      "Pop",
+      "Italian Music",
+      "Top 40",
+      "News"
+    ],
+    "languages": [
+      "it"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 19200,
@@ -1071,9 +1503,15 @@
     "city": "Milano",
     "streamUrl": "https://icecast.unitedradio.it/Virgin.mp3",
     "homepage": "https://www.virginradio.it",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Virgin_Radio_Italy_logo.svg/640px-Virgin_Radio_Italy_logo.svg.png",
-    "genres": ["Rock", "Hard Rock", "Indie Rock"],
-    "languages": ["it"],
+    "logo": "https://www.google.com/s2/favicons?domain=virginradio.it&sz=128",
+    "genres": [
+      "Rock",
+      "Hard Rock",
+      "Indie Rock"
+    ],
+    "languages": [
+      "it"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 15800,
@@ -1089,9 +1527,19 @@
     "city": "Bern",
     "streamUrl": "https://stream.srg-ssr.ch/m/rsp/mp3_128",
     "homepage": "https://www.radioswisspop.ch",
-    "logo": "https://www.radioswisspop.ch/img/radioswisspop_logo.svg",
-    "genres": ["Pop", "Soft Pop", "Hits", "Melodic"],
-    "languages": ["en", "de", "fr", "it"],
+    "logo": "https://www.google.com/s2/favicons?domain=radioswisspop.ch&sz=128",
+    "genres": [
+      "Pop",
+      "Soft Pop",
+      "Hits",
+      "Melodic"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "fr",
+      "it"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 21500,
@@ -1107,9 +1555,19 @@
     "city": "Bern",
     "streamUrl": "https://stream.srg-ssr.ch/m/rsj/mp3_128",
     "homepage": "https://www.radioswissjazz.ch",
-    "logo": "https://www.radioswissjazz.ch/img/radioswissjazz_logo.svg",
-    "genres": ["Jazz", "Blues", "Soul", "Smooth Jazz"],
-    "languages": ["en", "de", "fr", "it"],
+    "logo": "https://www.google.com/s2/favicons?domain=radioswissjazz.ch&sz=128",
+    "genres": [
+      "Jazz",
+      "Blues",
+      "Soul",
+      "Smooth Jazz"
+    ],
+    "languages": [
+      "en",
+      "de",
+      "fr",
+      "it"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 23400,
@@ -1125,9 +1583,16 @@
     "city": "Hilversum",
     "streamUrl": "https://icecast.omroep.nl/3fm-bb-mp3",
     "homepage": "https://www.npo3fm.nl",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/NPO_3FM_logo_2022.svg/640px-NPO_3FM_logo_2022.svg.png",
-    "genres": ["Alternative", "Pop", "Indie", "Hits"],
-    "languages": ["nl"],
+    "logo": "https://www.google.com/s2/favicons?domain=npo3fm.nl&sz=128",
+    "genres": [
+      "Alternative",
+      "Pop",
+      "Indie",
+      "Hits"
+    ],
+    "languages": [
+      "nl"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 13400,
@@ -1143,9 +1608,16 @@
     "city": "Hilversum",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3",
     "homepage": "https://www.538.nl",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Radio_538_logo_2014.svg/640px-Radio_538_logo_2014.svg.png",
-    "genres": ["Top 40", "Dance", "Electronic", "Pop"],
-    "languages": ["nl"],
+    "logo": "https://www.google.com/s2/favicons?domain=538.nl&sz=128",
+    "genres": [
+      "Top 40",
+      "Dance",
+      "Electronic",
+      "Pop"
+    ],
+    "languages": [
+      "nl"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 16200,
@@ -1161,9 +1633,17 @@
     "city": "Tokyo",
     "streamUrl": "https://nhkworld-radio.akamaized.net/hls/live/2042079/radio/master.m3u8",
     "homepage": "https://www3.nhk.or.jp/nhkworld/",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/NHK_World-Japan.svg/640px-NHK_World-Japan.svg.png",
-    "genres": ["News", "Japanese Culture", "Talk", "World"],
-    "languages": ["ja", "en"],
+    "logo": "https://www.google.com/s2/favicons?domain=www3.nhk.or.jp&sz=128",
+    "genres": [
+      "News",
+      "Japanese Culture",
+      "Talk",
+      "World"
+    ],
+    "languages": [
+      "ja",
+      "en"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 18900,
@@ -1179,9 +1659,15 @@
     "city": "Hayama",
     "streamUrl": "https://musicbird-hls.leanstream.co/musicbird/JCB083.stream/playlist.m3u8",
     "homepage": "https://www.beachfm.co.jp",
-    "logo": "https://www.beachfm.co.jp/wp-content/themes/beachfm/images/logo.png",
-    "genres": ["Smooth Jazz", "Lounge", "Easy Listening"],
-    "languages": ["ja"],
+    "logo": "https://www.google.com/s2/favicons?domain=beachfm.co.jp&sz=128",
+    "genres": [
+      "Smooth Jazz",
+      "Lounge",
+      "Easy Listening"
+    ],
+    "languages": [
+      "ja"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 14500,
@@ -1197,9 +1683,16 @@
     "city": "Sydney",
     "streamUrl": "https://streaming.abc-cdn.net.au/audio/hls/triplejnsw.m3u8",
     "homepage": "https://www.abc.net.au/triplej/",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Triple_J_drum_logo.svg/640px-Triple_J_drum_logo.svg.png",
-    "genres": ["Alternative", "Indie Rock", "Hip Hop", "Electronic"],
-    "languages": ["en"],
+    "logo": "https://www.google.com/s2/favicons?domain=abc.net.au&sz=128",
+    "genres": [
+      "Alternative",
+      "Indie Rock",
+      "Hip Hop",
+      "Electronic"
+    ],
+    "languages": [
+      "en"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 20400,
@@ -1215,9 +1708,15 @@
     "city": "Buenos Aires",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/AM810_56AAC.aac",
     "homepage": "https://radiomitre.cienradios.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_de_Radio_Mitre.svg/640px-Logo_de_Radio_Mitre.svg.png",
-    "genres": ["News", "Talk", "Current Affairs"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=radiomitre.cienradios.com&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Current Affairs"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 15400,
@@ -1233,9 +1732,16 @@
     "city": "Buenos Aires",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/LA100_56AAC.aac",
     "homepage": "https://la100.cienradios.com",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Logo_de_La_100.png/640px-Logo_de_La_100.png",
-    "genres": ["Pop", "Latin", "Rock Nacional", "Top 40"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=la100.cienradios.com&sz=128",
+    "genres": [
+      "Pop",
+      "Latin",
+      "Rock Nacional",
+      "Top 40"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "AAC",
     "votes": 16700,
@@ -1251,9 +1757,15 @@
     "city": "Ciudad de México",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/WRADIO_SC",
     "homepage": "https://wradio.com.mx",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/W_Radio_logo.png/640px-W_Radio_logo.png",
-    "genres": ["News", "Talk", "Information"],
-    "languages": ["es"],
+    "logo": "https://www.google.com/s2/favicons?domain=wradio.com.mx&sz=128",
+    "genres": [
+      "News",
+      "Talk",
+      "Information"
+    ],
+    "languages": [
+      "es"
+    ],
     "bitrate": 128,
     "codec": "MP3",
     "votes": 14100,

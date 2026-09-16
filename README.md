@@ -147,11 +147,35 @@ Resposta instantânea e leve:
 | `GET` | `/api/radios/random` | Rádio aleatória com filtros opcionais |
 | `GET` | `/api/radios/top` | Rádios mais votadas mundialmente |
 | `GET` | `/api/search` | Pesquisa unificada global |
+| `GET` | `/api/radios/:id/logo` | Resolução inteligente de logótipo de alta resolução com triplo fallback |
+| `PUT` | `/api/radios/:id/logo` | Atualização ou adição manual do logótipo de uma emissora |
+| `POST` | `/api/radios/repair-logos` | Rotina de auto-cura e reparação em lote de todos os logótipos |
 | `GET` | `/api/countries` | Lista de países com contagens e bandeiras |
 | `GET` | `/api/continents` | Continentes e respetivos países |
 | `GET` | `/api/genres` | Géneros e categorias musicais mais populares |
 | `GET` | `/api/stats` | Status e contagens operacionais em tempo real |
 | `GET` | `/api/radiotop/stations/:id/info` | Informações formatadas para os ecrãs móveis do RadioTop |
+
+---
+
+## 🎨 Sistema de Gestão, Auto-Cura e Reparação de Logótipos
+
+A API dispõe agora de um motor resiliente para **eliminar logótipos quebrados ou em falta**:
+1. **Endpoint Inteligente (`GET /api/radios/:id/logo`)**:
+   - Valida se o link do logótipo responde `200 OK`.
+   - Se quebrar ou for bloqueado por *hotlink* (ex.: Wikimedia/Seeklogo), extrai o favicon oficial de 128px do domínio da estação.
+   - Se ainda assim falhar, gera instantaneamente um logótipo vetorial SVG com gradiente personalizado com as cores da bandeira do país da emissora.
+2. **Reparação em Lote via Linha de Comandos**:
+   ```bash
+   npm run repair-logos
+   ```
+   Verifica todo o catálogo `curatedRadios.json` e substitui automaticamente links quebrados por fontes de alta fidelidade permanentes.
+3. **Atualização Manual (`PUT /api/radios/:id/logo`)**:
+   ```bash
+   curl -X PUT https://api-radio.inforeis.uk/api/radios/antena1-pt/logo \
+     -H "Content-Type: application/json" \
+     -d '{"logo": "https://meusite.com/novo-logo.png"}'
+   ```
 
 ---
 
