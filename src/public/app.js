@@ -411,7 +411,11 @@ function renderStations(stations) {
  * Determinar URL de áudio (Direct vs Proxy)
  */
 function getPlayUrl(station) {
-  if (state.useProxy) {
+  const isHttpsPage = window.location.protocol === 'https:';
+  const isHttpStream = (station.streamUrl || '').startsWith('http://');
+
+  // Se a página estiver em HTTPS e o stream for HTTP não seguro, usar SEMPRE o Proxy para contornar bloqueio de Mixed Content dos browsers
+  if (state.useProxy || (isHttpsPage && isHttpStream)) {
     return `/api/radios/${station.id}/proxy`;
   }
   return `/api/radios/${station.id}/stream`;
@@ -496,6 +500,7 @@ function playStation(station, isRecovery = false) {
           default:
             console.error('HLS Fatal Error:', data);
             state.hlsInstance.destroy();
+            handlePlayError(data);
             break;
         }
       }
@@ -529,15 +534,16 @@ function handlePlayError(err) {
   if (!state.useProxy && state.currentStation) {
     console.log('Tentando reproduzir através do Proxy Resiliente...');
     state.useProxy = true;
-    elements.btnToggleProxy.classList.add('active');
+    if (elements.btnToggleProxy) elements.btnToggleProxy.classList.add('active');
     playStation(state.currentStation, true);
     return;
   }
-  elements.playerStatus.textContent = 'Erro de conexão';
+  elements.playerStatus.textContent = 'Emissora temporariamente indisponível';
   elements.playerStatus.style.color = '#f87171';
   elements.playerVisualizer.style.display = 'none';
   state.isPlaying = false;
   updatePlayIcons(false);
+  showToast(`⚠️ ${state.currentStation?.name || 'A emissora'} está temporariamente sem sinal no servidor de origem.`);
 }
 
 function pausePlayback() {
@@ -710,6 +716,11 @@ elements.audioPlayer.addEventListener('waiting', () => {
 
 elements.audioPlayer.addEventListener('stalled', () => {
   console.warn('Audio buffer stalled. Watchdog irá verificar...');
+});
+
+elements.audioPlayer.addEventListener('error', (e) => {
+  console.warn('Erro reportado pelo elemento áudio:', elements.audioPlayer.error);
+  handlePlayError(elements.audioPlayer.error || e);
 });
 
 // Retomar automaticamente quando a internet for restabelecida

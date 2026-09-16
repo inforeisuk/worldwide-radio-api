@@ -30,9 +30,10 @@ export class StreamService {
       };
 
       const proxyReq = client.request(options, (proxyRes) => {
-        // Tratar redirecionamentos automáticos no proxy (301, 302, 307)
+        // Tratar redirecionamentos automáticos no proxy (301, 302, 307, 308)
         if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
-          return StreamService.proxyStream(proxyRes.headers.location, req, res);
+          const redirectUrl = new URL(proxyRes.headers.location, targetUrl).toString();
+          return StreamService.proxyStream(redirectUrl, req, res);
         }
 
         const contentType = proxyRes.headers['content-type'] || 'audio/mpeg';
