@@ -212,4 +212,107 @@ export class RadioTopController {
 
     StreamService.proxyStream(station.streamUrl, req, res);
   }
+
+  /**
+   * Árvore de navegação estruturada para Android Auto e Apple CarPlay
+   * GET /api/radiotop/car/browse?node=root&deviceId=...
+   */
+  static getCarBrowserTree(req, res) {
+    try {
+      const activeNode = req.query.nodeId || req.query.node || 'root';
+      const deviceId = req.query.deviceId || 'car-default';
+      const userFavs = userFavoritesStore.get(deviceId) || new Set(['antena1-pt', 'rfm-pt', 'radio-comercial-pt']);
+
+      if (activeNode === 'root') {
+        const rootItems = [
+          { nodeId: 'car_favorites', mediaId: 'car_favorites', title: '★ As Minhas Favoritas', subtitle: 'Estações sincronizadas no carro', icon: 'favorite', playable: false },
+          { nodeId: 'car_featured', mediaId: 'car_featured', title: '🔥 Em Destaque', subtitle: 'Estações com maior audiência', icon: 'whatshot', playable: false },
+          { nodeId: 'countries', mediaId: 'countries', title: '🌍 Países', subtitle: 'Navegar por país', icon: 'public', playable: false },
+          { nodeId: 'car_portugal', mediaId: 'car_portugal', title: '🇵🇹 Portugal', subtitle: 'Emissoras nacionais e locais', icon: 'flag', playable: false },
+          { nodeId: 'car_brazil', mediaId: 'car_brazil', title: '🇧🇷 Brasil', subtitle: 'Principais redes brasileiras', icon: 'flag', playable: false },
+          { nodeId: 'car_news', mediaId: 'car_news', title: '📰 Notícias & Trânsito', subtitle: 'Informação em tempo real', icon: 'newspaper', playable: false },
+          { nodeId: 'car_rock_pop', mediaId: 'car_rock_pop', title: '🎸 Pop, Rock & Anos 80', subtitle: 'Música para a viagem', icon: 'music_note', playable: false }
+        ];
+
+        return res.json({
+          status: 'success',
+          nodeId: 'root',
+          mediaId: 'root',
+          title: 'RadioTop Auto',
+          playable: false,
+          items: rootItems,
+          children: rootItems
+        });
+      }
+
+      if (activeNode === 'countries') {
+        const countryItems = [
+          { nodeId: 'car_portugal', mediaId: 'car_portugal', title: '🇵🇹 Portugal', subtitle: 'Emissoras de Portugal', icon: 'flag', playable: false },
+          { nodeId: 'car_brazil', mediaId: 'car_brazil', title: '🇧🇷 Brasil', subtitle: 'Emissoras do Brasil', icon: 'flag', playable: false },
+          { nodeId: 'car_spain', mediaId: 'car_spain', title: '🇪🇸 Espanha', subtitle: 'Emissoras de Espanha', icon: 'flag', playable: false },
+          { nodeId: 'car_uk', mediaId: 'car_uk', title: '🇬🇧 Reino Unido', subtitle: 'Emissoras do Reino Unido', icon: 'flag', playable: false }
+        ];
+
+        return res.json({
+          status: 'success',
+          nodeId: 'countries',
+          mediaId: 'countries',
+          title: 'Países',
+          playable: false,
+          items: countryItems,
+          children: countryItems
+        });
+      }
+
+      let filteredStations = [];
+
+      if (activeNode === 'car_favorites') {
+        filteredStations = curatedCatalog.filter(r => userFavs.has(r.id));
+        if (filteredStations.length === 0) {
+          filteredStations = curatedCatalog.slice(0, 5); // Fallback amigável
+        }
+      } else if (activeNode === 'car_featured') {
+        filteredStations = curatedCatalog.filter(r => r.isFeatured);
+      } else if (activeNode === 'car_portugal') {
+        filteredStations = curatedCatalog.filter(r => r.countryCode === 'PT');
+      } else if (activeNode === 'car_brazil') {
+        filteredStations = curatedCatalog.filter(r => r.countryCode === 'BR');
+      } else if (activeNode === 'car_spain') {
+        filteredStations = curatedCatalog.filter(r => r.countryCode === 'ES');
+      } else if (activeNode === 'car_uk') {
+        filteredStations = curatedCatalog.filter(r => r.countryCode === 'GB');
+      } else if (activeNode === 'car_news') {
+        filteredStations = curatedCatalog.filter(r => (r.genres || []).some(g => ['News', 'Talk', 'Politics'].includes(g)));
+      } else if (activeNode === 'car_rock_pop') {
+        filteredStations = curatedCatalog.filter(r => (r.genres || []).some(g => ['Rock', 'Pop', 'Classic Rock'].includes(g)));
+      } else {
+        filteredStations = curatedCatalog.slice(0, 10);
+      }
+
+      const items = filteredStations.map(s => ({
+        nodeId: s.id,
+        mediaId: s.id,
+        title: s.name,
+        subtitle: s.description || `${s.city || s.country} • Ao Vivo`,
+        iconUri: s.logo || '',
+        mediaUri: `/api/radios/${s.id}/proxy`,
+        directUri: s.streamUrl,
+        country: s.country,
+        isFavorite: userFavs.has(s.id),
+        playable: true
+      }));
+
+      return res.json({
+        status: 'success',
+        nodeId: activeNode,
+        mediaId: activeNode,
+        total: items.length,
+        items,
+        children: items
+      });
+    } catch (err) {
+      console.error('Erro em getCarBrowserTree:', err);
+      return res.status(500).json({ error: 'Internal Server Error', message: 'Erro ao gerar catálogo para o carro.' });
+    }
+  }
 }

@@ -545,3 +545,80 @@ paths:
         '404':
           description: Letra não encontrada.
 
+  /radios/{id}/identify:
+    get:
+      summary: Identificador Musical Acústico estilo Shazam
+      description: Analisa em tempo real o áudio e os metadados da transmissão, removendo ruído e enriquecendo com links Spotify, YouTube e letra da faixa.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Faixa identificada com sucesso e links de streaming.
+        '404':
+          description: Emissora não encontrada.
+
+  /radiotop/artists/now-playing:
+    get:
+      summary: Radar de Artistas a Tocar nas Principais Emissoras
+      description: Retorna os artistas que estão a ser transmitidos em direto nas rádios mundiais monitorizadas.
+      parameters:
+        - name: artists
+          in: query
+          description: Lista separada por vírgulas de artistas a filtrar
+          schema:
+            type: string
+        - name: deviceId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de emissoras e faixas atualmente no ar.
+
+  /radiotop/artists/radar:
+    post:
+      summary: Configurar Radar de Artistas e Obter Alertas Imediatos
+      description: Regista artistas de interesse para um dispositivo e retorna onde estão a tocar no momento.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - artists
+              properties:
+                deviceId:
+                  type: string
+                artists:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Artistas monitorizados e emissoras correspondentes.
+
+  /radiotop/car/browse:
+    get:
+      summary: Navegação Hierárquica para Android Auto e Apple CarPlay
+      description: Devolve catálogo em árvore com botões grandes, categorias e metadados otimizados para ecrãs de automóveis.
+      parameters:
+        - name: nodeId
+          in: query
+          description: Identificador do nó pai ('root', 'countries', 'car_favorites', etc.)
+          schema:
+            type: string
+            default: root
+        - name: deviceId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Árvore de navegação e estações prontas para reprodução no veículo.
+
+

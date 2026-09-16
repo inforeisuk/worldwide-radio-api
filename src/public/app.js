@@ -30,6 +30,9 @@ const state = {
   sleepTimerTimeout: null,
   sleepTimerInterval: null,
   sleepRemainingSeconds: 0,
+  sleepInitialVolume: 0.8,
+  currentLang: localStorage.getItem('ww_radio_lang') || (navigator.language.startsWith('pt') ? 'pt' : (navigator.language.startsWith('es') ? 'es' : (navigator.language.startsWith('fr') ? 'fr' : (navigator.language.startsWith('de') ? 'de' : 'en')))),
+  isVoiceListening: false,
   // HLS
   hlsInstance: null,
   // Now Playing Poller & Faixa atual
@@ -65,6 +68,10 @@ const state = {
 const elements = {
   searchInput: document.getElementById('search-input'),
   searchClearBtn: document.getElementById('search-clear-btn'),
+  btnVoiceSearch: document.getElementById('btn-voice-search'),
+  btnLangToggle: document.getElementById('btn-lang-toggle'),
+  langDropdownMenu: document.getElementById('lang-dropdown-menu'),
+  currentLangText: document.getElementById('current-lang-text'),
   continentSelect: document.getElementById('continent-select'),
   countrySelect: document.getElementById('country-select'),
   sourceSelect: document.getElementById('source-select'),
@@ -85,6 +92,7 @@ const elements = {
   statCountries: document.getElementById('stat-countries'),
   // Header Actions
   btnTopCharts: document.getElementById('btn-top-charts'),
+  btnArtistRadar: document.getElementById('btn-artist-radar'),
   btnAlarm: document.getElementById('btn-alarm'),
   btnCarMode: document.getElementById('btn-car-mode'),
   btnExportM3U: document.getElementById('btn-export-m3u'),
@@ -107,6 +115,33 @@ const elements = {
   btnCopyStream: document.getElementById('btn-copy-stream'),
   btnQualityMode: document.getElementById('btn-quality-mode'),
   qualityLabel: document.getElementById('quality-label'),
+  // Shazam Identify & Share
+  btnIdentify: document.getElementById('btn-identify'),
+  identifyModal: document.getElementById('identify-modal'),
+  identifyLoading: document.getElementById('identify-loading'),
+  identifyResult: document.getElementById('identify-result'),
+  identifyTitle: document.getElementById('identify-title'),
+  identifyArtist: document.getElementById('identify-artist'),
+  identifyStation: document.getElementById('identify-station'),
+  identifySpotify: document.getElementById('identify-spotify'),
+  identifyYoutube: document.getElementById('identify-youtube'),
+  identifyLyricsBtn: document.getElementById('identify-lyrics-btn'),
+  btnCloseIdentify: document.getElementById('btn-close-identify'),
+  btnShare: document.getElementById('btn-share'),
+  shareModal: document.getElementById('share-modal'),
+  shareStationName: document.getElementById('share-station-name'),
+  shareQrcodeContainer: document.getElementById('share-qrcode-container'),
+  shareLinkInput: document.getElementById('share-link-input'),
+  btnCopyShareLink: document.getElementById('btn-copy-share-link'),
+  shareWhatsapp: document.getElementById('share-whatsapp'),
+  shareTelegram: document.getElementById('share-telegram'),
+  btnCloseShare: document.getElementById('btn-close-share'),
+  // Artist Radar Modal
+  radarModal: document.getElementById('radar-modal'),
+  radarArtistInput: document.getElementById('radar-artist-input'),
+  btnRadarSearch: document.getElementById('btn-radar-search'),
+  radarResultsList: document.getElementById('radar-results-list'),
+  btnCloseRadar: document.getElementById('btn-close-radar'),
   // Now Playing & Ações Rápidas
   nowPlayingStrip: document.getElementById('now-playing-strip'),
   npText: document.getElementById('np-text'),
@@ -188,11 +223,599 @@ function getFlagEmoji(countryCode) {
 
 const DEFAULT_LOGO = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%2280%22%20height=%2280%22><rect width=%2280%22 height=%2280%22 fill=%22%231e293b%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2232%22 fill=%22%2394a3b8%22>📻</text></svg>";
 
+/* ==========================================================================
+   Internacionalização (i18n) - PT, EN, ES, FR, DE
+   ========================================================================== */
+const translations = {
+  pt: {
+    title: 'Worldwide Radio PRO',
+    tagline: 'Streaming global resiliente & integração RadioTop Premium',
+    stationsGlobal: 'Emissoras Globais',
+    countriesSupported: 'Países Suportados',
+    antiDropMode: 'Modo Anti-Queda',
+    allStations: '🌍 Todas as Estações',
+    myFavorites: '⭐ Minhas Favoritas',
+    recentlyPlayed: '🕒 Ouvidas Recentemente',
+    searchPlaceholder: 'Pesquisar por nome da rádio, país, cidade ou género...',
+    voiceSearchTitle: 'Falar para pesquisar (Comando de Voz)',
+    voiceListening: '🎙️ A ouvir... Diga o nome da rádio, país ou género',
+    voiceError: 'Erro no reconhecimento de voz:',
+    voiceNotSupported: 'O seu navegador não suporta pesquisa por voz.',
+    random: 'Aleatória',
+    topCharts: 'Top 40',
+    radar: 'Radar Artistas',
+    alarm: 'Alarme',
+    m3uPlaylist: 'Playlist M3U',
+    installApp: 'Instalar',
+    ready: 'Pronto',
+    loading: 'A carregar...',
+    playing: 'No Ar',
+    shazamIdentify: 'Identificar Música em Direto (Shazam)',
+    shazamTitle: 'Música Reconhecida',
+    shazamAnalyzing: 'A analisar áudio da transmissão...',
+    shazamNoTrack: 'Nenhuma faixa identificada de momento',
+    share: 'Partilhar Rádio',
+    shareTitle: 'Ouvir Comigo',
+    sharePrompt: 'Aponta a câmara do telemóvel para ouvir instantaneamente',
+    shareCopied: 'Link copiado para a área de transferência!',
+    viewLyrics: 'Ver Letra',
+    sleepTimerTitle: 'Desligar áudio em:',
+    sleepTimerOff: 'Desativado',
+    sleepTimerActive: 'A rádio desligará em {m} minutos com fade-out suave.',
+    sleepTimerGoodnight: '⏰ Sleep Timer: Rádio desligada suavemente. Boa noite!',
+    radarTitle: 'Radar de Artistas Favoritos',
+    radarPlaceholder: 'Ex: Coldplay, Dua Lipa, Bárbara Tinoco...',
+    radarSearch: 'Procurar',
+    radarNowPlayingHeading: 'Artistas a tocar agora nas principais rádios:',
+    radarNotFound: 'Nenhuma rádio a tocar este artista no momento. O radar continua ativo!'
+  },
+  en: {
+    title: 'Worldwide Radio PRO',
+    tagline: 'Resilient global radio streaming & RadioTop Premium integration',
+    stationsGlobal: 'Global Stations',
+    countriesSupported: 'Supported Countries',
+    antiDropMode: 'Anti-Drop Mode',
+    allStations: '🌍 All Stations',
+    myFavorites: '⭐ My Favorites',
+    recentlyPlayed: '🕒 Recently Played',
+    searchPlaceholder: 'Search by radio name, country, city, or genre...',
+    voiceSearchTitle: 'Speak to search (Voice Command)',
+    voiceListening: '🎙️ Listening... Say a radio station, country or genre',
+    voiceError: 'Voice recognition error:',
+    voiceNotSupported: 'Your browser does not support voice search.',
+    random: 'Random',
+    topCharts: 'Top 40',
+    radar: 'Artist Radar',
+    alarm: 'Alarm',
+    m3uPlaylist: 'M3U Playlist',
+    installApp: 'Install',
+    ready: 'Ready',
+    loading: 'Loading...',
+    playing: 'On Air',
+    shazamIdentify: 'Identify Live Track (Shazam)',
+    shazamTitle: 'Track Identified',
+    shazamAnalyzing: 'Analyzing audio stream...',
+    shazamNoTrack: 'No track recognized at this moment',
+    share: 'Share Station',
+    shareTitle: 'Listen With Me',
+    sharePrompt: 'Point your phone camera to listen instantly',
+    shareCopied: 'Link copied to clipboard!',
+    viewLyrics: 'View Lyrics',
+    sleepTimerTitle: 'Turn off audio in:',
+    sleepTimerOff: 'Disabled',
+    sleepTimerActive: 'Radio will turn off in {m} minutes with gentle fade-out.',
+    sleepTimerGoodnight: '⏰ Sleep Timer: Radio faded out and stopped. Good night!',
+    radarTitle: 'Favorite Artists Radar',
+    radarPlaceholder: 'E.g.: Coldplay, Dua Lipa, The Weeknd...',
+    radarSearch: 'Search',
+    radarNowPlayingHeading: 'Artists currently playing on top stations:',
+    radarNotFound: 'No radio playing this artist right now. The radar remains active!'
+  },
+  es: {
+    title: 'Worldwide Radio PRO',
+    tagline: 'Streaming global resiliente e integración RadioTop Premium',
+    stationsGlobal: 'Emisoras Globales',
+    countriesSupported: 'Países Soportados',
+    antiDropMode: 'Modo Anti-Caída',
+    allStations: '🌍 Todas las Estaciones',
+    myFavorites: '⭐ Mis Favoritas',
+    recentlyPlayed: '🕒 Escuchadas Recientes',
+    searchPlaceholder: 'Buscar por nombre de radio, país, ciudad o género...',
+    voiceSearchTitle: 'Hablar para buscar (Comando de Voz)',
+    voiceListening: '🎙️ Escuchando... Di una radio, país o género',
+    voiceError: 'Error en reconocimiento de voz:',
+    voiceNotSupported: 'Su navegador no soporta búsqueda por voz.',
+    random: 'Aleatoria',
+    topCharts: 'Top 40',
+    radar: 'Radar Artistas',
+    alarm: 'Alarma',
+    m3uPlaylist: 'Lista M3U',
+    installApp: 'Instalar',
+    ready: 'Listo',
+    loading: 'Cargando...',
+    playing: 'En el Aire',
+    shazamIdentify: 'Identificar Canción en Directo (Shazam)',
+    shazamTitle: 'Canción Reconocida',
+    shazamAnalyzing: 'Analizando audio de la transmisión...',
+    shazamNoTrack: 'Ninguna pista identificada en este momento',
+    share: 'Compartir Radio',
+    shareTitle: 'Escucha Conmigo',
+    sharePrompt: 'Apunta la cámara del móvil para escuchar al instante',
+    shareCopied: '¡Enlace copiado al portapapeles!',
+    viewLyrics: 'Ver Letra',
+    sleepTimerTitle: 'Apagar audio en:',
+    sleepTimerOff: 'Desactivado',
+    sleepTimerActive: 'La radio se apagará en {m} minutos con fade-out suave.',
+    sleepTimerGoodnight: '⏰ Sleep Timer: Radio apagada suavemente. ¡Buenas noches!',
+    radarTitle: 'Radar de Artistas Favoritos',
+    radarPlaceholder: 'Ej: Coldplay, Rosalía, Bad Bunny...',
+    radarSearch: 'Buscar',
+    radarNowPlayingHeading: 'Artistas sonando ahora en emisoras top:',
+    radarNotFound: 'Ninguna emisora transmitiendo a este artista ahora.'
+  },
+  fr: {
+    title: 'Worldwide Radio PRO',
+    tagline: 'Streaming mondial résilient & intégration RadioTop Premium',
+    stationsGlobal: 'Radios Mondiales',
+    countriesSupported: 'Pays Supportés',
+    antiDropMode: 'Mode Anti-Coupure',
+    allStations: '🌍 Toutes les Radios',
+    myFavorites: '⭐ Mes Favorites',
+    recentlyPlayed: '🕒 Récemment Écoutées',
+    searchPlaceholder: 'Rechercher par nom de radio, pays, ville ou genre...',
+    voiceSearchTitle: 'Recherche vocale',
+    voiceListening: '🎙️ Écoute en cours... Dites une radio, pays ou genre',
+    voiceError: 'Erreur de reconnaissance vocale:',
+    voiceNotSupported: 'Votre navigateur ne prend pas en charge la recherche vocale.',
+    random: 'Aléatoire',
+    topCharts: 'Top 40',
+    radar: 'Radar Artistes',
+    alarm: 'Alarme',
+    m3uPlaylist: 'Playlist M3U',
+    installApp: 'Installer',
+    ready: 'Prêt',
+    loading: 'Chargement...',
+    playing: 'En Direct',
+    shazamIdentify: 'Identifier la musique en direct (Shazam)',
+    shazamTitle: 'Titre Reconnu',
+    shazamAnalyzing: 'Analyse du flux audio...',
+    shazamNoTrack: 'Aucun titre reconnu en ce moment',
+    share: 'Partager Radio',
+    shareTitle: 'Écoute Avec Moi',
+    sharePrompt: 'Scannez avec votre téléphone pour écouter immédiatement',
+    shareCopied: 'Lien copié dans le presse-papiers !',
+    viewLyrics: 'Voir Paroles',
+    sleepTimerTitle: 'Éteindre la radio dans :',
+    sleepTimerOff: 'Désactivé',
+    sleepTimerActive: 'La radio s\'éteindra dans {m} minutes avec fondu sonore.',
+    sleepTimerGoodnight: '⏰ Sleep Timer : Radio éteinte en douceur. Bonne nuit !',
+    radarTitle: 'Radar des Artistes Favoris',
+    radarPlaceholder: 'Ex: Stromae, Daft Punk, Coldplay...',
+    radarSearch: 'Chercher',
+    radarNowPlayingHeading: 'Artistes diffusés actuellement :',
+    radarNotFound: 'Aucune radio ne diffuse cet artiste en ce moment.'
+  },
+  de: {
+    title: 'Worldwide Radio PRO',
+    tagline: 'Globales resilient Radio-Streaming & RadioTop Premium Integration',
+    stationsGlobal: 'Globale Radiosender',
+    countriesSupported: 'Unterstützte Länder',
+    antiDropMode: 'Anti-Abbruch-Modus',
+    allStations: '🌍 Alle Sender',
+    myFavorites: '⭐ Meine Favoriten',
+    recentlyPlayed: '🕒 Zuletzt Gehört',
+    searchPlaceholder: 'Nach Sender, Land, Stadt oder Genre suchen...',
+    voiceSearchTitle: 'Sprachsuche (Sprachbefehl)',
+    voiceListening: '🎙️ Höre zu... Nennen Sie einen Sender, Land oder Genre',
+    voiceError: 'Fehler bei der Spracherkennung:',
+    voiceNotSupported: 'Ihr Browser unterstützt keine Sprachsuche.',
+    random: 'Zufall',
+    topCharts: 'Top 40',
+    radar: 'Künstler-Radar',
+    alarm: 'Wecker',
+    m3uPlaylist: 'M3U Wiedergabeliste',
+    installApp: 'Installieren',
+    ready: 'Bereit',
+    loading: 'Laden...',
+    playing: 'Auf Sendung',
+    shazamIdentify: 'Lied live erkennen (Shazam)',
+    shazamTitle: 'Erkannter Titel',
+    shazamAnalyzing: 'Audio-Stream wird analysiert...',
+    shazamNoTrack: 'Derzeit kein Titel erkannt',
+    share: 'Sender Teilen',
+    shareTitle: 'Mit Mir Hören',
+    sharePrompt: 'Mit Smartphone-Kamera scannen für Sofort-Wiedergabe',
+    shareCopied: 'Link in Zwischenablage kopiert!',
+    viewLyrics: 'Songtext',
+    sleepTimerTitle: 'Radio ausschalten in:',
+    sleepTimerOff: 'Deaktiviert',
+    sleepTimerActive: 'Radio schaltet sich in {m} Minuten mit Sanftem Ausblenden ab.',
+    sleepTimerGoodnight: '⏰ Sleep Timer: Radio sanft beendet. Gute Nacht!',
+    radarTitle: 'Lieblingskünstler-Radar',
+    radarPlaceholder: 'Z.B.: Rammstein, Coldplay, Robin Schulz...',
+    radarSearch: 'Suchen',
+    radarNowPlayingHeading: 'Künstler, die jetzt auf Top-Sendern laufen:',
+    radarNotFound: 'Kein Sender spielt diesen Künstler im Moment.'
+  }
+};
+
+function setLanguage(lang) {
+  if (!translations[lang]) lang = 'pt';
+  state.currentLang = lang;
+  localStorage.setItem('ww_radio_lang', lang);
+  if (elements.currentLangText) elements.currentLangText.textContent = lang.toUpperCase();
+  const t = translations[lang];
+
+  if (elements.searchInput) elements.searchInput.placeholder = t.searchPlaceholder;
+  if (elements.btnVoiceSearch) elements.btnVoiceSearch.title = t.voiceSearchTitle;
+  if (elements.btnIdentify) elements.btnIdentify.title = t.shazamIdentify;
+  if (elements.btnShare) elements.btnShare.title = t.share;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key]) el.textContent = t[key];
+  });
+}
+
+function initI18n() {
+  if (elements.btnLangToggle && elements.langDropdownMenu) {
+    elements.btnLangToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      elements.langDropdownMenu.style.display = elements.langDropdownMenu.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    document.addEventListener('click', () => {
+      if (elements.langDropdownMenu) elements.langDropdownMenu.style.display = 'none';
+    });
+
+    elements.langDropdownMenu.querySelectorAll('.lang-opt').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedLang = opt.dataset.lang;
+        setLanguage(selectedLang);
+        elements.langDropdownMenu.style.display = 'none';
+        showToast(`🌐 Idioma alterado para ${opt.textContent}`);
+      });
+    });
+  }
+
+  setLanguage(state.currentLang);
+}
+
+/* ==========================================================================
+   Pesquisa e Controlo por Voz (Web Speech API)
+   ========================================================================== */
+function initVoiceSearch() {
+  if (!elements.btnVoiceSearch) return;
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    elements.btnVoiceSearch.addEventListener('click', () => {
+      const t = translations[state.currentLang] || translations.pt;
+      showToast(t.voiceNotSupported);
+    });
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  elements.btnVoiceSearch.addEventListener('click', () => {
+    if (state.isVoiceListening) {
+      recognition.stop();
+      return;
+    }
+
+    const langCodes = { pt: 'pt-PT', en: 'en-US', es: 'es-ES', fr: 'fr-FR', de: 'de-DE' };
+    recognition.lang = langCodes[state.currentLang] || 'pt-PT';
+
+    try {
+      recognition.start();
+      state.isVoiceListening = true;
+      elements.btnVoiceSearch.classList.add('listening');
+      const t = translations[state.currentLang] || translations.pt;
+      showToast(t.voiceListening);
+    } catch (e) {
+      console.warn('SpeechRecognition error:', e);
+    }
+  });
+
+  recognition.onresult = (event) => {
+    state.isVoiceListening = false;
+    elements.btnVoiceSearch.classList.remove('listening');
+    if (event.results && event.results[0] && event.results[0][0]) {
+      const spokenText = event.results[0][0].transcript.trim();
+      elements.searchInput.value = spokenText;
+      state.searchQuery = spokenText;
+      state.page = 1;
+      fetchStations();
+      showToast(`🎙️ "${spokenText}"`);
+    }
+  };
+
+  recognition.onerror = (event) => {
+    state.isVoiceListening = false;
+    elements.btnVoiceSearch.classList.remove('listening');
+    const t = translations[state.currentLang] || translations.pt;
+    if (event.error !== 'no-speech') {
+      showToast(`${t.voiceError} ${event.error}`);
+    }
+  };
+
+  recognition.onend = () => {
+    state.isVoiceListening = false;
+    elements.btnVoiceSearch.classList.remove('listening');
+  };
+}
+
+/* ==========================================================================
+   Identificador Musical Estilo Shazam (GET /api/radios/:id/identify)
+   ========================================================================== */
+function initShazam() {
+  if (elements.btnIdentify) {
+    elements.btnIdentify.addEventListener('click', identifyLiveTrack);
+  }
+  if (elements.btnCloseIdentify) {
+    elements.btnCloseIdentify.addEventListener('click', () => {
+      elements.identifyModal.style.display = 'none';
+    });
+  }
+  if (elements.identifyModal) {
+    elements.identifyModal.addEventListener('click', (e) => {
+      if (e.target === elements.identifyModal) elements.identifyModal.style.display = 'none';
+    });
+  }
+}
+
+async function identifyLiveTrack() {
+  if (!state.currentStation) {
+    showToast('Selecione uma rádio para identificar a música.');
+    return;
+  }
+
+  elements.identifyModal.style.display = 'flex';
+  elements.identifyStation.textContent = state.currentStation.name;
+  elements.identifyLoading.style.display = 'block';
+  elements.identifyResult.style.display = 'none';
+
+  try {
+    const res = await fetch(`/api/radios/${state.currentStation.id}/identify`);
+    const data = await res.json();
+
+    elements.identifyLoading.style.display = 'none';
+    elements.identifyResult.style.display = 'block';
+
+    if (data.status === 'success' && data.identification) {
+      const info = data.identification;
+      elements.identifyTitle.textContent = info.track || 'Faixa Identificada';
+      elements.identifyArtist.textContent = info.artist || 'Artista Desconhecido';
+
+      const spotifyUrl = info.streamingLinks?.spotify || `https://open.spotify.com/search/${encodeURIComponent(info.artist + ' ' + info.track)}`;
+      const youtubeUrl = info.streamingLinks?.youtube || `https://www.youtube.com/results?search_query=${encodeURIComponent(info.artist + ' ' + info.track)}`;
+      
+      elements.identifySpotify.href = spotifyUrl;
+      elements.identifyYoutube.href = youtubeUrl;
+
+      elements.identifyLyricsBtn.onclick = () => {
+        elements.identifyModal.style.display = 'none';
+        openLyricsModal(info.artist, info.track);
+      };
+    } else {
+      elements.identifyTitle.textContent = 'Música não identificada';
+      elements.identifyArtist.textContent = 'Transmissão ao vivo / Locução comercial';
+      elements.identifySpotify.href = '#';
+      elements.identifyYoutube.href = '#';
+    }
+  } catch (err) {
+    elements.identifyLoading.style.display = 'none';
+    elements.identifyResult.style.display = 'block';
+    elements.identifyTitle.textContent = 'Erro na identificação';
+    elements.identifyArtist.textContent = 'Tente novamente em instantes';
+  }
+}
+
+/* ==========================================================================
+   Partilha Social "Ouvir Comigo" & QR Code SVG
+   ========================================================================== */
+function initShare() {
+  if (elements.btnShare) {
+    elements.btnShare.addEventListener('click', openShareModal);
+  }
+  if (elements.btnCloseShare) {
+    elements.btnCloseShare.addEventListener('click', () => {
+      elements.shareModal.style.display = 'none';
+    });
+  }
+  if (elements.shareModal) {
+    elements.shareModal.addEventListener('click', (e) => {
+      if (e.target === elements.shareModal) elements.shareModal.style.display = 'none';
+    });
+  }
+  if (elements.btnCopyShareLink) {
+    elements.btnCopyShareLink.addEventListener('click', copyShareLink);
+  }
+}
+
+function openShareModal() {
+  const station = state.currentStation || state.loadedStations[0];
+  if (!station) {
+    showToast('Nenhuma rádio selecionada para partilhar.');
+    return;
+  }
+
+  elements.shareModal.style.display = 'flex';
+  elements.shareStationName.textContent = `${station.name} (${station.country})`;
+
+  const shareUrl = `${window.location.origin}${window.location.pathname}?station=${encodeURIComponent(station.id)}`;
+  elements.shareLinkInput.value = shareUrl;
+
+  const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareUrl)}&bgcolor=ffffff&color=0f172a&qzone=2`;
+  elements.shareQrcodeContainer.innerHTML = `<img src="${qrImgUrl}" alt="QR Code ${station.name}" width="180" height="180" style="border-radius: 8px; display: block;" onerror="this.outerHTML='<p style=\\'color:#1e293b;padding:20px;font-size:0.8rem;\\'>${shareUrl}</p>'">`;
+
+  const shareText = `Ouve comigo a rádio ${station.name} na Worldwide Radio PRO! 📻🎶`;
+  elements.shareWhatsapp.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+  elements.shareTelegram.href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+}
+
+function copyShareLink() {
+  if (!elements.shareLinkInput) return;
+  navigator.clipboard.writeText(elements.shareLinkInput.value).then(() => {
+    showToast('🔗 Link copiado para a área de transferência!');
+  }).catch(() => {
+    elements.shareLinkInput.select();
+    document.execCommand('copy');
+    showToast('🔗 Link copiado!');
+  });
+}
+
+/* ==========================================================================
+   Radar de Artistas Favoritos (/api/radiotop/artists/...)
+   ========================================================================== */
+function initArtistRadar() {
+  if (elements.btnArtistRadar) {
+    elements.btnArtistRadar.addEventListener('click', openRadarModal);
+  }
+  if (elements.btnCloseRadar) {
+    elements.btnCloseRadar.addEventListener('click', () => {
+      elements.radarModal.style.display = 'none';
+    });
+  }
+  if (elements.radarModal) {
+    elements.radarModal.addEventListener('click', (e) => {
+      if (e.target === elements.radarModal) elements.radarModal.style.display = 'none';
+    });
+  }
+  if (elements.btnRadarSearch) {
+    elements.btnRadarSearch.addEventListener('click', () => {
+      searchArtistRadar(elements.radarArtistInput.value);
+    });
+  }
+  if (elements.radarArtistInput) {
+    elements.radarArtistInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        searchArtistRadar(elements.radarArtistInput.value);
+      }
+    });
+  }
+}
+
+async function openRadarModal() {
+  elements.radarModal.style.display = 'flex';
+  elements.radarResultsList.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-secondary);">A consultar emissoras ao vivo...</div>';
+
+  try {
+    const res = await fetch('/api/radiotop/artists/now-playing');
+    const data = await res.json();
+    if (data.status === 'success' && data.nowPlaying && data.nowPlaying.length > 0) {
+      renderRadarStations(data.nowPlaying, 'Artistas a tocar agora nas principais rádios:');
+    } else {
+      elements.radarResultsList.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-secondary);">Insira o nome de um artista para verificar onde está a tocar.</div>';
+    }
+  } catch (e) {
+    elements.radarResultsList.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-secondary);">Insira o nome de um artista para procurar no radar.</div>';
+  }
+}
+
+async function searchArtistRadar(query) {
+  if (!query || !query.trim()) return;
+  elements.radarResultsList.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--accent-cyan);">📡 A fazer varrimento de frequências mundiais...</div>';
+
+  try {
+    const res = await fetch('/api/radiotop/artists/radar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ artists: [query.trim()] })
+    });
+    const data = await res.json();
+    if (data.status === 'success' && data.matches && data.matches.length > 0) {
+      renderRadarStations(data.matches, `Encontradas ${data.matches.length} emissora(s) a tocar "${query}":`);
+    } else {
+      elements.radarResultsList.innerHTML = `
+        <div style="text-align:center; padding: 30px; color: var(--text-secondary);">
+          <span style="font-size: 2rem;">📡</span>
+          <p style="margin-top: 10px; font-weight: 600; color: #fff;">Nenhuma rádio a tocar "${query}" neste instante exato.</p>
+          <p style="font-size: 0.85rem; margin-top: 6px;">O radar continuará atento. Tente também artistas populares como Coldplay, Dua Lipa ou The Weeknd.</p>
+        </div>
+      `;
+    }
+  } catch (err) {
+    elements.radarResultsList.innerHTML = '<div style="text-align:center; padding: 20px; color: #ef4444;">Erro ao consultar o radar de artistas.</div>';
+  }
+}
+
+function renderRadarStations(stations, headingText) {
+  let html = `<div style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 10px;">${headingText}</div>`;
+  stations.forEach(item => {
+    const flag = getFlagEmoji(item.countryCode || (item.country === 'Portugal' ? 'PT' : (item.country === 'Spain' ? 'ES' : (item.country === 'United Kingdom' ? 'GB' : ''))));
+    const track = item.track || item.currentTrack || 'Música em direto';
+    const artist = item.artist ? ` - ${item.artist}` : '';
+    const logo = item.logo || item.favicon || DEFAULT_LOGO;
+    html += `
+      <div class="radar-station-card">
+        <div class="radar-station-info">
+          <img src="${logo}" class="radar-station-logo" onerror="this.src='${DEFAULT_LOGO}'" alt="${item.stationName}">
+          <div>
+            <div class="radar-track-title">🎵 ${track}${artist}</div>
+            <div class="radar-station-name">${flag} ${item.stationName} (${item.country || 'Global'})</div>
+          </div>
+        </div>
+        <button class="btn-radar-tune" data-station-id="${item.stationId}">▶ Sintonizar</button>
+      </div>
+    `;
+  });
+  elements.radarResultsList.innerHTML = html;
+
+  elements.radarResultsList.querySelectorAll('.btn-radar-tune').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const stId = btn.dataset.stationId;
+      try {
+        const res = await fetch(`/api/radios/${stId}`);
+        if (res.ok) {
+          const { station } = await res.json();
+          if (station) {
+            elements.radarModal.style.display = 'none';
+            playStation(station);
+            showToast(`📻 Sintonizada: ${station.name}`);
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao sintonizar rádio do radar:', e);
+      }
+    });
+  });
+}
+
+/* ==========================================================================
+   Deep Linking (?station=...)
+   ========================================================================== */
+function handleDeepLink() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const stationId = urlParams.get('station');
+  if (stationId) {
+    fetch(`/api/radios/${encodeURIComponent(stationId)}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.station) {
+          playStation(data.station);
+          showToast(`📻 Sintonizando deep link: ${data.station.name}`);
+        }
+      })
+      .catch(err => console.warn('Deep link error:', err));
+  }
+}
+
 /**
  * Inicialização
  */
 async function init() {
   updateFavCounter();
+  initI18n();
+  initVoiceSearch();
+  initShazam();
+  initShare();
+  initArtistRadar();
+  handleDeepLink();
   initMetadata();
   initWatchdog();
   initMediaSessionHandlers();
@@ -776,7 +1399,7 @@ function addRecent(station) {
 }
 
 /**
- * Sleep Timer
+ * Sleep Timer com Fade-Out Suave (últimos 2 minutos)
  */
 function setSleepTimer(minutes) {
   if (state.sleepTimerTimeout) clearTimeout(state.sleepTimerTimeout);
@@ -784,22 +1407,39 @@ function setSleepTimer(minutes) {
 
   if (minutes === 0) {
     elements.sleepBadge.style.display = 'none';
+    if (state.sleepInitialVolume !== undefined) {
+      elements.audioPlayer.volume = state.sleepInitialVolume;
+      elements.volumeSlider.value = state.sleepInitialVolume;
+    }
     showToast('Sleep Timer desativado');
     return;
   }
 
   state.sleepRemainingSeconds = minutes * 60;
+  state.sleepInitialVolume = elements.audioPlayer.volume || 0.8;
   elements.sleepBadge.style.display = 'block';
   elements.sleepBadge.textContent = `${minutes}m`;
-  showToast(`⏰ A rádio desligará em ${minutes} minutos.`);
+  showToast(`⏰ A rádio desligará em ${minutes} minutos com fade-out suave.`);
 
   state.sleepTimerInterval = setInterval(() => {
     state.sleepRemainingSeconds--;
+
+    // Fade-out suave nos últimos 120 segundos (2 minutos)
+    if (state.sleepRemainingSeconds <= 120 && state.sleepRemainingSeconds > 0) {
+      const fadeRatio = state.sleepRemainingSeconds / 120;
+      const currentVol = (state.sleepInitialVolume * fadeRatio).toFixed(2);
+      elements.audioPlayer.volume = parseFloat(currentVol);
+      elements.volumeSlider.value = parseFloat(currentVol);
+    }
+
     if (state.sleepRemainingSeconds <= 0) {
       clearInterval(state.sleepTimerInterval);
       elements.sleepBadge.style.display = 'none';
       pausePlayback();
-      showToast('⏰ Sleep Timer: Rádio desligada.');
+      // Restaurar volume original para a próxima sessão
+      elements.audioPlayer.volume = state.sleepInitialVolume || 0.8;
+      elements.volumeSlider.value = state.sleepInitialVolume || 0.8;
+      showToast('⏰ Sleep Timer: Rádio desligada suavemente. Boa noite!');
     } else {
       const mins = Math.ceil(state.sleepRemainingSeconds / 60);
       elements.sleepBadge.textContent = `${mins}m`;

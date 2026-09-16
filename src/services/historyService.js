@@ -112,6 +112,13 @@ export class HistoryService {
   }
 
   /**
+   * Alias de conveniência para obter faixas recentes de uma estação
+   */
+  static getRecentTracks(stationId, limit = 10) {
+    return this.getHistory(stationId, 'pop', limit);
+  }
+
+  /**
    * Gerar ranking Top das músicas mais tocadas nas rádios (Airplay Chart)
    */
   static getAirplayCharts({ country = '', genre = '', limit = 40 } = {}) {

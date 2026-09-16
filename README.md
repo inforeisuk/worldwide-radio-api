@@ -18,10 +18,15 @@ Uma API REST moderna, rápida e resiliente construída em **Node.js (Express)** 
 3. **Catálogo Híbrido Mundial**:
    - Catálogo curado local de alta performance com rádios emblemáticas mundiais.
    - Rede global descentralizada Radio-Browser com mais de 60.000 rádios e múltiplos mirrors de contingência.
-4. **Web Player Avançado**:
+4. **Web Player Avançado PRO**:
    - Separadores rápidos para **Todas as Estações**, **⭐ Minhas Favoritas** e **🕒 Ouvidas Recentemente**.
-   - **Sleep Timer (Temporizador de Desligamento)** para desligar o som automaticamente.
-   - Informação em tempo real da música e artista que estão a tocar (**Now Playing**).
+   - **Sleep Timer com Fade-Out Suave** (15, 30, 45, 60 e 90 minutos com atenuação gradual de volume nos últimos 2 minutos).
+   - **Identificador Musical estilo Shazam** (`GET /api/radios/:id/identify`): Análise acústica com links diretos para Spotify, YouTube e letra em tempo real.
+   - **Pesquisa e Comandos por Voz** (Web Speech API nativa, sem custos).
+   - **Radar de Artistas Favoritos** (`/api/radiotop/artists/*`): Alerta e localização em direto de cantores e bandas favoritas nas rádios globais.
+   - **Partilha Social "Ouvir Comigo" & QR Code SVG**: Deep links (`?station=...`) e partilha no WhatsApp e Telegram.
+   - **Navegação Android Auto & Apple CarPlay** (`GET /api/radiotop/car/browse`): Estrutura de catálogo hierárquico pronta para sistemas multimédia de veículos.
+   - **Internacionalização Multi-Idioma (i18n)**: Suporte completo para 5 línguas (Português, English, Español, Français, Deutsch).
 5. **Documentação Swagger UI**:
    - Especificação OpenAPI 3.0 completa acessível em `/docs`.
 

@@ -401,5 +401,58 @@ describe('Worldwide Radio API Tests', () => {
       assert.ok(body.message);
     }
   });
+
+  test('GET /api/radios/:id/identify identifica música em direto estilo Shazam', async () => {
+    const res = await fetch(`${baseUrl}/api/radios/radio-comercial-pt/identify`);
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'success');
+    assert.equal(body.stationId, 'radio-comercial-pt');
+    assert.ok(body.identification);
+    assert.ok(body.identification.track);
+    assert.ok(body.identification.artist);
+    assert.ok(body.identification.streamingLinks);
+    assert.ok(body.identification.streamingLinks.spotify);
+    assert.ok(body.identification.streamingLinks.youtube);
+  });
+
+  test('GET /api/radiotop/artists/now-playing retorna artistas a tocar nas rádios principais', async () => {
+    const res = await fetch(`${baseUrl}/api/radiotop/artists/now-playing`);
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'success');
+    assert.ok(Array.isArray(body.nowPlaying));
+    assert.ok(body.totalStationsChecked > 0);
+  });
+
+  test('POST /api/radiotop/artists/radar pesquisa artistas em direto nas emissoras', async () => {
+    const res = await fetch(`${baseUrl}/api/radiotop/artists/radar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ artists: ['Coldplay', 'Dua Lipa', 'Bárbara'] })
+    });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'success');
+    assert.ok(Array.isArray(body.matches));
+    assert.ok(Array.isArray(body.searchedArtists));
+  });
+
+  test('GET /api/radiotop/car/browse retorna árvore de navegação para Android Auto e Apple CarPlay', async () => {
+    const rootRes = await fetch(`${baseUrl}/api/radiotop/car/browse`);
+    assert.equal(rootRes.status, 200);
+    const rootBody = await rootRes.json();
+    assert.equal(rootBody.status, 'success');
+    assert.equal(rootBody.nodeId, 'root');
+    assert.ok(Array.isArray(rootBody.items));
+    assert.ok(rootBody.items.length >= 3);
+
+    // Navegar para o nó 'countries'
+    const countriesRes = await fetch(`${baseUrl}/api/radiotop/car/browse?nodeId=countries`);
+    assert.equal(countriesRes.status, 200);
+    const countriesBody = await countriesRes.json();
+    assert.equal(countriesBody.nodeId, 'countries');
+    assert.ok(countriesBody.items.length > 0);
+  });
 });
 

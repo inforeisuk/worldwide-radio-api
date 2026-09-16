@@ -1931,5 +1931,258 @@ body {
   transform: scale(1.05);
 }
 
+/* ==========================================================================
+   Voice Search Button & Animation
+   ========================================================================== */
+.btn-voice-search {
+  background: transparent;
+  border: none;
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-voice-search:hover {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-voice-search.listening {
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid #ef4444;
+  animation: voicePulse 1s infinite alternate;
+}
+
+@keyframes voicePulse {
+  0% { transform: scale(1); box-shadow: 0 0 4px #ef4444; }
+  100% { transform: scale(1.2); box-shadow: 0 0 16px #ef4444; }
+}
+
+/* ==========================================================================
+   Language Selector Dropdown
+   ========================================================================== */
+.lang-dropdown-wrapper {
+  position: relative;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 140px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lang-opt {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.lang-opt:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+   Shazam Acoustic Identifier Modal
+   ========================================================================== */
+.shazam-pulse {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
+  animation: pulseShazam 1.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulseShazam {
+  to {
+    box-shadow: 0 0 0 35px rgba(6, 182, 212, 0);
+  }
+}
+
+.identify-disc {
+  font-size: 3.5rem;
+  animation: rotateDisc 10s linear infinite;
+  display: inline-block;
+}
+
+@keyframes rotateDisc {
+  100% { transform: rotate(360deg); }
+}
+
+.identify-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.btn-action-music {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-spotify {
+  background: #1db954;
+  color: #fff;
+  border: none;
+}
+
+.btn-spotify:hover {
+  background: #1ed760;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.4);
+}
+
+.btn-youtube {
+  background: #ff0000;
+  color: #fff;
+  border: none;
+}
+
+.btn-youtube:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Share & QR Code Modal
+   ========================================================================== */
+.qrcode-wrapper {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 14px;
+  display: inline-block;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.qrcode-wrapper svg {
+  display: block;
+}
+
+.share-input-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.share-input-box input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Artist Radar Modal
+   ========================================================================== */
+.radar-results-box {
+  max-height: 380px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radar-station-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  padding: 12px 16px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.radar-station-card:hover {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.radar-station-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radar-station-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #1e293b;
+}
+
+.radar-track-title {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.radar-station-name {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.btn-radar-tune {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-radar-tune:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+}
+
+
 
 

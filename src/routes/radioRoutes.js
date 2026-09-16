@@ -4,8 +4,12 @@ import { StationDetailController } from '../controllers/stationDetailController.
 import { PodcastController } from '../controllers/podcastController.js';
 import { HealthController } from '../controllers/healthController.js';
 import { LyricsController } from '../controllers/lyricsController.js';
+import { RecognitionController } from '../controllers/recognitionController.js';
 
 export const radioRouter = Router();
+
+// Identificador acústico de faixas estilo Shazam
+radioRouter.get('/radios/:id/identify', RecognitionController.identify);
 
 // Pesquisa unificada
 radioRouter.get('/search', RadioController.searchRadios);
