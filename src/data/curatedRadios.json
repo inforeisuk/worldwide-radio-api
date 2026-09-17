@@ -8,6 +8,10 @@
     "continent": "Europe",
     "city": "Lisboa",
     "streamUrl": "https://radiocast.rtp.pt/antena180a.mp3",
+    "backupStreams": [
+      "https://directo-audio.rtp.pt/antena1",
+      "https://stream-hls.rtp.pt/antena1/antena1.m3u8"
+    ],
     "homepage": "https://www.rtp.pt/antena1/",
     "logo": "https://www.google.com/s2/favicons?domain=antena1.rtp.pt&sz=128",
     "genres": [
@@ -33,6 +37,9 @@
     "continent": "Europe",
     "city": "Lisboa",
     "streamUrl": "https://stream-icy.bauermedia.pt/comercial.mp3",
+    "backupStreams": [
+      "https://stream-hls.bauermedia.pt/comercial.m3u8"
+    ],
     "homepage": "https://radiocomercial.pt",
     "logo": "https://www.google.com/s2/favicons?domain=radiocomercial.pt&sz=128",
     "genres": [
@@ -58,6 +65,10 @@
     "continent": "Europe",
     "city": "Lisboa",
     "streamUrl": "https://playerservices.streamtheworld.com/api/livestream-redirect/RFM_SC.mp3",
+    "backupStreams": [
+      "https://28133.live.streamtheworld.com/RFM_SC",
+      "https://28133.live.streamtheworld.com/RFMAAC.aac"
+    ],
     "homepage": "https://rfm.pt",
     "logo": "https://www.google.com/s2/favicons?domain=rfm.pt&sz=128",
     "genres": [

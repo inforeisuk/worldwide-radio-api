@@ -3,17 +3,41 @@ import https from 'https';
 import { parse as parseUrl } from 'url';
 import { cache } from './cacheService.js';
 
+let activeStreamsCount = 0;
+
 export class StreamService {
   /**
-   * Encaminha o fluxo de áudio sem limites de timeout (Proxy Resiliente)
+   * Retorna o número de ouvintes conectados ativamente ao proxy de áudio
    */
-  static proxyStream(targetUrl, req, res) {
+  static getActiveStreamsCount() {
+    return Math.max(0, activeStreamsCount);
+  }
+
+  /**
+   * Encaminha o fluxo de áudio com suporte a failover automático multi-stream
+   */
+  static proxyStreamWithFallback(candidates, req, res, index = 0) {
+    const streamList = Array.isArray(candidates) ? candidates.filter(Boolean) : [candidates].filter(Boolean);
+    if (streamList.length === 0) {
+      if (!res.headersSent) {
+        return res.status(404).json({
+          error: 'Not Found',
+          message: 'Nenhum URL de transmissão válido configurado.'
+        });
+      }
+      return;
+    }
+
+    const currentUrl = streamList[index];
+    let clientDisconnected = false;
+    let streamActive = false;
+
     try {
-      const parsed = parseUrl(targetUrl);
+      const parsed = parseUrl(currentUrl);
       const isHttps = parsed.protocol === 'https:';
       const client = isHttps ? https : http;
 
-      // Desativar limites de timeout de socket
+      // Desativar limites de timeout de socket para streaming contínuo
       req.setTimeout(0);
       res.setTimeout(0);
 
@@ -30,10 +54,22 @@ export class StreamService {
       };
 
       const proxyReq = client.request(options, (proxyRes) => {
+        if (clientDisconnected) {
+          proxyReq.destroy();
+          return;
+        }
+
         // Tratar redirecionamentos automáticos no proxy (301, 302, 307, 308)
         if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
-          const redirectUrl = new URL(proxyRes.headers.location, targetUrl).toString();
-          return StreamService.proxyStream(redirectUrl, req, res);
+          const redirectUrl = new URL(proxyRes.headers.location, currentUrl).toString();
+          return StreamService.proxyStreamWithFallback([redirectUrl, ...streamList.slice(index + 1)], req, res, 0);
+        }
+
+        // Se o upstream retornar erro HTTP (404, 500, 502, 503) e houver backup disponível
+        if ((proxyRes.statusCode >= 400 || proxyRes.statusCode < 200) && index + 1 < streamList.length) {
+          console.warn(`[StreamService Failover] Stream #${index + 1} (${currentUrl}) retornou HTTP ${proxyRes.statusCode}. Tentando backup #${index + 2} (${streamList[index + 1]})...`);
+          proxyReq.destroy();
+          return StreamService.proxyStreamWithFallback(streamList, req, res, index + 1);
         }
 
         const contentType = proxyRes.headers['content-type'] || 'audio/mpeg';
@@ -45,25 +81,47 @@ export class StreamService {
           'Expires': '0',
           'Access-Control-Allow-Origin': '*',
           'Accept-Ranges': 'none',
-          'Connection': 'keep-alive'
+          'Connection': 'keep-alive',
+          'X-Stream-Failover-Index': index.toString()
         });
 
+        activeStreamsCount++;
+        streamActive = true;
+
         proxyRes.pipe(res);
+
+        proxyRes.on('error', (err) => {
+          console.warn(`Erro no fluxo de áudio upstream (${currentUrl}):`, err.message);
+        });
       });
 
       proxyReq.on('error', (err) => {
-        console.warn(`Erro no proxy de áudio para ${targetUrl}:`, err.message);
+        if (clientDisconnected) return;
+
+        // Se houver backup configurado, tenta o próximo stream
+        if (!res.headersSent && index + 1 < streamList.length) {
+          console.warn(`[StreamService Failover] Erro de rede em ${currentUrl} (${err.message}). Comutando para backup #${index + 2} (${streamList[index + 1]})...`);
+          proxyReq.destroy();
+          return StreamService.proxyStreamWithFallback(streamList, req, res, index + 1);
+        }
+
+        console.warn(`Erro irrecuperável no proxy de áudio para ${currentUrl}:`, err.message);
         if (!res.headersSent) {
           res.status(502).json({
             error: 'Bad Gateway',
-            message: 'Não foi possível conectar ao fluxo de áudio da emissora.'
+            message: 'Não foi possível conectar ao fluxo de áudio da emissora nem aos streams de backup.'
           });
         }
       });
 
-      // Fechar ligação upstream quando o utilizador desconectar o reprodutor
+      // Fechar ligação upstream e decrementar contador quando o utilizador desconectar o reprodutor
       req.on('close', () => {
+        clientDisconnected = true;
         proxyReq.destroy();
+        if (streamActive) {
+          activeStreamsCount = Math.max(0, activeStreamsCount - 1);
+          streamActive = false;
+        }
       });
 
       proxyReq.end();
@@ -73,6 +131,13 @@ export class StreamService {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     }
+  }
+
+  /**
+   * Mantém retrocompatibilidade direta com chamadas a proxyStream
+   */
+  static proxyStream(targetUrl, req, res) {
+    return StreamService.proxyStreamWithFallback([targetUrl], req, res, 0);
   }
 
   /**

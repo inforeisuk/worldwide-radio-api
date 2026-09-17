@@ -20,7 +20,12 @@ describe('Worldwide Radio API Tests', () => {
   });
 
   after(async () => {
-    await new Promise((resolve) => server.close(resolve));
+    if (server) {
+      if (typeof server.closeAllConnections === 'function') {
+        server.closeAllConnections();
+      }
+      await new Promise((resolve) => server.close(resolve));
+    }
   });
 
   test('GET /api/radios deve retornar lista de emissoras curadas paginadas', async () => {
@@ -496,6 +501,26 @@ describe('Worldwide Radio API Tests', () => {
     assert.ok(body.totalChecked > 0);
     assert.ok(typeof body.totalRepaired === 'number');
   });
+
+  test('GET /api/diagnostics retorna telemetria do sistema, memória e status saudável', async () => {
+    const res = await fetch(`${baseUrl}/api/diagnostics`);
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.status, 'healthy');
+    assert.ok(body.memory.heapUsedMB > 0);
+    assert.ok(body.system.nodeVersion);
+    assert.ok(typeof body.traffic.activeStreamListeners === 'number');
+    assert.equal(body.catalog.multiStreamFailover, 'active');
+  });
+
+  test('Headers de Segurança HTTP e Rate Limiting presentes na resposta', async () => {
+    const res = await fetch(`${baseUrl}/api/stats`);
+    assert.equal(res.status, 200);
+    assert.equal(res.headers.get('x-content-type-options'), 'nosniff');
+    assert.equal(res.headers.get('x-frame-options'), 'SAMEORIGIN');
+    assert.ok(res.headers.get('ratelimit-limit'), 'Deve conter header de rate limit');
+  });
 });
+
 
 

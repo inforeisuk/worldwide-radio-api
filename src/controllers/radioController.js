@@ -358,7 +358,12 @@ export class RadioController {
         });
       }
 
-      StreamService.proxyStream(radio.streamUrl, req, res);
+      const candidates = [
+        radio.streamUrl,
+        ...(Array.isArray(radio.backupStreams) ? radio.backupStreams : [])
+      ].filter(Boolean);
+
+      StreamService.proxyStreamWithFallback(candidates, req, res);
     } catch (err) {
       console.error('Erro em proxyRadio:', err);
       if (!res.headersSent) {

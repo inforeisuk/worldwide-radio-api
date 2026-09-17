@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { MetaController } from '../controllers/metaController.js';
+import { DiagnosticsController } from '../controllers/diagnosticsController.js';
 
 export const metaRouter = Router();
+
+// Diagnóstico e telemetria operacional em tempo real
+metaRouter.get('/diagnostics', DiagnosticsController.getDiagnostics);
 
 // Países com contagem de emissoras
 metaRouter.get('/countries', MetaController.getCountries);
