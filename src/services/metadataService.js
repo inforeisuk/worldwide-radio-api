@@ -3,6 +3,41 @@ import { cache } from './cacheService.js';
 
 export class MetadataService {
   /**
+   * Pesquisa uma música na API do iTunes e devolve a capa de Alta Resolução e o link da Apple Music.
+   */
+  static async fetchAlbumArt(artist, song) {
+    if (!artist || !song) return { albumArtUrl: null, trackUrl: null };
+    
+    try {
+      const query = encodeURIComponent(`${artist} ${song}`);
+      const url = `https://itunes.apple.com/search?term=${query}&entity=song&limit=1`;
+      
+      const response = await fetch(url);
+      if (!response.ok) return { albumArtUrl: null, trackUrl: null };
+      
+      const data = await response.json();
+      if (data.results && data.results.length > 0) {
+        const track = data.results[0];
+        let albumArtUrl = track.artworkUrl100 || null;
+        
+        // Magia: Converter a capa 100x100px para Alta Resolução (600x600)
+        if (albumArtUrl) {
+          albumArtUrl = albumArtUrl.replace('100x100bb', '600x600bb');
+        }
+        
+        return {
+          albumArtUrl,
+          trackUrl: track.trackViewUrl || null
+        };
+      }
+      return { albumArtUrl: null, trackUrl: null };
+    } catch (err) {
+      console.error('Erro na integração iTunes:', err.message);
+      return { albumArtUrl: null, trackUrl: null };
+    }
+  }
+
+  /**
    * Obtém a música e artista atual (Now Playing) de uma stream Icecast/Shoutcast
    */
   static getNowPlaying(streamUrl) {
@@ -32,7 +67,7 @@ export class MetadataService {
       });
 
       // Quando a metadata for lida com sucesso
-      parser.on('metadata', (metadata) => {
+      parser.on('metadata', async (metadata) => {
         const titleString = metadata.get('StreamTitle') || null;
         let artist = null;
         let song = null;
@@ -48,10 +83,15 @@ export class MetadataService {
           }
         }
 
+        // Buscar capa do álbum no iTunes
+        const appleData = await MetadataService.fetchAlbumArt(artist, song);
+
         const data = {
           rawTitle: titleString,
           artist,
-          song
+          song,
+          albumArt: appleData.albumArtUrl,
+          appleMusicUrl: appleData.trackUrl
         };
 
         // Guardar na cache (30 segundos para aliviar tráfego)
