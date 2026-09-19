@@ -124,11 +124,11 @@
       <div class="search-actions-bar">
         <button id="btn-toggle-filters" class="btn-filter-toggle" type="button">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-          <span>Filtros</span>
+          <span data-i18n="filters">Filtros</span>
           <span id="active-filters-badge" class="filter-count-badge" style="display: none;">0</span>
           <svg class="filter-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <button id="btn-reset-filters" class="btn-filter-reset" style="display: none;">Limpar filtros</button>
+        <button id="btn-reset-filters" class="btn-filter-reset" style="display: none;"><span data-i18n="clearFilters">Limpar filtros</span></button>
       </div>
 
       <!-- Filter Controls Row (Collapsible on mobile) -->
@@ -136,23 +136,23 @@
         <div class="filters-row">
           <!-- Continent Select -->
           <div class="filter-group">
-            <label for="continent-select">Continente:</label>
+            <label for="continent-select" data-i18n="continent">Continente:</label>
             <select id="continent-select">
-              <option value="">Todos os Continentes</option>
-              <option value="Europe">🌍 Europa</option>
-              <option value="South America">🌎 América do Sul</option>
-              <option value="North America">🌎 América do Norte</option>
-              <option value="Asia">🌏 Ásia</option>
-              <option value="Africa">🌍 África</option>
+              <option value="" data-i18n="allContinents">Todos os Continentes</option>
+              <option value="Europe" data-i18n="europe">🌍 Europa</option>
+              <option value="South America" data-i18n="southAmerica">🌎 América do Sul</option>
+              <option value="North America" data-i18n="northAmerica">🌎 América do Norte</option>
+              <option value="Asia" data-i18n="asia">🌏 Ásia</option>
+              <option value="Africa" data-i18n="africa">🌍 África</option>
               <option value="Oceania">🌏 Oceania</option>
             </select>
           </div>
 
           <!-- Country Select -->
           <div class="filter-group">
-            <label for="country-select">País:</label>
+            <label for="country-select" data-i18n="country">País:</label>
             <select id="country-select">
-              <option value="">Todos os Países</option>
+              <option value="" data-i18n="allCountries">Todos os Países</option>
             </select>
           </div>
 
@@ -168,7 +168,7 @@
 
           <!-- Sort -->
           <div class="filter-group">
-            <label for="sort-select">Ordenar por:</label>
+            <label for="sort-select" data-i18n="sortBy">Ordenar por:</label>
             <select id="sort-select">
               <option value="votes">🔥 Mais Populares</option>
               <option value="name">🔤 Nome (A-Z)</option>
@@ -350,7 +350,7 @@
     </button>
     <button class="nav-tab" data-tab="recents">
       <span class="nav-tab-icon">🕒</span>
-      <span class="nav-tab-label">Recentes</span>
+      <span class="nav-tab-label" data-i18n="mobileRecents">Recentes</span>
     </button>
     <button class="nav-tab" id="nav-btn-top-charts">
       <span class="nav-tab-icon">🏆</span>
@@ -558,8 +558,8 @@
         <div class="modal-brand">
           <span class="brand-icon">📝</span>
           <div>
-            <h2 id="lyrics-title">Letra da Música</h2>
-            <p id="lyrics-artist" class="modal-slogan">Artista</p>
+            <h2 id="lyrics-title" data-i18n="shazamTitle">Letra da Música</h2>
+            <p id="lyrics-artist" class="modal-slogan" data-i18n="shazamArtist">Artista</p>
           </div>
         </div>
         <button id="btn-close-lyrics" class="btn-close-modal" title="Fechar">✕</button>
@@ -647,8 +647,8 @@
         <div class="sheet-title-box">
           <span class="sheet-icon">📻</span>
           <div>
-            <h3>Menu Worldwide Radio</h3>
-            <p>Ações e Ferramentas Rápidas</p>
+            <h3 data-i18n="menuTitle">Menu Worldwide Radio</h3>
+            <p data-i18n="menuSubtitle">Ações e Ferramentas Rápidas</p>
           </div>
         </div>
         <button id="btn-close-mobile-menu" class="btn-close-modal">✕</button>
@@ -656,11 +656,11 @@
       <div class="sheet-grid">
         <button id="m-action-car" class="sheet-item">
           <span class="sheet-item-icon">🚗</span>
-          <span class="sheet-item-text">Modo Carro</span>
+          <span class="sheet-item-text" data-i18n="carMode">Modo Carro</span>
         </button>
         <button id="m-action-m3u" class="sheet-item">
           <span class="sheet-item-icon">📥</span>
-          <span class="sheet-item-text">Playlist M3U</span>
+          <span class="sheet-item-text" data-i18n="m3uPlaylist">Playlist M3U</span>
         </button>
         <button id="m-action-random" class="sheet-item">
           <span class="sheet-item-icon">🎲</span>
@@ -672,7 +672,7 @@
         </button>
         <button id="m-action-install" class="sheet-item">
           <span class="sheet-item-icon">📲</span>
-          <span class="sheet-item-text">Instalar App</span>
+          <span class="sheet-item-text" data-i18n="installApp">Instalar App</span>
         </button>
       </div>
       <!-- Seletor de Idioma no Sheet -->
