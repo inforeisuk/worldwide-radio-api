@@ -2582,3 +2582,10 @@ body {
   color: #38bdf8;
   border-color: #38bdf8;
 }
+
+/* Esconder barra de filtros no Desktop */
+@media (min-width: 769px) {
+  .search-actions-bar {
+    display: none !important;
+  }
+}

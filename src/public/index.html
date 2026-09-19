@@ -32,20 +32,11 @@
         <img src="/inforeis-logo.png" alt="iNFOREIS Logo" style="height: 44px; margin-right: 12px;" onerror="this.style.display='none'">
         <span class="brand-icon">📻</span>
         <div class="brand-text">
-          <h1>Worldwide Radio <span class="badge-live">PRO</span></h1>
-          <p class="tagline">Streaming global resiliente & integração RadioTop Premium</p>
+          <h1><span data-i18n="title">Worldwide Radio</span> <span class="badge-live">PRO</span></h1>
+          <p class="tagline" data-i18n="tagline">Streaming global resiliente & integração RadioTop Premium</p>
         </div>
       </div>
       <div class="header-actions desktop-only">
-        <button id="btn-top-charts" class="btn btn-secondary" title="Top 40 Músicas Mais Tocadas nas Rádios">
-          🏆 Top 40
-        </button>
-        <button id="btn-artist-radar" class="btn btn-secondary" title="Radar de Artistas Favoritos">
-          🔔 <span data-i18n="radar">Radar Artistas</span>
-        </button>
-        <button id="btn-alarm" class="btn btn-secondary" title="Despertador Inteligente">
-          ⏰ <span data-i18n="alarm">Alarme</span>
-        </button>
         <button id="btn-export-m3u" class="btn btn-secondary" title="Descarregar lista M3U para VLC / Smart TV">
           📥 Playlist M3U
         </button>
@@ -92,12 +83,12 @@
     <!-- Stats Banner -->
     <section class="stats-banner glass-card" id="stats-banner">
       <div class="stat-item">
-        <span class="stat-label">Emissoras Globais</span>
+        <span class="stat-label" data-i18n="stationsGlobal">Emissoras Globais</span>
         <span class="stat-value" id="stat-total-stations">40.000+</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-label">Países Suportados</span>
+        <span class="stat-label" data-i18n="countriesSupported">Países Suportados</span>
         <span class="stat-value" id="stat-countries">200+</span>
       </div>
       <div class="stat-divider"></div>
@@ -107,16 +98,17 @@
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-label">Modo Anti-Queda</span>
+        <span class="stat-label" data-i18n="antiDropMode">Modo Anti-Queda</span>
         <span class="stat-value status-online">⚡ Watchdog ON</span>
       </div>
     </section>
 
     <!-- Navigation Tabs (Todas, Favoritas, Recentes) -->
     <div class="view-tabs-container">
-      <button class="view-tab active" data-tab="all">🌍 Todas as Estações</button>
-      <button class="view-tab" data-tab="favorites">⭐ Minhas Favoritas <span id="fav-counter" class="tab-badge">0</span></button>
-      <button class="view-tab" data-tab="recents">🕒 Ouvidas Recentemente</button>
+      <button class="view-tab active" data-tab="all" data-i18n="allStations">🌍 Todas as Estações</button>
+      <button class="view-tab" data-tab="favorites">
+        <span data-i18n="myFavorites">⭐ Minhas Favoritas</span> <span id="fav-counter" class="tab-badge">0</span></button>
+      <button class="view-tab" data-tab="recent" data-i18n="recentlyPlayed">🕒 Ouvidas Recentemente</button>
     </div>
 
     <!-- Search & Filter Controls -->
@@ -353,7 +345,7 @@
     </button>
     <button class="nav-tab" data-tab="favorites">
       <span class="nav-tab-icon">⭐</span>
-      <span class="nav-tab-label">Favoritas</span>
+      <span class="nav-tab-label" data-i18n="myFavorites">Favoritas</span>
       <span id="mobile-fav-counter" class="nav-tab-badge" style="display: none;">0</span>
     </button>
     <button class="nav-tab" data-tab="recents">
@@ -557,82 +549,7 @@
         <input type="range" id="car-volume-slider" min="0" max="1" step="0.05" value="0.8" class="car-volume-slider">
       </div>
     </div>
-  <!-- Modal do Despertador Rádio Inteligente (Radio Alarm Clock) -->
-  <div id="alarm-modal" class="modal-backdrop" style="display: none;">
-    <div class="modal-dialog glass-card" style="max-width: 480px;">
-      <div class="modal-header">
-        <div class="modal-brand">
-          <span class="brand-icon">⏰</span>
-          <div>
-            <h2>Despertador Rádio</h2>
-            <p class="modal-slogan">Acorde suavemente com a sua emissora favorita</p>
-          </div>
-        </div>
-        <button id="btn-close-alarm" class="btn-close-modal" title="Fechar">✕</button>
-      </div>
-      
-      <div class="modal-body" style="padding: 20px;">
-        <div class="alarm-settings-group">
-          <label for="alarm-time-input" style="display: block; font-weight: 600; margin-bottom: 8px;">Hora do Despertador:</label>
-          <input type="time" id="alarm-time-input" value="07:30" class="alarm-time-picker">
-        </div>
 
-        <div class="alarm-settings-group" style="margin-top: 16px;">
-          <label style="display: block; font-weight: 600; margin-bottom: 8px;">Rádio de Despertar:</label>
-          <div id="alarm-station-display" class="alarm-station-box">
-            <span id="alarm-station-name">Estação Atual</span>
-            <span id="alarm-station-change" class="alarm-change-hint">(A rádio selecionada no leitor será usada)</span>
-          </div>
-        </div>
-
-        <div class="alarm-settings-group" style="margin-top: 16px;">
-          <label style="display: block; font-weight: 600; margin-bottom: 8px;">Aumento Suave de Volume (Fade-in):</label>
-          <select id="alarm-fade-select" class="filter-select" style="width: 100%;">
-            <option value="15">15 segundos (Suave)</option>
-            <option value="30" selected>30 segundos (Recomendado)</option>
-            <option value="60">60 segundos (Muito Gradual)</option>
-            <option value="0">Instantâneo</option>
-          </select>
-        </div>
-
-        <div class="alarm-status-banner" id="alarm-status-banner" style="margin-top: 20px; display: none;">
-          <span class="alarm-active-indicator">●</span>
-          <span id="alarm-status-text">Despertador ativado para as 07:30</span>
-        </div>
-
-        <div style="margin-top: 24px; display: flex; gap: 12px;">
-          <button id="btn-toggle-alarm" class="btn btn-accent" style="flex: 1;">Ativar Despertador</button>
-          <button id="btn-cancel-alarm" class="btn btn-secondary" style="display: none;">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal do Top 40 Airplay Charts -->
-  <div id="charts-modal" class="modal-backdrop" style="display: none;">
-    <div class="modal-dialog glass-card" style="max-width: 780px;">
-      <div class="modal-header">
-        <div class="modal-brand">
-          <span class="brand-icon">🔥</span>
-          <div>
-            <h2>Top 40 das Rádios</h2>
-            <p class="modal-slogan">As músicas mais tocadas nas emissoras (Airplay Chart)</p>
-          </div>
-        </div>
-        <button id="btn-close-charts" class="btn-close-modal" title="Fechar">✕</button>
-      </div>
-
-      <div class="modal-body" style="padding: 20px;">
-        <div class="charts-header-bar">
-          <span class="charts-period-badge">📅 Atualizado em tempo real</span>
-          <span id="charts-count-badge" class="badge-history-live">40 faixas</span>
-        </div>
-        <div id="charts-list" class="charts-list-container">
-          <!-- Injetado via JS -->
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal de Letras de Músicas (Lyrics Finder) -->
   <div id="lyrics-modal" class="modal-backdrop" style="display: none;">
@@ -672,6 +589,7 @@
       <div class="modal-body" style="padding: 24px; text-align: center;">
         <div id="identify-loading" style="display: none; padding: 20px;">
           <div class="shazam-pulse"></div>
+          <div class="stat-label" data-i18n="loading">A carregar...</div>
           <p style="margin-top: 15px; color: var(--accent-cyan);">A analisar áudio da transmissão...</p>
         </div>
         <div id="identify-result" style="display: none;">
@@ -720,30 +638,6 @@
     </div>
   </div>
 
-  <!-- Modal de Radar de Artistas Favoritos -->
-  <div id="radar-modal" class="modal-backdrop" style="display: none;">
-    <div class="modal-dialog glass-card" style="max-width: 580px;">
-      <div class="modal-header">
-        <div class="modal-brand">
-          <span class="brand-icon">🔔</span>
-          <div>
-            <h2>Radar de Artistas Favoritos</h2>
-            <p class="modal-slogan">Descobre onde estão a tocar os teus cantores preferidos</p>
-          </div>
-        </div>
-        <button id="btn-close-radar" class="btn-close-modal" title="Fechar">✕</button>
-      </div>
-      <div class="modal-body" style="padding: 20px;">
-        <div class="radar-input-row" style="display: flex; gap: 10px; margin-bottom: 20px;">
-          <input type="text" id="radar-artist-input" placeholder="Ex: Coldplay, Dua Lipa, Bárbara Tinoco..." style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: #fff;">
-          <button id="btn-radar-search" class="btn btn-accent">Procurar</button>
-        </div>
-        <div id="radar-results-list" class="radar-results-box">
-          <!-- Injetado dinamicamente via JS -->
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Sheet Modal: Mobile Menu Principal (Estilo iOS Action Sheet) -->
   <div id="mobile-menu-modal" class="modal-backdrop modal-bottom-sheet" style="display: none;">
@@ -760,18 +654,6 @@
         <button id="btn-close-mobile-menu" class="btn-close-modal">✕</button>
       </div>
       <div class="sheet-grid">
-        <button id="m-action-top40" class="sheet-item">
-          <span class="sheet-item-icon">🏆</span>
-          <span class="sheet-item-text">Top 40 Airplay</span>
-        </button>
-        <button id="m-action-radar" class="sheet-item">
-          <span class="sheet-item-icon">🔔</span>
-          <span class="sheet-item-text">Radar Artistas</span>
-        </button>
-        <button id="m-action-alarm" class="sheet-item">
-          <span class="sheet-item-icon">⏰</span>
-          <span class="sheet-item-text">Despertador</span>
-        </button>
         <button id="m-action-car" class="sheet-item">
           <span class="sheet-item-icon">🚗</span>
           <span class="sheet-item-text">Modo Carro</span>
@@ -862,7 +744,7 @@
   <div id="toast" class="toast">Notificação</div>
 
   <!-- Audio Element -->
-  <audio id="audio-player" preload="none"></audio>
+  <audio id="audio-player" crossorigin="anonymous" preload="none"></audio>
 
   <script src="app.js"></script>
 </body>

@@ -2627,7 +2627,7 @@ function setupMobileExperience() {
     state.selectedGenre = '';
     document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', !c.dataset.genre));
     updateFilterBadge();
-    loadRadios(true);
+    fetchStations();
     showToast('Filtros repostos.');
   });
 
@@ -2761,7 +2761,7 @@ function setupMobileExperience() {
 
         state.currentTab = tabType;
         state.currentPage = 1;
-        loadRadios(true);
+        fetchStations();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });

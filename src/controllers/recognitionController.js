@@ -38,6 +38,16 @@ export class RecognitionController {
 
       const result = await RecognitionService.identifyTrack(radio);
 
+      if (!result) {
+        return res.json({
+          status: 'error',
+          stationId: radio.id,
+          stationName: radio.name,
+          identification: null,
+          message: 'Não foi possível identificar a música desta transmissão.'
+        });
+      }
+
       return res.json({
         status: 'success',
         stationId: radio.id,
