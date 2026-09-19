@@ -56,7 +56,19 @@ try {
   const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
     customCss: `
-      .swagger-ui .topbar { display: none }
+      .swagger-ui .topbar { background-color: #0f172a; border-bottom: 1px solid #1e293b; }
+      .swagger-ui .topbar-wrapper { display: flex; align-items: center; }
+      .swagger-ui .topbar-wrapper::before {
+         content: '';
+         display: inline-block;
+         width: 140px;
+         height: 50px;
+         background-image: url('/inforeis-logo.png');
+         background-size: contain;
+         background-repeat: no-repeat;
+         margin-right: 20px;
+      }
+      .swagger-ui .topbar-wrapper a { display: none; }
       .swagger-ui { background-color: #0f172a; color: #f8fafc; }
       .swagger-ui .info .title { color: #38bdf8; }
     `,
@@ -65,6 +77,11 @@ try {
 } catch (err) {
   console.warn('Aviso: Não foi possível carregar o swagger.yaml:', err.message);
 }
+
+// Servir o Logo através de um endpoint da API
+app.get('/api/logo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'inforeis-logo.png'));
+});
 
 // Health check desprotegido (para o Render não falhar)
 app.get('/health', (req, res) => {
