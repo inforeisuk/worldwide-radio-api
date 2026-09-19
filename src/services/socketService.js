@@ -89,54 +89,58 @@ export class SocketService {
     if (this.pollInterval) clearInterval(this.pollInterval);
 
     this.pollInterval = setInterval(async () => {
-      if (this.activeStations.size === 0) return;
+      try {
+        if (this.activeStations.size === 0) return;
 
-      const catalog = await DBService.getAllRadios();
+        const catalog = await DBService.getAllRadios();
 
-      for (const stationId of this.activeStations) {
-        try {
-          const radio = catalog.find(r => r.id === stationId);
-          if (!radio || !radio.streamUrl) continue;
+        for (const stationId of this.activeStations) {
+          try {
+            const radio = catalog.find(r => r.id === stationId);
+            if (!radio || !radio.streamUrl) continue;
 
-          // Lê o Now Playing atual usando o nosso MetadataService (com cache integrada)
-          // Se a stream usar Icecast, o getNowPlaying faz fetch. Se for normal, usa metadata fallback
-          const np = await StreamService.getNowPlaying(radio.streamUrl);
-          
-          // Verificar se a música mudou desde a última vez
-          const last = this.lastPlayedCache.get(stationId);
-          
-          if (!last || last.rawTitle !== np.raw) {
-            // Nova música detetada! Vamos buscar a capa ao iTunes através do MetadataService
-            // Isto é um truque: o getNowPlaying normal não faz a magia da Apple por si só,
-            // temos de usar o fetchAlbumArt
-            let appleData = { albumArtUrl: null, trackUrl: null };
+            // Lê o Now Playing atual usando o nosso MetadataService (com cache integrada)
+            // Se a stream usar Icecast, o getNowPlaying faz fetch. Se for normal, usa metadata fallback
+            const np = await StreamService.getNowPlaying(radio.streamUrl);
             
-            if (np.artist && np.title) {
-              appleData = await MetadataService.fetchAlbumArt(np.artist, np.title);
+            // Verificar se a música mudou desde a última vez
+            const last = this.lastPlayedCache.get(stationId);
+            
+            if (!last || last.rawTitle !== np.raw) {
+              // Nova música detetada! Vamos buscar a capa ao iTunes através do MetadataService
+              // Isto é um truque: o getNowPlaying normal não faz a magia da Apple por si só,
+              // temos de usar o fetchAlbumArt
+              let appleData = { albumArtUrl: null, trackUrl: null };
+              
+              if (np.artist && np.title) {
+                appleData = await MetadataService.fetchAlbumArt(np.artist, np.title);
+              }
+
+              const payload = {
+                stationId: radio.id,
+                stationName: radio.name,
+                rawTitle: np.raw,
+                artist: np.artist,
+                song: np.title,
+                albumArt: appleData.albumArtUrl,
+                appleMusicUrl: appleData.trackUrl,
+                timestamp: Date.now()
+              };
+
+              // Guarda na cache para os próximos utilizadores
+              this.lastPlayedCache.set(stationId, payload);
+
+              // EMPURRA a nova música para todos os telemóveis a ouvir esta rádio (Tempo Real)
+              this.io.to(stationId).emit('now_playing', payload);
+              console.log(`🎶 [WebSocket] Nova música empurrada para ${stationId}: ${np.raw}`);
             }
 
-            const payload = {
-              stationId: radio.id,
-              stationName: radio.name,
-              rawTitle: np.raw,
-              artist: np.artist,
-              song: np.title,
-              albumArt: appleData.albumArtUrl,
-              appleMusicUrl: appleData.trackUrl,
-              timestamp: Date.now()
-            };
-
-            // Guarda na cache para os próximos utilizadores
-            this.lastPlayedCache.set(stationId, payload);
-
-            // EMPURRA a nova música para todos os telemóveis a ouvir esta rádio (Tempo Real)
-            this.io.to(stationId).emit('now_playing', payload);
-            console.log(`🎶 [WebSocket] Nova música empurrada para ${stationId}: ${np.raw}`);
+          } catch (err) {
+            console.error(`Erro no polling WebSocket da estação ${stationId}:`, err.message);
           }
-
-        } catch (err) {
-          console.error(`Erro no polling WebSocket da estação ${stationId}:`, err.message);
         }
+      } catch (globalErr) {
+        console.error('Erro global no WebSocket Polling Engine:', globalErr);
       }
     }, 10000); // Poll a cada 10 segundos
   }
