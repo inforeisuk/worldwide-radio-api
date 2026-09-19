@@ -94,7 +94,7 @@
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-label">RadioTop Sync</span>
-        <span class="stat-value status-online">✓ Ativo</span>
+        <span class="stat-value status-online">✓ <span data-i18n="active">Ativo</span></span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
@@ -180,15 +180,15 @@
       <!-- Quick Genre Badges & Nearby Action -->
       <div class="genres-chips-container" id="genres-container">
         <button id="btn-nearby" class="chip chip-special" title="Detetar automaticamente a sua localização e mostrar rádios do seu país">
-          📍 Perto de Mim
+          📍 <span data-i18n="nearMe">Perto de Mim</span>
         </button>
-        <button class="chip active" data-genre="">Todos</button>
+        <button class="chip active" data-genre="" data-i18n="genreAll">Todos</button>
         <button class="chip" data-genre="Pop">Pop</button>
-        <button class="chip" data-genre="News">Notícias</button>
+        <button class="chip" data-genre="News" data-i18n="genreNews">Notícias</button>
         <button class="chip" data-genre="Rock">Rock</button>
         <button class="chip" data-genre="Jazz">Jazz</button>
-        <button class="chip" data-genre="Classical">Clássica</button>
-        <button class="chip" data-genre="Electronic">Eletrónica</button>
+        <button class="chip" data-genre="Classical" data-i18n="genreClassical">Clássica</button>
+        <button class="chip" data-genre="Electronic" data-i18n="genreElectronic">Eletrónica</button>
         <button class="chip" data-genre="Talk">Talk</button>
         <button class="chip" data-genre="Ambient">Ambient</button>
       </div>
@@ -441,6 +441,7 @@
         </div>
       </div>
     </div>
+  </div>
   <!-- Modal do Equalizador de Áudio (Web Audio API) -->
   <div id="eq-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-dialog glass-card eq-dialog">
@@ -549,8 +550,7 @@
         <input type="range" id="car-volume-slider" min="0" max="1" step="0.05" value="0.8" class="car-volume-slider">
       </div>
     </div>
-
-
+    </div>
   <!-- Modal de Letras de Músicas (Lyrics Finder) -->
   <div id="lyrics-modal" class="modal-backdrop" style="display: none;">
     <div class="modal-dialog glass-card" style="max-width: 620px;">

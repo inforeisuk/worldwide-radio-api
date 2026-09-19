@@ -300,7 +300,18 @@ const translations = {
     mobileAll: 'Todas',
     mobileFavs: 'Favoritas',
     mobileRecents: 'Recentes',
-    mobileMenu: 'Menu'
+    mobileMenu: 'Menu',
+    active: 'Ativo',
+    nearMe: 'Perto de Mim',
+    genreAll: 'Todos',
+    genreNews: 'Notícias',
+    genreClassical: 'Clássica',
+    genreElectronic: 'Eletrónica',
+    foundSuffix: ' encontrada',
+    foundSuffixPlural: ' encontradas',
+    resultsFor: 'Resultados para',
+    resultsIn: 'em',
+    noFilters: 'Sem filtros'
   },
   en: {
     title: 'Worldwide Radio PRO',
@@ -375,7 +386,18 @@ const translations = {
     mobileAll: 'All',
     mobileFavs: 'Favorites',
     mobileRecents: 'Recents',
-    mobileMenu: 'Menu'
+    mobileMenu: 'Menu',
+    active: 'Active',
+    nearMe: 'Near Me',
+    genreAll: 'All',
+    genreNews: 'News',
+    genreClassical: 'Classical',
+    genreElectronic: 'Electronic',
+    foundSuffix: ' found',
+    foundSuffixPlural: ' found',
+    resultsFor: 'Results for',
+    resultsIn: 'in',
+    noFilters: 'No filters'
   },
   es: {
     title: 'Worldwide Radio PRO',
@@ -450,7 +472,18 @@ const translations = {
     mobileAll: 'Todas',
     mobileFavs: 'Favoritas',
     mobileRecents: 'Recientes',
-    mobileMenu: 'Menú'
+    mobileMenu: 'Menú',
+    active: 'Activo',
+    nearMe: 'Cerca de Mí',
+    genreAll: 'Todos',
+    genreNews: 'Noticias',
+    genreClassical: 'Clásica',
+    genreElectronic: 'Electrónica',
+    foundSuffix: ' encontrada',
+    foundSuffixPlural: ' encontradas',
+    resultsFor: 'Resultados para',
+    resultsIn: 'en',
+    noFilters: 'Sin filtros'
   },
   fr: {
     title: 'Worldwide Radio PRO',
@@ -525,7 +558,18 @@ const translations = {
     mobileAll: 'Toutes',
     mobileFavs: 'Favoris',
     mobileRecents: 'Récents',
-    mobileMenu: 'Menu'
+    mobileMenu: 'Menu',
+    active: 'Actif',
+    nearMe: 'Près de Moi',
+    genreAll: 'Tous',
+    genreNews: 'Actualités',
+    genreClassical: 'Classique',
+    genreElectronic: 'Électronique',
+    foundSuffix: ' trouvée',
+    foundSuffixPlural: ' trouvées',
+    resultsFor: 'Résultats pour',
+    resultsIn: 'dans',
+    noFilters: 'Sans filtres'
   },
   de: {
     title: 'Worldwide Radio PRO',
@@ -600,7 +644,18 @@ const translations = {
     mobileAll: 'Alle',
     mobileFavs: 'Favoriten',
     mobileRecents: 'Zuletzt',
-    mobileMenu: 'Menü'
+    mobileMenu: 'Menü',
+    active: 'Aktiv',
+    nearMe: 'In meiner Nähe',
+    genreAll: 'Alle',
+    genreNews: 'Nachrichten',
+    genreClassical: 'Klassik',
+    genreElectronic: 'Elektronisch',
+    foundSuffix: ' gefunden',
+    foundSuffixPlural: ' gefunden',
+    resultsFor: 'Ergebnisse für',
+    resultsIn: 'in',
+    noFilters: 'Ohne Filter'
   }
 };
 
@@ -1660,20 +1715,24 @@ function updatePaginationControls() {
 }
 
 function updateResultsInfo() {
-  const countText = `${state.totalStations.toLocaleString()} encontrada${state.totalStations === 1 ? '' : 's'}`;
+  const t = translations[state.currentLang] || translations.pt;
+  const found = state.totalStations === 1 ? (t.foundSuffix || ' encontrada') : (t.foundSuffixPlural || ' encontradas');
+  const countText = `${state.totalStations.toLocaleString()}${found}`;
   elements.resultsCount.textContent = countText;
 
   if (state.activeTab === 'favorites') {
-    elements.resultsTitle.textContent = 'Minhas Estações Favoritas ⭐';
+    elements.resultsTitle.textContent = (t.myFavorites || 'Minhas Estações Favoritas') + ' ⭐';
   } else if (state.activeTab === 'recents') {
-    elements.resultsTitle.textContent = 'Ouvidas Recentemente 🕒';
+    elements.resultsTitle.textContent = (t.recentlyPlayed || 'Ouvidas Recentemente') + ' 🕒';
   } else if (state.searchQuery) {
-    elements.resultsTitle.textContent = `Resultados para "${state.searchQuery}"`;
+    elements.resultsTitle.textContent = `${t.resultsFor || 'Resultados para'} "${state.searchQuery}"`;
   } else if (state.selectedCountry) {
-    const cObj = state.countriesList.find(c => c.code === state.selectedCountry);
-    elements.resultsTitle.textContent = `Emissoras em ${cObj ? (cObj.namePt || cObj.name) : state.selectedCountry}`;
+    const cName = elements.countrySelect.options[elements.countrySelect.selectedIndex]?.text || state.selectedCountry;
+    elements.resultsTitle.textContent = `${t.resultsFor || 'Resultados'} ${t.resultsIn || 'em'} ${cName}`;
+  } else if (state.selectedGenre) {
+    elements.resultsTitle.textContent = `${t.resultsFor || 'Resultados'} ${t.resultsIn || 'em'} ${state.selectedGenre}`;
   } else {
-    elements.resultsTitle.textContent = 'Estações em Destaque Mundial';
+    elements.resultsTitle.textContent = t.allStations || 'Todas as Estações';
   }
 }
 
@@ -1819,18 +1878,20 @@ elements.genresContainer.addEventListener('click', (e) => {
 });
 
 // Paginação
-elements.btnPrevPage.addEventListener('click', () => {
+elements.btnPrevPage.addEventListener('click', async () => {
   if (state.page > 1) {
     state.page--;
-    fetchStations();
+    elements.btnPrevPage.disabled = true;
+    await fetchStations();
     window.scrollTo({ top: 350, behavior: 'smooth' });
   }
 });
 
-elements.btnNextPage.addEventListener('click', () => {
+elements.btnNextPage.addEventListener('click', async () => {
   if (state.page < state.totalPages) {
     state.page++;
-    fetchStations();
+    elements.btnNextPage.disabled = true;
+    await fetchStations();
     window.scrollTo({ top: 350, behavior: 'smooth' });
   }
 });
