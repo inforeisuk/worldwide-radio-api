@@ -30,8 +30,8 @@ radioRouter.get('/radios/random', RadioController.getRandomRadio);
 // Listagem geral com filtros e paginação
 radioRouter.get('/radios', RadioController.listRadios);
 
-// Adicionar nova rádio
-radioRouter.post('/radios', RadioController.addRadio);
+// Adicionar nova rádio (Placeholder para futura interface de administração)
+// radioRouter.post('/radios', RadioController.addRadio);
 
 // Exportador de playlist no formato M3U / M3U8
 radioRouter.get('/radios/playlist.m3u', RadioController.exportPlaylistM3U);
