@@ -7,8 +7,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "NODE_ENV=test node --test test/*.test.js",
-    "repair-logos": "node src/scripts/repairLogos.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "repair-logos": "node src/scripts/repairLogos.js",
+    "migrate": "node src/scripts/migrateToSqlite.js"
   },
   "keywords": [
     "radio",
@@ -30,6 +31,8 @@
     "icecast-parser": "*",
     "node-cron": "^3.0.3",
     "sharp": "^0.33.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
   }

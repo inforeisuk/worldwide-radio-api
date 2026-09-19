@@ -4,9 +4,7 @@ import { fileURLToPath } from 'url';
 import { LogoService } from '../services/logoService.js';
 import { RadioBrowserService } from '../services/radioBrowserService.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const CURATED_PATH = path.join(__dirname, '../data/curatedRadios.json');
+import { DBService } from '../db/dbService.js';
 
 export class LogoController {
   /**
@@ -17,14 +15,8 @@ export class LogoController {
     try {
       const { id } = req.params;
 
-      // 1. Procurar no catálogo curado
-      let catalog = [];
-      try {
-        catalog = JSON.parse(fs.readFileSync(CURATED_PATH, 'utf-8'));
-      } catch {
-        catalog = [];
-      }
-
+      // 1. Procurar no catálogo SQLite
+      let catalog = await DBService.getAllRadios();
       let radio = catalog.find(r => r.id === id || r.id === id.toLowerCase());
 
       // 2. Se não encontrar no catálogo local, procurar no Radio-Browser global

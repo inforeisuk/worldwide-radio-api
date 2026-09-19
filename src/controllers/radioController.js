@@ -8,16 +8,7 @@ import { MetadataService } from '../services/metadataService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const CURATED_PATH = path.join(__dirname, '../data/curatedRadios.json');
-
-// Carregar catálogo curado em memória
-let curatedCatalog = [];
-try {
-  curatedCatalog = JSON.parse(fs.readFileSync(CURATED_PATH, 'utf-8'));
-} catch (err) {
-  console.error('Erro ao carregar curatedRadios.json:', err.message);
-  curatedCatalog = [];
-}
+import { DBService } from '../db/dbService.js';
 
 export class RadioController {
   /**
@@ -51,8 +42,8 @@ export class RadioController {
           order: order === 'name' ? 'name' : 'votes'
         });
       } else {
-        // Filtrar catálogo curado
-        let local = [...curatedCatalog];
+        // Filtrar catálogo SQLite
+        let local = await DBService.getAllRadios();
 
         if (country) {
           const cLower = country.toLowerCase();
@@ -149,7 +140,7 @@ export class RadioController {
   static async getRadioById(req, res) {
     try {
       const { id } = req.params;
-      const local = curatedCatalog.find(r => r.id === id || r.id === id.toLowerCase());
+      const local = (await DBService.getAllRadios()).find(r => r.id === id || r.id === id.toLowerCase());
 
       if (local) {
         return res.json({ data: local });
@@ -180,7 +171,7 @@ export class RadioController {
   static async streamRadio(req, res) {
     try {
       const { id } = req.params;
-      let radio = curatedCatalog.find(r => r.id === id || r.id === id.toLowerCase());
+      let radio = (await DBService.getAllRadios()).find(r => r.id === id || r.id === id.toLowerCase());
 
       if (!radio) {
         radio = await RadioBrowserService.getByUuid(id);
@@ -209,7 +200,7 @@ export class RadioController {
   static async getRandomRadio(req, res) {
     try {
       const { country, continent, genre } = req.query;
-      let pool = [...curatedCatalog];
+      let pool = [...(await DBService.getAllRadios())];
 
       if (country) {
         const cLower = country.toLowerCase();
@@ -271,7 +262,7 @@ export class RadioController {
       }
 
       // Fallback para rádios curadas ordenadas por votos
-      const fallback = [...curatedCatalog]
+      const fallback = [...(await DBService.getAllRadios())]
         .sort((a, b) => (b.votes || 0) - (a.votes || 0))
         .slice(0, limit);
 
@@ -305,7 +296,7 @@ export class RadioController {
       }
 
       const qLower = query.toLowerCase();
-      const localMatches = curatedCatalog.filter(r =>
+      const localMatches = (await DBService.getAllRadios()).filter(r =>
         r.name.toLowerCase().includes(qLower) ||
         (r.country && r.country.toLowerCase().includes(qLower)) ||
         (r.genres && r.genres.some(g => g.toLowerCase().includes(qLower))) ||
@@ -346,7 +337,7 @@ export class RadioController {
   static async proxyRadio(req, res) {
     try {
       const { id } = req.params;
-      let radio = curatedCatalog.find(r => r.id === id || r.id === id.toLowerCase());
+      let radio = (await DBService.getAllRadios()).find(r => r.id === id || r.id === id.toLowerCase());
 
       if (!radio) {
         radio = await RadioBrowserService.getByUuid(id);
@@ -379,7 +370,7 @@ export class RadioController {
   static async getNowPlaying(req, res) {
     try {
       const { id } = req.params;
-      let radio = curatedCatalog.find(r => r.id === id || r.id === id.toLowerCase());
+      let radio = (await DBService.getAllRadios()).find(r => r.id === id || r.id === id.toLowerCase());
 
       if (!radio) {
         radio = await RadioBrowserService.getByUuid(id);
@@ -419,7 +410,7 @@ export class RadioController {
     try {
       const { country, countrycode, continent, genre, limit = 500 } = req.query;
 
-      let stations = [...curatedCatalog];
+      let stations = [...(await DBService.getAllRadios())];
 
       if (country) {
         const cLower = country.toLowerCase();
@@ -467,7 +458,7 @@ export class RadioController {
       // Tentar detetar via query param ou headers de CDN/Cloudflare
       const detectedCode = (countrycode || req.headers['cf-ipcountry'] || req.headers['x-country-code'] || 'PT').toUpperCase();
 
-      let local = curatedCatalog.filter(r => r.countryCode && r.countryCode.toUpperCase() === detectedCode);
+      let local = (await DBService.getAllRadios()).filter(r => r.countryCode && r.countryCode.toUpperCase() === detectedCode);
 
       if (local.length < 5) {
         try {

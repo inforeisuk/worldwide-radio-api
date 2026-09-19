@@ -5,7 +5,7 @@ import sharp from 'sharp';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const CURATED_PATH = path.join(__dirname, '../data/curatedRadios.json');
+import { DBService } from '../db/dbService.js';
 const LOGOS_DIR = path.join(__dirname, '../public/logos');
 
 if (!fs.existsSync(LOGOS_DIR)) {
@@ -166,12 +166,8 @@ export class LogoService {
    * Repara automaticamente todos os logótipos em curatedRadios.json
    */
   static async repairAllCuratedLogos() {
-    let catalog = [];
-    try {
-      catalog = JSON.parse(fs.readFileSync(CURATED_PATH, 'utf-8'));
-    } catch (e) {
-      return { success: false, error: 'Falha ao ler curatedRadios.json' };
-    }
+    let catalog = await DBService.getAllRadios();
+    const db = await DBService.getConnection();
 
     const results = [];
     let repairedCount = 0;
@@ -203,6 +199,7 @@ export class LogoService {
 
         const oldLogo = radio.logo;
         radio.logo = newLogo;
+        await db.run('UPDATE radios SET logo = ? WHERE id = ?', [newLogo, radio.id]);
         repairedCount++;
 
         results.push({
@@ -216,9 +213,7 @@ export class LogoService {
       }
     }
 
-    if (repairedCount > 0) {
-      fs.writeFileSync(CURATED_PATH, JSON.stringify(catalog, null, 2), 'utf-8');
-    }
+    // SQLite commited online during the loop
 
     return {
       success: true,
@@ -231,20 +226,18 @@ export class LogoService {
   /**
    * Atualiza manualmente o logótipo de uma estação específica
    */
-  static updateStationLogo(stationId, newLogoUrl) {
+  static async updateStationLogo(stationId, newLogoUrl) {
     if (!stationId || !newLogoUrl) {
       throw new Error('stationId e newLogoUrl são obrigatórios.');
     }
 
-    const catalog = JSON.parse(fs.readFileSync(CURATED_PATH, 'utf-8'));
-    const index = catalog.findIndex(r => r.id === stationId || r.id === stationId.toLowerCase());
+    const db = await DBService.getConnection();
+    const result = await db.run('UPDATE radios SET logo = ? WHERE id = ? OR id = ?', [newLogoUrl, stationId, stationId.toLowerCase()]);
 
-    if (index === -1) {
+    if (result.changes === 0) {
       return null;
     }
 
-    catalog[index].logo = newLogoUrl;
-    fs.writeFileSync(CURATED_PATH, JSON.stringify(catalog, null, 2), 'utf-8');
-    return catalog[index];
+    return { id: stationId, logo: newLogoUrl };
   }
 }

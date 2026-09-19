@@ -6,14 +6,7 @@ import { cache } from '../services/cacheService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const CURATED_PATH = path.join(__dirname, '../data/curatedRadios.json');
-
-let curatedCatalog = [];
-try {
-  curatedCatalog = JSON.parse(fs.readFileSync(CURATED_PATH, 'utf-8'));
-} catch (err) {
-  curatedCatalog = [];
-}
+import { DBService } from '../db/dbService.js';
 
 // Mapeamento de cores de destaque por país/categoria para o RadioTop
 const DEFAULT_BRAND_COLORS = {
@@ -70,10 +63,10 @@ export class RadioTopController {
   /**
    * Lista estações no formato nativo da aplicação RadioTop
    */
-  static getStations(req, res) {
+  static async getStations(req, res) {
     try {
       const { country, genre, search, deviceId = 'default' } = req.query;
-      let stations = [...curatedCatalog];
+      let stations = await DBService.getAllRadios();
 
       const userFavs = userFavoritesStore.get(deviceId) || new Set();
 
@@ -116,41 +109,53 @@ export class RadioTopController {
   /**
    * Obter lista de países suportados no formato RadioTop
    */
-  static getCountries(req, res) {
-    const countryMap = new Map();
+  static async getCountries(req, res) {
+    try {
+      const catalog = await DBService.getAllRadios();
+      const countryMap = new Map();
 
-    for (const r of curatedCatalog) {
-      const country = r.country || 'Mundial';
-      countryMap.set(country, (countryMap.get(country) || 0) + 1);
+      for (const r of catalog) {
+        const country = r.country || 'Mundial';
+        countryMap.set(country, (countryMap.get(country) || 0) + 1);
+      }
+
+      const countries = Array.from(countryMap.entries()).map(([country, count]) => ({
+        name: country,
+        stationCount: count
+      })).sort((a, b) => b.stationCount - a.stationCount);
+
+      return res.json({
+        total: countries.length,
+        countries
+      });
+    } catch (err) {
+      console.error('Erro em RadioTopController.getCountries:', err);
+      return res.status(500).json({ error: 'Erro ao obter países' });
     }
-
-    const countries = Array.from(countryMap.entries()).map(([country, count]) => ({
-      name: country,
-      stationCount: count
-    })).sort((a, b) => b.stationCount - a.stationCount);
-
-    return res.json({
-      total: countries.length,
-      countries
-    });
   }
 
   /**
    * Sincronizar / Obter favoritos do utilizador RadioTop (Cloud Sync)
    */
-  static getFavorites(req, res) {
-    const deviceId = req.headers['x-device-id'] || req.query.deviceId || 'default';
-    const favSet = userFavoritesStore.get(deviceId) || new Set();
+  static async getFavorites(req, res) {
+    try {
+      const deviceId = req.headers['x-device-id'] || req.query.deviceId || 'default';
+      const favSet = userFavoritesStore.get(deviceId) || new Set();
 
-    const stations = curatedCatalog
-      .filter(r => favSet.has(r.id))
-      .map(s => RadioTopController.formatForRadioTop(s, true));
+      const catalog = await DBService.getAllRadios();
+      const stations = catalog
+        .filter(r => favSet.has(r.id))
+        .map(s => RadioTopController.formatForRadioTop(s, true));
 
-    return res.json({
-      deviceId,
-      total: stations.length,
-      favorites: stations
-    });
+      return res.json({
+        deviceId,
+        total: stations.length,
+        favorites: stations
+      });
+    } catch (err) {
+      console.error('Erro em RadioTopController.getFavorites:', err);
+      return res.status(500).json({ error: 'Erro ao obter favoritos' });
+    }
   }
 
   /**
@@ -181,44 +186,57 @@ export class RadioTopController {
    * Now Playing simplificado para notificações e lockscreen do RadioTop
    */
   static async getNowPlaying(req, res) {
-    const { id } = req.params;
-    const station = curatedCatalog.find(r => r.id === id || r.id.replace(/-/g, '_') === id);
+    try {
+      const { id } = req.params;
+      const catalog = await DBService.getAllRadios();
+      const station = catalog.find(r => r.id === id || r.id.replace(/-/g, '_') === id);
 
-    if (!station || !station.streamUrl) {
-      return res.status(404).json({ error: 'Estação não encontrada' });
+      if (!station || !station.streamUrl) {
+        return res.status(404).json({ error: 'Estação não encontrada' });
+      }
+
+      const np = await StreamService.getNowPlaying(station.streamUrl);
+      return res.json({
+        stationId: station.id,
+        stationName: station.name,
+        songTitle: np.title,
+        artist: np.artist,
+        fullTitle: np.raw,
+        logoUrl: station.logo || ''
+      });
+    } catch (err) {
+      console.error('Erro em RadioTopController.getNowPlaying:', err);
+      return res.status(500).json({ error: 'Erro ao obter Now Playing' });
     }
-
-    const np = await StreamService.getNowPlaying(station.streamUrl);
-    return res.json({
-      stationId: station.id,
-      stationName: station.name,
-      songTitle: np.title,
-      artist: np.artist,
-      fullTitle: np.raw,
-      logoUrl: station.logo || ''
-    });
   }
 
   /**
    * Streaming de alta estabilidade para clientes móveis
    */
-  static streamRadio(req, res) {
-    const { id } = req.params;
-    const station = curatedCatalog.find(r => r.id === id || r.id.replace(/-/g, '_') === id);
+  static async streamRadio(req, res) {
+    try {
+      const { id } = req.params;
+      const catalog = await DBService.getAllRadios();
+      const station = catalog.find(r => r.id === id || r.id.replace(/-/g, '_') === id);
 
-    if (!station || !station.streamUrl) {
-      return res.status(404).json({ error: 'Stream não encontrado' });
+      if (!station || !station.streamUrl) {
+        return res.status(404).json({ error: 'Stream não encontrado' });
+      }
+
+      StreamService.proxyStream(station.streamUrl, req, res);
+    } catch (err) {
+      console.error('Erro em RadioTopController.streamRadio:', err);
+      return res.status(500).json({ error: 'Erro ao transmitir rádio' });
     }
-
-    StreamService.proxyStream(station.streamUrl, req, res);
   }
 
   /**
    * Árvore de navegação estruturada para Android Auto e Apple CarPlay
    * GET /api/radiotop/car/browse?node=root&deviceId=...
    */
-  static getCarBrowserTree(req, res) {
+  static async getCarBrowserTree(req, res) {
     try {
+      const catalog = await DBService.getAllRadios();
       const activeNode = req.query.nodeId || req.query.node || 'root';
       const deviceId = req.query.deviceId || 'car-default';
       const userFavs = userFavoritesStore.get(deviceId) || new Set(['antena1-pt', 'rfm-pt', 'radio-comercial-pt']);
@@ -267,20 +285,20 @@ export class RadioTopController {
       let filteredStations = [];
 
       if (activeNode === 'car_favorites') {
-        filteredStations = curatedCatalog.filter(r => userFavs.has(r.id));
+        filteredStations = catalog.filter(r => userFavs.has(r.id));
         if (filteredStations.length === 0) {
-          filteredStations = curatedCatalog.slice(0, 5); // Fallback amigável
+          filteredStations = catalog.slice(0, 5); // Fallback amigável
         }
       } else if (activeNode === 'car_featured') {
-        filteredStations = curatedCatalog.filter(r => r.isFeatured);
+        filteredStations = catalog.filter(r => r.isFeatured);
       } else if (activeNode === 'car_portugal') {
-        filteredStations = curatedCatalog.filter(r => r.countryCode === 'PT');
+        filteredStations = catalog.filter(r => r.countryCode === 'PT');
       } else if (activeNode === 'car_brazil') {
-        filteredStations = curatedCatalog.filter(r => r.countryCode === 'BR');
+        filteredStations = catalog.filter(r => r.countryCode === 'BR');
       } else if (activeNode === 'car_spain') {
-        filteredStations = curatedCatalog.filter(r => r.countryCode === 'ES');
+        filteredStations = catalog.filter(r => r.countryCode === 'ES');
       } else if (activeNode === 'car_uk') {
-        filteredStations = curatedCatalog.filter(r => r.countryCode === 'GB');
+        filteredStations = catalog.filter(r => r.countryCode === 'GB');
       } else if (activeNode === 'car_news') {
         filteredStations = curatedCatalog.filter(r => (r.genres || []).some(g => ['News', 'Talk', 'Politics'].includes(g)));
       } else if (activeNode === 'car_rock_pop') {
