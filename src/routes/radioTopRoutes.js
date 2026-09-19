@@ -18,6 +18,9 @@ radioTopRouter.get('/countries', RadioTopController.getCountries);
 radioTopRouter.get('/favorites', RadioTopController.getFavorites);
 radioTopRouter.post('/favorites', RadioTopController.saveFavorites);
 
+// Algoritmo "Para Ti" (Recomendações Inteligentes)
+radioTopRouter.get('/foryou', RadioTopController.getForYouRecommendations);
+
 // Now Playing para ecrã de bloqueio / widgets móveis
 radioTopRouter.get('/now-playing/:id', RadioTopController.getNowPlaying);
 

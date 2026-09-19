@@ -183,6 +183,88 @@ export class RadioTopController {
   }
 
   /**
+   * Algoritmo "Para Ti" (Machine Learning Básico)
+   * Estuda o ADN musical do utilizador (baseado nos favoritos) e recomenda novas estações
+   */
+  static async getForYouRecommendations(req, res) {
+    try {
+      const deviceId = req.headers['x-device-id'] || req.query.deviceId || 'default';
+      const favSet = userFavoritesStore.get(deviceId) || new Set();
+      const catalog = await DBService.getAllRadios();
+
+      // Fallback: Se não tem favoritos, devolve o Top 10 Global (Trending)
+      if (favSet.size === 0) {
+        const trending = catalog.slice(0, 10).map(s => RadioTopController.formatForRadioTop(s, false));
+        return res.json({
+          appTarget: 'RadioTop Premium',
+          algorithm: 'trending_global',
+          total: trending.length,
+          recommendations: trending
+        });
+      }
+
+      // 1. Extrair o ADN Musical (Perfil do Utilizador)
+      const userProfile = { genres: {}, countries: {} };
+      
+      const favoriteStations = catalog.filter(r => favSet.has(r.id));
+      favoriteStations.forEach(station => {
+        // Peso dos países
+        if (station.countryCode) {
+          userProfile.countries[station.countryCode] = (userProfile.countries[station.countryCode] || 0) + 1;
+        }
+        // Peso dos géneros
+        if (station.genres) {
+          station.genres.forEach(g => {
+            userProfile.genres[g] = (userProfile.genres[g] || 0) + 1;
+          });
+        }
+      });
+
+      // 2. Filtrar e Pontuar as restantes estações
+      let recommendations = catalog
+        .filter(r => !favSet.has(r.id)) // Ignorar as que já estão nos favoritos
+        .map(station => {
+          let score = 0;
+          
+          // Pontuação por país (bónus se for do mesmo país)
+          if (station.countryCode && userProfile.countries[station.countryCode]) {
+            score += userProfile.countries[station.countryCode] * 2; 
+          }
+          
+          // Pontuação por género musical
+          if (station.genres) {
+            station.genres.forEach(g => {
+              if (userProfile.genres[g]) {
+                score += userProfile.genres[g] * 3;
+              }
+            });
+          }
+          
+          // Fator de popularidade (tie-breaker)
+          score += (station.votes || 0) * 0.001;
+
+          return { station, score };
+        });
+
+      // 3. Ordenar por pontuação mais alta e cortar o Top 15
+      recommendations.sort((a, b) => b.score - a.score);
+      const topPicks = recommendations.slice(0, 15).map(item => 
+        RadioTopController.formatForRadioTop(item.station, false)
+      );
+
+      return res.json({
+        appTarget: 'RadioTop Premium',
+        algorithm: 'collaborative_filtering',
+        total: topPicks.length,
+        recommendations: topPicks
+      });
+    } catch (err) {
+      console.error('Erro no Algoritmo Para Ti:', err);
+      return res.status(500).json({ error: 'Erro ao gerar recomendações inteligentes' });
+    }
+  }
+
+  /**
    * Now Playing simplificado para notificações e lockscreen do RadioTop
    */
   static async getNowPlaying(req, res) {
