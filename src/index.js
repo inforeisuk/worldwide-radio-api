@@ -13,6 +13,7 @@ import { radioTopRouter } from './routes/radioTopRoutes.js';
 import { chartRouter } from './routes/chartRoutes.js';
 import { podcastRouter } from './routes/podcastRoutes.js';
 import { initCronJobs } from './jobs/cronJobs.js';
+import { SocketService } from './services/socketService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -105,6 +106,9 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(` 📊 Estatísticas:          http://localhost:${config.port}/api/stats`);
     console.log(`=======================================================`);
   });
+
+  // Inicializar o túnel WebSocket na mesma porta
+  SocketService.init(server);
 }
 
 // Encerramento suave (Graceful Shutdown)
