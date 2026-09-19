@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import sharp from 'sharp';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const CURATED_PATH = path.join(__dirname, '../data/curatedRadios.json');
+const LOGOS_DIR = path.join(__dirname, '../public/logos');
+
+if (!fs.existsSync(LOGOS_DIR)) {
+  fs.mkdirSync(LOGOS_DIR, { recursive: true });
+}
 
 /**
  * Cores de gradiente por país para badges SVG
@@ -129,6 +135,34 @@ export class LogoService {
   }
 
   /**
+   * Faz o download de um URL de imagem, converte para WebP (256x256) com o sharp,
+   * e guarda na pasta pública local. Retorna o caminho relativo (ex: /logos/station.webp)
+   */
+  static async downloadAndOptimizeLogo(url, stationId) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+      });
+      if (!res.ok) return null;
+
+      const buffer = await res.arrayBuffer();
+      
+      const fileName = `${stationId}.webp`;
+      const filePath = path.join(LOGOS_DIR, fileName);
+
+      await sharp(Buffer.from(buffer))
+        .resize(256, 256, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+        .webp({ quality: 85 })
+        .toFile(filePath);
+
+      return `/logos/${fileName}`;
+    } catch (err) {
+      console.error(`Erro ao otimizar logo para ${stationId}:`, err.message);
+      return null;
+    }
+  }
+
+  /**
    * Repara automaticamente todos os logótipos em curatedRadios.json
    */
   static async repairAllCuratedLogos() {
@@ -150,8 +184,18 @@ export class LogoService {
         let newLogo = null;
 
         if (domain) {
-          newLogo = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-        } else {
+          const googleUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+          const ok = await this.isImageAccessible(googleUrl);
+          if (ok) {
+            // Em vez de guardar o URL do Google, faz o download físico, converte para WebP e guarda localmente!
+            const localPath = await this.downloadAndOptimizeLogo(googleUrl, radio.id);
+            if (localPath) {
+              newLogo = localPath;
+            }
+          }
+        }
+
+        if (!newLogo) {
           // Logótipo vetorial SVG como Data URI
           const svgString = this.generateFallbackSvg(radio.name, radio.countryCode);
           newLogo = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;

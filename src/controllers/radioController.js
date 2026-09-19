@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { RadioBrowserService } from '../services/radioBrowserService.js';
 import { StreamService } from '../services/streamService.js';
 import { HistoryService } from '../services/historyService.js';
+import { MetadataService } from '../services/metadataService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

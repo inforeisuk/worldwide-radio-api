@@ -12,6 +12,7 @@ import { metaRouter } from './routes/metaRoutes.js';
 import { radioTopRouter } from './routes/radioTopRoutes.js';
 import { chartRouter } from './routes/chartRoutes.js';
 import { podcastRouter } from './routes/podcastRoutes.js';
+import { initCronJobs } from './jobs/cronJobs.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -92,6 +93,7 @@ app.use((err, req, res, next) => {
 // Inicialização do servidor (apenas fora de testes automatizados)
 let server = null;
 if (process.env.NODE_ENV !== 'test') {
+  initCronJobs();
   server = app.listen(config.port, config.host, () => {
     console.log(`=======================================================`);
     console.log(` 🌍 Worldwide Radio API iniciada com sucesso!`);
