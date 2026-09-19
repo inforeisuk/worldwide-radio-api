@@ -20,6 +20,18 @@ export class SocketService {
       }
     });
 
+    // Middleware de segurança para o WebSocket
+    this.io.use((socket, next) => {
+      // Procurar a chave no handshake (auth.token) ou cabeçalhos
+      const apiKey = socket.handshake.auth?.token || socket.handshake.headers['x-api-key'];
+      
+      if (!apiKey || apiKey !== process.env.API_KEY && apiKey !== 'RT_Premium_Secret_2026') {
+        console.warn(`Tentativa de WebSocket bloqueada: ${apiKey} (ID: ${socket.id})`);
+        return next(new Error('Acesso negado: API Key inválida.'));
+      }
+      next();
+    });
+
     this.io.on('connection', (socket) => {
       console.log(`🔌 Novo cliente Socket.io ligado: ${socket.id}`);
 

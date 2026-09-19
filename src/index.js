@@ -14,6 +14,7 @@ import { chartRouter } from './routes/chartRoutes.js';
 import { podcastRouter } from './routes/podcastRoutes.js';
 import { initCronJobs } from './jobs/cronJobs.js';
 import { SocketService } from './services/socketService.js';
+import { requireApiKey } from './middlewares/authMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -65,12 +66,20 @@ try {
   console.warn('Aviso: Não foi possível carregar o swagger.yaml:', err.message);
 }
 
-// Rotas da API
+// Health check desprotegido (para o Render não falhar)
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Proteger todas as rotas da API com a API Key
+app.use('/api', requireApiKey);
+
+// Montar as rotas da API
 app.use('/api', radioRouter);
 app.use('/api', metaRouter);
-app.use('/api', chartRouter);
-app.use('/api', podcastRouter);
 app.use('/api/radiotop', radioTopRouter);
+app.use('/api/charts', chartRouter);
+app.use('/api/podcasts', podcastRouter);
 
 // Fallback 404 para rotas de API não existentes
 app.use('/api/*', (req, res) => {

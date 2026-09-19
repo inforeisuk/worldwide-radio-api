@@ -10,5 +10,6 @@ export const config = {
   ],
   userAgent: 'WorldwideRadioAPI/1.0 (Node.js/Express; https://radio-browser.info)',
   cacheTTL: 1000 * 60 * 15, // 15 minutos em milissegundos
-  requestTimeout: 5000 // 5 segundos
+  requestTimeout: 5000, // 5 segundos
+  apiKey: process.env.API_KEY || 'RT_Premium_Secret_2026' // Chave de segurança para a API
 };
