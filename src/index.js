@@ -21,6 +21,10 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Configuração do Proxy Reverso (Nginx no Proxmox)
+// Necessário para que o express-rate-limit funcione corretamente com X-Forwarded-For
+app.set('trust proxy', 1);
+
 // Middlewares de Segurança e Otimização
 app.use(cors());
 app.use(express.json());
