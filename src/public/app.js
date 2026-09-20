@@ -1158,9 +1158,9 @@ async function fetchStations() {
 function renderStations(stations) {
   state.loadedStations = stations || [];
   elements.stationsGrid.innerHTML = '';
+  const t = translations[state.currentLang] || translations.pt;
 
   if (stations.length === 0) {
-    const t = translations[state.currentLang] || translations.pt;
     const msg = state.activeTab === 'favorites' 
       ? t.emptyFavs || 'Ainda não adicionou nenhuma rádio às favoritas. Clique na estrela ★ de qualquer rádio!'
       : state.activeTab === 'recents'
