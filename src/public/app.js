@@ -1176,6 +1176,12 @@ function renderStations(stations) {
     return;
   }
 
+  // Extrair strings de tradução antes do loop para evitar problemas de closure
+  const tFavTitle = t.favorite || 'Favoritar';
+  const tLiveStream = t.liveStream || 'Transmissão ao vivo via internet.';
+  const tPlaying = t.playing || 'Ouvindo';
+  const tPlay = t.play || 'Reproduzir';
+
   stations.forEach(station => {
     const card = document.createElement('div');
     const isCurrentPlaying = state.currentStation?.id === station.id && state.isPlaying;
@@ -1193,7 +1199,7 @@ function renderStations(stations) {
           <div class="station-info">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <h3 class="station-name" title="${station.name}">${station.name}</h3>
-              <button class="btn-fav-star ${isFav ? 'active' : ''}" data-action="favorite" title="${t.favorite || 'Favoritar'}">★</button>
+              <button class="btn-fav-star ${isFav ? 'active' : ''}" data-action="favorite" title="${tFavTitle}">★</button>
             </div>
             <div class="station-meta-badge">
               <span class="station-flag">${flag}</span>
@@ -1202,13 +1208,13 @@ function renderStations(stations) {
             </div>
           </div>
         </div>
-        <p class="station-desc" title="${station.description || station.name}">${station.description || (t.liveStream || 'Transmissão ao vivo via internet.')}</p>
+        <p class="station-desc" title="${station.description || station.name}">${station.description || tLiveStream}</p>
         <div class="station-tags">${tagsHtml}</div>
       </div>
       <div class="card-actions">
         <button class="btn-card-play" data-action="play">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          ${isCurrentPlaying ? 'Ouvindo' : 'Reproduzir'}
+          ${isCurrentPlaying ? tPlaying : tPlay}
         </button>
         <button class="btn-card-stream" data-action="info" title="Ver Informações e Músicas Tocadas">
           ℹ️ Info
