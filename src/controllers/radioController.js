@@ -11,6 +11,8 @@ const __dirname = path.dirname(__filename);
 import { DBService } from '../db/dbService.js';
 
 export class RadioController {
+  static async addRadio(req, res) { res.status(501).json({ error: 'Not Implemented' }); }
+
   /**
    * Listar rádios com paginação e filtros ricos
    */
